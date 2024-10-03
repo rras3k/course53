@@ -38,8 +38,9 @@ export default function RootLayout({
         >
           <NavHor />
           <NavVer />
-
-          {children}
+          <div className="mx-auto md:w-[768px]">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
