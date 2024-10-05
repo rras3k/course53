@@ -3,7 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NavHor } from "@/components/nav-horizontal";
 import { ThemeProvider } from "@/components/theme-provider"
-import { NavVer } from "@/components/nav-vertical";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -37,7 +36,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <NavHor />
-          <NavVer />
           <div className="mx-auto md:w-[768px]">
             {children}
           </div>
