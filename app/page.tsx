@@ -69,7 +69,7 @@ export default function Home() {
         {/* <> courses....{search}</> */}
       </div>
       {isVisibleFiltre &&
-        <CourseFiltre click="() => {}" />}
+        <CourseFiltre click={() => setIsVisibleFiltre(false)} />}
     </>
 
   );

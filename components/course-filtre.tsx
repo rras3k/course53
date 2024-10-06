@@ -9,51 +9,57 @@ export default function CourseFiltre({ click }) {
 	const linkMy: string = 'my-4 ';
 	const router = useRouter();
 
+	const clickAndGo = (url: string) => {
+		click();
+		router.push(url);
+	}
+
 	return (
 		<div className="hiden md:grid  h-full mx-4 my-8">
 			{/* <div className="hiden md:grid w-[768px] mx-auto grid-cols-2 gap-10  content-center h-full bg-sky-100"> */}
 
 
-			<Link href={"/?filtre=a-faire"} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto   border rounded-xl bg-green-300 border-green-500 hover:bg-green-400   text-2xl text-green-950 "}>
+			{/* <Link href={"/?filtre=a-faire"} onClick={click} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto   border rounded-xl bg-green-300 border-green-500 hover:bg-green-400   text-2xl text-green-950 "}> */}
+			<div onClick={() => clickAndGo("/?filtre=a-faire")} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto   border rounded-xl bg-green-300 border-green-500 hover:bg-green-400   text-2xl text-green-950 "}>
 				<div className="flex-initial ">
 					<AlignJustify strokeWidth={0.5} className=" inline fill-yellow-200 stroke-green-700" size={100} />
 				</div>
 				<div className="flex-auto">
 					A faire
 				</div>
-			</Link>
-			<Link href={"/?filtre=propositions"} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-yellow-300 border-yellow-500 hover:bg-yellow-400   text-2xl text-yellow-950 "}>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=propositions")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-yellow-300 border-yellow-500 hover:bg-yellow-400   text-2xl text-yellow-950 "}>
 				<div className="flex-initial ">
 					<ListPlus strokeWidth={0.5} className=" inline stroke-yellow-700" size={100} />
 				</div>
 				<div className="flex-auto">
 					Propositions
 				</div>
-			</Link>
-			<Link href={"/?filtre=cloturees"} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-blue-300  border-blue-500 hover:bg-blue-400   text-2xl text-yellow-950 "}>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=cloturees")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-blue-300  border-blue-500 hover:bg-blue-400   text-2xl text-yellow-950 "}>
 				<div className="flex-initial ">
 					<ListChecks strokeWidth={0.5} className=" inline stroke-blue-700" size={100} />
 				</div>
 				<div className="flex-auto">
 					Clôturées
 				</div>
-			</Link>
-			<Link href={"/?filtre=annulees"} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-gray-300 border-gray-500 hover:bg-gray-400   text-2xl text-yellow-950 "}>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=annulees")} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-gray-300 border-gray-500 hover:bg-gray-400   text-2xl text-yellow-950 "}>
 				<div className="flex-initial ">
 					<ListX strokeWidth={0.5} className=" inline stroke-gray-700" size={100} />
 				</div>
 				<div className="flex-auto">
 					Annulées
 				</div>
-			</Link>
-			<Link href={"/?filtre=toutes"} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-red-300 border-red-500  hover:bg-red-400   text-2xl text-yellow-950 "}>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=toutes")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-red-300 border-red-500  hover:bg-red-400   text-2xl text-yellow-950 "}>
 				<div className="flex-initial ">
 					<List strokeWidth={0.5} className=" inline stroke-red-700" size={100} />
 				</div>
 				<div className="flex-auto">
 					Toutes
 				</div>
-			</Link>
+			</div>
 
 
 
