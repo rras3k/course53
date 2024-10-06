@@ -13,36 +13,16 @@ route['/course-filtre'] = 'Filtres';
 route['/messages'] = 'Messages';
 route['/plus'] = 'Plus';
 
-type typeFiltreInfo = {
-	name: string;
-	color: string;
-}
-
-const filtreInfo: { [key: string]: typeFiltreInfo } = {};
-filtreInfo['a-faire-et-propositions'] = { name: "A faire", color: "bg-green-300" };
-filtreInfo['propositions'] = { name: "PropositionsA faire", color: "bg-yellow-300" };
-filtreInfo['cloturees'] = { name: "Clôturées", color: "bg-blue-300" };
-filtreInfo['annulees'] = { name: "Annulées", color: "bg-gray-300" };
-filtreInfo['toutes'] = { name: "Toutes", color: "bg-red-300" };
-
 const getTitle = (pathname: string) => {
 	return route[pathname];
-}
-
-const getIconFiltreColor = (paraFiltre: string | null) => {
-	var ret: string = "bg-green-300";
-	if (paraFiltre) {
-		if (paraFiltre in filtreInfo) {
-			ret = filtreInfo[paraFiltre].color;
-		}
-	}
-	return ret;
 }
 
 export function NavHor() {
 
 	const linkHight: string = 'h-20 ';
 	const linkMy: string = 'my-2 ';
+	const router = useRouter();
+
 
 	// navigation mobile
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
@@ -59,15 +39,7 @@ export function NavHor() {
 		setTitle(getTitle(path));
 	}, [path]);
 
-	// filtre des courses
-	const [iconFiltreColor, setIconFiltreColor] = useState("bg-green-300");
-	const router = useRouter();
-	const searchParams = useSearchParams();
-	const paraFiltre: string | null = searchParams.get('filtre');
-	const filtreInfoColor = getIconFiltreColor(paraFiltre);
-	useEffect(() => {
-		setIconFiltreColor(filtreInfoColor);
-	}, [filtreInfoColor]);
+	
 
 	return (
 		<>
@@ -85,12 +57,11 @@ export function NavHor() {
 								<Filter strokeWidth={0.5} className=" inline fill-sky-200 stroke-sky-700" size={35} />
 						</Button> */}
 
-						{(path == '/') &&
+						{/* {(path == '/') &&
 							<>
-								{/* <Filter onClick={() => goAndClose('/course-filtre')} strokeWidth={0.5} size={37} className={iconFiltreColor + " align-middle content-center border rounded-lg  hover:bg-gray-400"} /> */}
 								<Filter onClick={() => goAndClose('/course-filtre')} strokeWidth={0.5} size={37} className={iconFiltreColor + " align-middle content-center border rounded-lg  hover:bg-gray-400"} />
 							</>
-						}
+						} */}
 					</div>
 
 
