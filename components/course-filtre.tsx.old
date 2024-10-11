@@ -1,0 +1,46 @@
+"use client"
+
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+
+export default function CourseFiltre() {
+	const linkHight: string = 'h-20 ';
+	const linkMy: string = 'my-4 ';
+	const router = useRouter();
+
+	const clickAndGo = (url: string) => {
+		// click();
+		router.push(url);
+	}
+
+	return (
+		<div className="hiden md:grid  h-full mx-4 my-8">
+			<div onClick={() => clickAndGo("/?filtre=a-faire")} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto   border rounded-xl bg-green-300 border-green-500 hover:bg-green-400   text-2xl text-green-950 "}>
+				<div className="flex-auto">
+					A faire
+				</div>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=propositions")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-yellow-300 border-yellow-500 hover:bg-yellow-400   text-2xl text-yellow-950 "}>
+				<div className="flex-auto">
+					Propositions
+				</div>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=cloturees")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-blue-300  border-blue-500 hover:bg-blue-400   text-2xl text-yellow-950 "}>
+				<div className="flex-auto">
+					Clôturées
+				</div>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=annulees")} className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-gray-300 border-gray-500 hover:bg-gray-400   text-2xl text-yellow-950 "}>
+				<div className="flex-auto">
+					Annulées
+				</div>
+			</div>
+			<div onClick={() => clickAndGo("/?filtre=toutes")}  className={linkHight + linkMy + " flex place-items-center justify-start text-center md:w-6/12 mx-auto  h-30 border rounded-xl bg-red-300 border-red-500  hover:bg-red-400   text-2xl text-yellow-950 "}>
+				<div className="flex-auto">
+					Toutes
+				</div>
+			</div>
+		</div>
+
+	);
+}
+

@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NavHor } from "@/components/nav-horizontal";
 import { ThemeProvider } from "@/components/theme-provider"
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -27,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased   `}
       >
         <ThemeProvider
           attribute="class"
@@ -35,9 +36,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+
           <NavHor />
-          <div className="mx-auto md:w-[768px]">
-            {children}
+          <div className="pt-14">
+            <div className="mx-auto md:w-[768px]">
+              {children}
+            </div>
           </div>
         </ThemeProvider>
       </body>
