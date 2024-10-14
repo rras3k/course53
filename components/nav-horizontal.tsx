@@ -7,38 +7,14 @@ import { Button } from "./ui/button";
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { deleteToken, getFiltreCourseColor, getFiltreCourseFillColor, getFiltreCourse, getTitle } from "@/lib/artaxi";
-
-// const route: { [key: string]: string } = {};
-// route['/'] = 'COURSES';
-// route['/course-filtre'] = 'FILTRE';
-// route['/messages'] = 'MESSAGES';
-// route['/aide'] = 'AIDE';
-// route['/plus'] = 'PLUS+';
-// route['/identification'] = 'IDENTIFICATION';
-// const getTitle = (pathname: string) => {
-// 	return route[pathname];
-// }
-
-
-// const colorFiltre: { [key: string]: string } = {};
-// colorFiltre['a-faire-et-proposition'] = 'green';
-// colorFiltre['propositions'] = 'yellow';
-// colorFiltre['cloturees'] = 'blue';
-// colorFiltre['annulees'] = 'gray';
-// colorFiltre['toutes'] = 'red';
-
-// const getFiltreColor = (parafiltre: string) => {
-// 	return 'fill-' + colorFiltre[parafiltre] + '400';
-// }
-
-
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from "tailwind-merge";
 
 export function NavHor() {
 
 	const linkHight: string = 'h-20 ';
 	const linkMy: string = 'my-2 ';
 	const router = useRouter();
-
 
 	// navigation mobile
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
@@ -71,18 +47,26 @@ export function NavHor() {
 	
 	const filtreColor = getFiltreCourseColor();
 	useEffect(() => {
-		setFiltreCourseColor('bg-'+filtreColor+'-400');
+		setFiltreCourseColor('bg-'+filtreColor+'-200');
 	}, [filtreColor]);
 	console.log('============', getFiltreCourse(), getFiltreCourseColor());
+
+	const iconHome_className = clsx(
+		'mx-3 flex-none',
+		{
+			'bg-yellow-200': false,
+		}
+	);
 	return (
-		// <div className="fill-red-400 fill-blue-400 fill-green-400 fill-yellow-400 fill-gray-400"></div>
-		// <div className="bg-red-400 bg-blue-400 bg-green-400 bg-yellow-400 bg-gray-400"></div>
+		// <div className="fill-red-200 fill-blue-200 fill-green-200 fill-yellow-200 fill-gray-200"></div>
+		// <div className="bg-red-200 bg-blue-200 bg-green-200 bg-yellow-200 bg-gray-200"></div>
 		<>
 			<nav className="h-12 fixed w-full bg-sky-700">
 
 				{/* Version mobile */}
 				<div className="md:hidden flex content-center">
-					<Image className="mx-3 flex-none " src={imgHome} alt="Home" />
+					<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
+					{/* <Image className="mx-3 flex-none " src={imgHome} alt="Home" /> */}
 					<div className="flex-auto flex items-center justify-center">
 						<div className=" text-lg content-center text-center font-bold text-white">
 							{title}

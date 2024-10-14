@@ -1,17 +1,7 @@
-// COURSE
-export const COURSE_STATUT_ANNULEE = "0";
-export const COURSE_STATUT_A_FAIRE = "1";
-export const COURSE_STATUT_CLOTUREE = "2";
+// ==================================================================== URL
+export const URL_COURSE53_API = "https://api.laval-test.algozzy.ovh/identification"
 
-import { listAll } from "@/data/example/list-all";
-export const loadExampleListAll = () => {
-	// const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
-	// const data = JSON.parse(file);
-	const data = listAll;
-	return data;
-}
-
-// ROUTE
+// ==================================================================== ROUTE
 const route: { [key: string]: string } = {};
 route['/'] = 'COURSES';
 route['/course-filtre'] = 'FILTRE';
@@ -23,9 +13,18 @@ export const getTitle = (pathname: string) => {
 	return route[pathname];
 }
 
+// ==================================================================== COURSE
+export const COURSE_STATUT_ANNULEE = "0";
+export const COURSE_STATUT_A_FAIRE = "1";
+export const COURSE_STATUT_CLOTUREE = "2";
 
+import { listAll } from "@/data/example/list-all";
+export const loadExampleListAll = () => {
+	const data = listAll;
+	return data;
+}
 
-// FILTRE COURSE
+// ==================================================================== FILTRE COURSE
 import { useRouter, useSearchParams } from 'next/navigation';
 export const COURSE_FILTRE_A_FAIRE = 'a-faire-et-propositions';
 export const COURSE_FILTRE_PROPOSITION = 'propositions';
@@ -42,60 +41,62 @@ colorFiltre[COURSE_FILTRE_TOUTE] = 'red';
 
 export const getFiltreCourse = (): string | null => {
 	const searchParams = useSearchParams();
-	// const paraFiltre: string | null = searchParams.get('filtre');
-
 	return searchParams.get('filtre') ? searchParams.get('filtre') : COURSE_FILTRE_A_FAIRE;
 }
 export const getFiltreCourseColor = () => {
 	const filtrecourse: string | null = getFiltreCourse();
-	// console.log('filtrecourse', filtrecourse)
 	if (filtrecourse) return colorFiltre[filtrecourse];
 	return 'green';
 }
 export const getFiltreCourseFillColor = () => {
 	const filtrecourse: string | null = getFiltreCourse();
-	// console.log('filtrecourse', filtrecourse)
-	if (filtrecourse) return 'fill-' + colorFiltre[filtrecourse] + '-400';
+	if (filtrecourse) return 'fill-' + colorFiltre[filtrecourse] + '-200';
 	return '';
 }
 
-
-// CONNEXION
-export const deleteToken = ():void => {
+// ==================================================================== CONNEXION
+export const deleteToken = (): void => {
 
 }
 export const isAuthentificated = (): boolean => {
-	
+
 	return true;
 }
 
+// =========================={========================================== APPEL API
+type TypeIdentificationApi = {
+	login: string;
+	mdp: string;
+	version_app_mobile: string;
+}
+export  async function identification(login: string | null, password: string | null) {
+	const data = await fetch(
+		`${URL_COURSE53_API}/identification`
+		, {
+			method: 'POST',
+			body: '{"login":${login}, "password":${password}, "version_app_mobile":"1.0.0"}'
+			// body: '{"login":${login}, "password":${password}, "version_app_mobile":"1.0.0"}'
+		}
+	)
+	let posts = await data.json();
+	console.log(posts);
+}
 
 
-// export default async function Page() {
-// 	const file = await fs.readFile(process.cwd() + '/app/data.json', 'utf8');
-// 	const data = JSON.parse(file);
-
-// 	return (
-// 		<div>
-// 		<h1>{ data.title } </h1>
-// 		< p > { data.content } </p>
-// 		</div>
-// 	);
-// }
-
-// type TypeCourseFiltreInfo = {
-// 	color: string;
-// 	url: string;
-// 	label: string;
-// 	bg_color: string;
-// 	stroke_color: string;
-// 	fill_color: string;
-// }
-// const coursFiltreInfo: { [key: string]: TypeCourseFiltreInfo } = {};
-// coursFiltreInfo['a-faire'] = { label: "A faire", color: "green", isToDo: false };
-
-
-// export const getCourseFiltreInfo = (): TypeCourseFiltreInfo => {
-// 	let ret: TypeCourseFiltreInfo = { color:'green'};
-// 	return ret;
-// }
+export async function aIdentificationBis() {
+	console.log("aIdentificationBis")
+	const data = await fetch(
+		'https://api.laval-test.algozzy.ovh/identification'
+		, {
+			method: 'POST',
+			body: '{"login":"artaxi", "password":"6808", "version_app_mobile":"1.0.0"}'
+		}
+	)
+	const posts = await data.json()
+	// return (
+	// 	<>
+	// 	Message: { posts.message }
+	// 	{ JSON.stringify(posts) }
+	// </>
+	// )
+}
