@@ -9,6 +9,7 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { deleteToken, getFiltreCourseColor, getFiltreCourseFillColor, getFiltreCourse, getTitle } from "@/lib/artaxi";
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
+import Version from "./version";
 
 export function NavHor() {
 
@@ -44,10 +45,10 @@ export function NavHor() {
 	useEffect(() => {
 		setFiltreCourseFillColor(myFiltreCourseFillColor);
 	}, [filtre]);
-	
+
 	const filtreColor = getFiltreCourseColor();
 	useEffect(() => {
-		setFiltreCourseColor('bg-'+filtreColor+'-200');
+		setFiltreCourseColor('bg-' + filtreColor + '-200');
 	}, [filtreColor]);
 	console.log('============', getFiltreCourse(), getFiltreCourseColor());
 
@@ -72,7 +73,7 @@ export function NavHor() {
 							{title}
 						</div>
 					</div>
-					{usePathname()== "/" &&
+					{usePathname() == "/" &&
 						<div onClick={() => router.push('/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
 						</div>
@@ -144,6 +145,9 @@ export function NavHor() {
 								<div className="flex-auto">
 									Deconnexion
 								</div>
+							</div>
+							<div className="text-center">
+								Version <Version />
 							</div>
 						</div>
 						{/* </div> */}

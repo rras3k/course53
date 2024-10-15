@@ -8,17 +8,19 @@ import { useState, useEffect } from 'react';
 import CourseAffichage from '@/components/course-affichage';
 import { getFiltreCourse } from '@/lib/artaxi';
 
-export default function Home() {
-  console.log("Home")
-  const [iconFiltreColor, setIconFiltreColor] = useState("bg-green-300");
-  const [isVisibleFiltre, setIsVisibleFiltre] = useState(false);
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const paraFiltre: string | null = searchParams.get('filtre');
 
-  const toggleFiltre = () => {
-    setIsVisibleFiltre(!isVisibleFiltre);
-  }
+
+export default function Home() {
+  // const [iconFiltreColor, setIconFiltreColor] = useState("bg-green-300");
+  // const [isVisibleFiltre, setIsVisibleFiltre] = useState(false);
+  // const router = useRouter();
+  // const searchParams = useSearchParams();
+  // const paraFiltre: string | null = searchParams.get('filtre');
+
+  // const toggleFiltre = () => {
+  //   setIsVisibleFiltre(!isVisibleFiltre);
+  // }
+ 
 
   return (
     <>
