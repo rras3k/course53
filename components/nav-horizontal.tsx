@@ -88,34 +88,41 @@ export function NavHor() {
 				</div>
 
 				{/* Version ecran large */}
-				<div className="hidden md:grid w-[768px] mx-auto h-full  grid-cols-4 justify-items-center  align-baseline ">
+				<div className="hidden md:flex justify-between w-[768px] mx-auto h-full   justify-items-center  align-baseline ">
+					{/* <div className="hidden md:grid grid-cols-5 w-[768px] mx-auto h-full   justify-items-center  align-baseline "> */}
 					<Image className=" my-auto" src={imgHome} alt="Home" />
 
-					<Link className=" my-auto" href="/">
-						<Button className="bg-orange-500 w-36 flex  text-lg p-0 font-bold">
+					<div onClick={() => goAndClose('/')} className=" my-auto" >
+						<Button className="bg-orange-500 w-32 flex  text-lg p-0 font-bold">
 							Courses
-							<Car strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} />
-						</Button>
-					</Link>
-					<Link className=" my-auto" href="/messages">
-						<Button className="bg-orange-500 w-36 flex  text-lg  p-0 font-bold">
-							Messages
-							<Mail strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={32} />
+							{/* <Car strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} /> */}
 						</Button>
 
-					</Link>
-					<Link className=" my-auto" href="/plus">
-						<Button className="bg-orange-500 w-36 flex  text-lg  p-0 font-bold">
+					</div>
+					{usePathname() == "/" &&
+						<div onClick={() => router.push('/course-filtre')} className=" my-auto" >
+							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
+						</div>
+					}
+					<div onClick={() => goAndClose('/messages')} className=" my-auto" >
+						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
+							Messages
+							{/* <Mail strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={32} /> */}
+						</Button>
+
+					</div>
+					<div onClick={() => goAndClose('/aide')} className=" my-auto" >
+						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
 							Aide
-							<Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} />
+							{/* <Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} /> */}
 						</Button>
-					</Link>
-					<Link className=" my-auto" href="/plus">
-						<Button className="bg-orange-500 w-36 flex  text-lg  p-0 font-bold">
+					</div>
+					<div onClick={() => goAndClose('/plus')} className=" my-auto" >
+						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
 							Plus
-							<Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} />
+							{/* <Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} /> */}
 						</Button>
-					</Link>
+					</div>
 				</div>
 
 				{isNavMobileOpen &&
