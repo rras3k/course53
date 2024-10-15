@@ -117,9 +117,9 @@ export function NavHor() {
 							{/* <Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} /> */}
 						</Button>
 					</div>
-					<div onClick={() => goAndClose('/plus')} className=" my-auto" >
+					<div onClick={() => setIsShowDeconnexion(true)} className=" my-auto" >
 						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
-							Plus
+							Déconnexion
 							{/* <Info strokeWidth={0.5} className="ml-1 fill-orange-700 stroke-orange-400" size={36} /> */}
 						</Button>
 					</div>
@@ -162,8 +162,8 @@ export function NavHor() {
 				}
 
 				{isShowDeconnexion &&
-					<div className="fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right md:hidden">
-						<span className="text-2xl py-8">
+					<div className="fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right ">
+						<span className="text-2xl my-20">
 
 							Voulez vous vous déconnecter de l'application ?
 						</span>

@@ -1,14 +1,12 @@
 "use client"
 
 import Link from "next/link";
-import { ListPlus, ListX, ListChecks, AlignJustify, List } from "lucide-react";
 
 
 export default function CourseFiltre() {
 	
 	return (
 		<div className="hiden md:flex flex-col items-center h-full ">
-		{/* <div className="hiden md:grid mx-auto h-full "> */}
 			<Link href={"/?filtre=a-faire-et-propositions"} className={"h-20 my-4 flex place-items-center justify-start text-center md:w-6/12 mx-5   border rounded-xl bg-green-300 hover:bg-green-400   text-2xl text-green-950 "}>
 				<div className="flex-auto">
 					Normal
