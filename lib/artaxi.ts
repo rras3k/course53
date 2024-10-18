@@ -1,5 +1,5 @@
 // ==================================================================== URL
-export const URL_COURSE53_API = "https://api.laval-test.algozzy.ovh/identification"
+export const URL_COURSE53_API = "https://api.laval-test.algozzy.ovh/"
 
 // ==================================================================== ROUTE
 const route: { [key: string]: string } = {};
@@ -63,44 +63,23 @@ export const isAuthentificated = (): boolean => {
 	return true;
 }
 
-// =========================={========================================== APPEL API
-type TypeIdentificationApi = {
-	login: string;
-	mdp: string;
-	version_app_mobile: string;
-}
-export  async function identification(login: string | null, password: string | null) {
+// ==================================================================== APPEL API
+
+// Identification
+
+// type TypeIdentificationApi = {
+// 	login: string;
+// 	mdp: string;
+// 	version_app_mobile: string;
+// }
+// const a: TypeIdentificationApi = { login: "artaxi", mdp: "6808", version_app_mobile: "1.0.0" }
+export async function Identification(login: string, mdp: string) {
 	const data = await fetch(
-		`${URL_COURSE53_API}/identification`
+		URL_COURSE53_API + '/identification'
 		, {
 			method: 'POST',
-			body: '{"login":${login}, "password":${password}, "version_app_mobile":"1.0.0"}'
-			// body: '{"login":${login}, "password":${password}, "version_app_mobile":"1.0.0"}'
+			body: '{"login":"' + login + '", "password":"' + mdp + '", "version_app_mobile":"1.0.0"}'
 		}
 	)
-	let posts = await data.json();
-	console.log(posts);
+	return await data.json();
 }
-
-
-export async function aIdentificationBis() {
-	console.log("aIdentificationBis")
-	const data = await fetch(
-		'https://api.laval-test.algozzy.ovh/identification'
-		, {
-			method: 'POST',
-			body: '{"login":"artaxi", "password":"6808", "version_app_mobile":"1.0.0"}'
-		}
-	)
-	const posts = await data.json()
-	// return (
-	// 	<>
-	// 	Message: { posts.message }
-	// 	{ JSON.stringify(posts) }
-	// </>
-	// )
-}
-
-
-
-// bracnhe main

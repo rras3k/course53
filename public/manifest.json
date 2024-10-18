@@ -1,6 +1,6 @@
 {
-	"name": "Course 83 pour TULIB",
-	"short_name": "course-83",
+	"name": "Course 53 pour TULIB",
+	"short_name": "course 53",
 	"description": "Application pour le Service de transport du service TULIB à LAVAL",
 	"start_url": "/",
 	"display": "standalone",
