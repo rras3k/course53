@@ -75,7 +75,7 @@ export const isAuthentificated = (): boolean => {
 // const a: TypeIdentificationApi = { login: "artaxi", mdp: "6808", version_app_mobile: "1.0.0" }
 export async function Identification(login: string, mdp: string) {
 	const data = await fetch(
-		URL_COURSE53_API + '/identification'
+		process.env.NEXT_PUBLIC_API_URL + '/identification'
 		, {
 			method: 'POST',
 			body: '{"login":"' + login + '", "password":"' + mdp + '", "version_app_mobile":"1.0.0"}'

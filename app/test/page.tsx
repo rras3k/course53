@@ -3,19 +3,20 @@
 import { Identification } from "@/lib/artaxi";
 import { useState, useEffect } from 'react'
 
+
 // import Identification2 from "@/lib/artaxi";
 
 
 
 export default function Test() {
 
-	// let [posts, setPosts] = useState(null)
+	let [posts, setPosts] = useState(null)
 
 
 	useEffect(() => {
 		async function fetchPosts() {
 			const res = await Identification('artaxi', '6808');
-			// setPosts(res)
+			setPosts(res)
 		}
 		fetchPosts()
 	}, [])
@@ -26,9 +27,10 @@ export default function Test() {
 
 	return (
 		<>
-			yyyy
+			{process.env.NEXT_PUBLIC_API_URL}
+			yyyye
 			{/* Message:{posts.message} */}
-			{/* {JSON.stringify(posts)} */}
+			{JSON.stringify(posts)}
 		</>
 	)
 }

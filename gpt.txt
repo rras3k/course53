@@ -1,0 +1,6 @@
+Ecris un programme avec le framework nextjs version 14 en typescript de type pwa sans utiliser le package next-pwa. 
+L'application devra :
+- Mettre en cache les images, feuille de style, les requêtes API.
+- Mettre à jour l'application en supprimant l'ancien cache.
+- Récupérer à intervalle régulier un fichier json puis mettre le résultat en cache depuis n'importe quelle page sans interuption.
+Ecris les fichiers manifest.json, next.config.mjs
