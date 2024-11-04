@@ -1,16 +1,12 @@
 "use client"
 
 // import CourseFiltre from '@/components/course-filtre';
-import { Button } from '@/components/ui/button';
-import { Filter } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useState, useEffect } from 'react';
 import CourseAffichage from '@/components/course-affichage';
+import isAuth from '@/components/isAuth';
 import { getFiltreCourse } from '@/lib/artaxi';
 
 
-
-export default function Home() {
+function Home() {
   // const [iconFiltreColor, setIconFiltreColor] = useState("bg-green-300");
   // const [isVisibleFiltre, setIsVisibleFiltre] = useState(false);
   // const router = useRouter();
@@ -30,3 +26,4 @@ export default function Home() {
   );
 }
 
+export default isAuth(Home);

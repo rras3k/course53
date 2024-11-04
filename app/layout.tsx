@@ -1,8 +1,14 @@
+
+
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { NavHor } from "@/components/nav-horizontal";
 import { ThemeProvider } from "@/components/theme-provider"
+import LayoutWorker from "./layoutWorker";
+import React from "react";
+
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,6 +24,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Course 53",
   description: "gestion des courses du service TULIB de LAVAL",
+  manifest: "/manifest.json"
 };
 
 export default function RootLayout({
@@ -25,6 +32,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body
@@ -36,11 +44,12 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-
           <NavHor />
           <div className="pt-14">
             <div className="mx-auto md:w-[768px]">
-              {children}
+              <LayoutWorker>
+                {children}
+              </LayoutWorker>
             </div>
           </div>
         </ThemeProvider>

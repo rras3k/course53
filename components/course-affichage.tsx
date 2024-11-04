@@ -1,17 +1,19 @@
+"use client"
+
 import { loadExampleListAll } from "@/lib/artaxi";
 import { COURSE_STATUT_ANNULEE, COURSE_STATUT_CLOTUREE, COURSE_STATUT_A_FAIRE } from "@/lib/artaxi";
 import { COURSE_FILTRE_A_FAIRE, COURSE_FILTRE_PROPOSITION, COURSE_FILTRE_CLOTUREE, COURSE_FILTRE_ANNULEE, COURSE_FILTRE_TOUTE } from "@/lib/artaxi";
-import { type ClassValue, clsx } from 'clsx';
+import {  clsx } from 'clsx';
+// import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
-import { Button } from "./ui/button";
 import CourseAction from "./course-action";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Users } from 'lucide-react';
 
 
 
 
-export default function CourseAffichage({ filtreCourse }) {
+export default function CourseAffichage({ filtreCourse}) {
 
 	const datas = loadExampleListAll();
 
@@ -41,8 +43,7 @@ export default function CourseAffichage({ filtreCourse }) {
 	}
 
 	let rgp_course_id_before: string = "";
-	let cpt: number = 0;
-	let isCourseToDo: Boolean;
+	let isCourseToDo: boolean;
 	return (
 		<>
 			<div className="flex flex-col text-xl">

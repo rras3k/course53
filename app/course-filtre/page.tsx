@@ -1,9 +1,10 @@
 "use client"
 
+import isAuth from "@/components/isAuth";
 import Link from "next/link";
 
 
-export default function CourseFiltre() {
+ function CourseFiltre() {
 	
 	return (
 		<div className="hiden md:flex flex-col items-center h-full ">
@@ -35,4 +36,7 @@ export default function CourseFiltre() {
 		</div>
 	);
 }
+
+export default isAuth(CourseFiltre);
+
 

@@ -4,8 +4,12 @@
 	"description": "Application pour le Service de transport du service TULIB à LAVAL",
 	"start_url": "/",
 	"display": "standalone",
+	"orientation": "any",
 	"background_color": "#ffffff",
-	"theme_color": "#000000",
+	"theme_color": "#0A0A70",
+	"categories": [
+		"travel"
+	],
 	"icons": [
 		{
 			"src": "/icons/icon-48x48.png",
@@ -51,6 +55,6 @@
 			"src": "/icons/icon-512x512.png",
 			"sizes": "512x512",
 			"type": "image/png"
-		},
+		}
 	]
 }

@@ -9,7 +9,7 @@ export default function Aide() {
 	return (
 		<Accordion type="single" collapsible className="w-full p-3">
 			<AccordionItem value="item-1" className="text-md">
-				<AccordionTrigger className="text-lg text-sky-900">Installation de l'application</AccordionTrigger>
+				<AccordionTrigger className="text-lg text-sky-900">Installation de `l` application</AccordionTrigger>
 				<AccordionContent className="text-lg">
 					Yes. It adheres to the WAI-ARIA design pattern.
 				</AccordionContent>

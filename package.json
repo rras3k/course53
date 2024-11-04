@@ -1,6 +1,6 @@
 {
   "name": "course53",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,11 +16,13 @@
     "@radix-ui/react-slot": "^1.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "idb-keyval": "^6.2.1",
     "lucide-react": "^0.446.0",
     "next": "14.2.13",
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^2.5.3",
     "tailwindcss-animate": "^1.0.7"
   },

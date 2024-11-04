@@ -8,7 +8,6 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog"
-import { useState } from "react";
 
 
 export default function CourseAction({open, setOpen}) {
@@ -23,7 +22,7 @@ export default function CourseAction({open, setOpen}) {
 					<DialogHeader>
 						<DialogTitle>Edit profile</DialogTitle>
 						<DialogDescription>
-							Make changes to your profile here. Click save when you're done.
+							Make changes to your profile here. Click save when you `&apos`&apos re done.
 						</DialogDescription>
 					</DialogHeader>
 					<div className="grid gap-4 py-4">

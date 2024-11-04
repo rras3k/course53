@@ -1,5 +1,13 @@
+// 'use client'
+import { useRouter, useSearchParams } from 'next/navigation';
+import { cache } from "react";
+import { getAppVersion } from "./app";
+import { set } from 'idb-keyval';
+
+
+
 // ==================================================================== URL
-export const URL_COURSE53_API = "https://api.laval-test.algozzy.ovh/"
+export const CACHE_NAME = "cache_" + getAppVersion()
 
 // ==================================================================== ROUTE
 const route: { [key: string]: string } = {};
@@ -25,7 +33,7 @@ export const loadExampleListAll = () => {
 }
 
 // ==================================================================== FILTRE COURSE
-import { useRouter, useSearchParams } from 'next/navigation';
+
 export const COURSE_FILTRE_A_FAIRE = 'a-faire-et-propositions';
 export const COURSE_FILTRE_PROPOSITION = 'propositions';
 export const COURSE_FILTRE_CLOTUREE = 'cloturees';
@@ -55,25 +63,35 @@ export const getFiltreCourseFillColor = () => {
 }
 
 // ==================================================================== CONNEXION
-export const deleteToken = (): void => {
+export const TOKEN: string = "TOKEN";
 
+export const identDeleteToken = (): void => {
+	localStorage.removeItem(TOKEN);
 }
-export const isAuthentificated = (): boolean => {
+export const identSetToken = (token: string): boolean => {
+	// localStorage.setItem(TOKEN, token);
+	// const objectStore = db.createObjectStore("token", {
+	// 	keyPath: token,
+	// });
+	set('token', token);
 
 	return true;
 }
 
+
+export const identGetToken = (): string | null=> {
+	return localStorage.getItem(TOKEN);
+}
+export const identIsAut = (): boolean  => {
+	return localStorageAvailable() && localStorage.getItem(TOKEN)!== null;
+}
+const localStorageAvailable = ():boolean => {
+	return typeof window !== "undefined";
+}
 // ==================================================================== APPEL API
 
-// Identification
-
-// type TypeIdentificationApi = {
-// 	login: string;
-// 	mdp: string;
-// 	version_app_mobile: string;
-// }
 // const a: TypeIdentificationApi = { login: "artaxi", mdp: "6808", version_app_mobile: "1.0.0" }
-export async function Identification(login: string, mdp: string) {
+export async function identification(login: string, mdp: string) {
 	const data = await fetch(
 		process.env.NEXT_PUBLIC_API_URL + '/identification'
 		, {
@@ -82,4 +100,5 @@ export async function Identification(login: string, mdp: string) {
 		}
 	)
 	return await data.json();
-}
+} 
+

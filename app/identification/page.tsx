@@ -14,8 +14,10 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {identification,  aIdentificationBis } from "@/lib/artaxi";
+import {identification, identSetToken } from "@/lib/artaxi";
 import { useState } from 'react';
+import { useRouter } from "next/navigation"
+
 
 
 
@@ -28,15 +30,42 @@ const getMdpValue = (): string | null => {
 
 export default function Identification() {
 	
+	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
-	const submit = () => {
-		console.log("rrrr", getLoginValue(), getMdpValue());
-		setIsErrorMsg(true);
-
-		aIdentificationBis();
-		// identification(getLoginValue(), getMdpValue());
+	const  submit = () => {
+		askIdent(getLoginValue(), getMdpValue());
 	}
 
+
+	async function askIdent(login: string, mdp: string): Promise<void> {
+		let res;
+		try {
+			console.log("askIdent")
+			res = await identification(login, mdp);
+			console.log("retour", res.retour);
+			setIsErrorMsg(res.retour == false);
+			if (res.retour == true) {
+				// stocke ele token
+				identSetToken(res.data.jwt);
+				console.log("go to racine");
+				console.log("go to racine1");
+				// on va a la racine
+				// return redirect('/');
+				// router.push('/');
+				router.push('/');
+				console.log("apres redirect ");
+
+			}
+				
+		} catch (e) {
+			console.error(e);
+		}
+
+		// enregistre token
+		// const res = await identification('artaxi', '6808');
+		// return true;
+	}
+	
 
 
 	return (
@@ -50,11 +79,11 @@ export default function Identification() {
 					<div className="grid w-full items-center gap-4">
 						<div className="flex flex-col space-y-1.5">
 							<Label htmlFor="name">Login</Label>
-							<Input id="login" type="text" placeholder="Saisissez votre login" />
+							<Input id="login" type="text" placeholder="Saisissez votre login" value="artaxi"/>
 						</div>
 						<div className="flex flex-col space-y-1.5">
 							<Label htmlFor="mdp">Mot de passe</Label>
-							<Input id="mdp" placeholder="Saisissez votre mot de passe" />
+							<Input id="mdp" placeholder="Saisissez votre mot de passe" value="6808"/>
 						</div>
 					</div>
 				</form>
