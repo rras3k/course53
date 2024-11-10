@@ -1,8 +1,10 @@
-// 'use client'
-import { useRouter, useSearchParams } from 'next/navigation';
-import { cache } from "react";
+'use client'
+import { useSearchParams } from 'next/navigation';
+// import { cache } from "react";
 import { getAppVersion } from "./app";
-import { set } from 'idb-keyval';
+import { set, get, del } from 'idb-keyval';
+import util from 'node:util';
+
 
 
 
@@ -27,6 +29,7 @@ export const COURSE_STATUT_A_FAIRE = "1";
 export const COURSE_STATUT_CLOTUREE = "2";
 
 import { listAll } from "@/data/example/list-all";
+import { isUndefined } from 'util';
 export const loadExampleListAll = () => {
 	const data = listAll;
 	return data;
@@ -63,35 +66,43 @@ export const getFiltreCourseFillColor = () => {
 }
 
 // ==================================================================== CONNEXION
-export const TOKEN: string = "TOKEN";
+export const TOKEN: string = "token";
 
 export const identDeleteToken = (): void => {
-	localStorage.removeItem(TOKEN);
+	del(TOKEN);
 }
-export const identSetToken = (token: string): boolean => {
-	// localStorage.setItem(TOKEN, token);
-	// const objectStore = db.createObjectStore("token", {
-	// 	keyPath: token,
-	// });
-	set('token', token);
 
+export const identSetToken = (token: string): boolean => {
+	set(TOKEN, token);
 	return true;
 }
 
+export const identGetToken = new Promise<string | null>((resolve, reject) => {
+	get(TOKEN)
+		.then(value => {
+			if (value.isUndefined) reject(null)
+			else resolve(value);
+		})
+		.catch(e => {
+			reject(null)
+		})
+})
 
-export const identGetToken = (): string | null=> {
-	return localStorage.getItem(TOKEN);
-}
-export const identIsAut = (): boolean  => {
-	return localStorageAvailable() && localStorage.getItem(TOKEN)!== null;
-}
-const localStorageAvailable = ():boolean => {
-	return typeof window !== "undefined";
-}
+export const identIsAut = new Promise<boolean>((resolve, reject) => {
+	get(TOKEN)
+		.then(value => {
+			if (value == undefined) resolve(false)
+			if (value == null) resolve(false)
+			else resolve(true);
+		})
+		.catch(e => {
+			reject(e)
+		})
+})
+
+
 // ==================================================================== APPEL API
-
-// const a: TypeIdentificationApi = { login: "artaxi", mdp: "6808", version_app_mobile: "1.0.0" }
-export async function identification(login: string, mdp: string) {
+export async function identAskServer(login: string, mdp: string) {
 	const data = await fetch(
 		process.env.NEXT_PUBLIC_API_URL + '/identification'
 		, {
@@ -100,5 +111,5 @@ export async function identification(login: string, mdp: string) {
 		}
 	)
 	return await data.json();
-} 
+}
 

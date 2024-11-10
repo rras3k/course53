@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
 		caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
 	);
 	// createStore('dbName', 'storeName')
-	set('token', 'worfezfezfzeld');
+	// set('token', 'worfezfezfzeld');
 
 });
 
@@ -89,6 +89,7 @@ async function getListecourses2(token) {
 		);
 		const data = await response.json();
 		caches.open(CACHE_NAME).then((cache) => {
+			set('course_in_date', Date.now());
 			cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
 		});
 	}

@@ -9,4 +9,5 @@ import isAuth from "@/components/isAuth";
 		</>
 	)
 }
-export default isAuth(Messages);
+export default Messages;
+// export default isAuth(Messages);

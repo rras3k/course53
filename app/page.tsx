@@ -7,6 +7,7 @@ import { getFiltreCourse } from '@/lib/artaxi';
 
 
 function Home() {
+  console.log("HOME");
   // const [iconFiltreColor, setIconFiltreColor] = useState("bg-green-300");
   // const [isVisibleFiltre, setIsVisibleFiltre] = useState(false);
   // const router = useRouter();
@@ -26,4 +27,5 @@ function Home() {
   );
 }
 
-export default isAuth(Home);
+// export default isAuth(Home);
+export default Home;

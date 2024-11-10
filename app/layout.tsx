@@ -7,6 +7,7 @@ import { NavHor } from "@/components/nav-horizontal";
 import { ThemeProvider } from "@/components/theme-provider"
 import LayoutWorker from "./layoutWorker";
 import React from "react";
+import LayoutRedirect from "./layoutRedirect";
 
 
 
@@ -44,14 +45,17 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <NavHor />
-          <div className="pt-14">
-            <div className="mx-auto md:w-[768px]">
-              <LayoutWorker>
-                {children}
-              </LayoutWorker>
+          <LayoutRedirect path="kkkkk">
+
+            <NavHor />
+            <div className="pt-14">
+              <div className="mx-auto md:w-[768px]">
+                {/* <LayoutWorker> */}
+                  {children}
+                {/* </LayoutWorker> */}
+              </div>
             </div>
-          </div>
+          </LayoutRedirect>
         </ThemeProvider>
       </body>
     </html>

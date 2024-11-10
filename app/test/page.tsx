@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { identGetToken, identIsAut } from "@/lib/artaxi";
 
 export default function Getall() {
 	// const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0wNCAwMzowMDowMCJ9.Z6nepIuIczFPYnrKwo6rK7bNde8HD2jqHNZlwvz-Wnc'
@@ -20,31 +21,40 @@ export default function Getall() {
 			coucou
 			{/* Message: {posts.message}
 			{JSON.stringify(posts)} */}
-			<Button onClick={oo}>test</Button>
+			<Button onClick={test2}>test</Button>
 		</>
 	)
 }
+function test2() {
+	identIsAut
+		.then((value) => {
+			console.log("test2", value)
+		})
+		.catch((e) => {
+			console.log("e", e)
+		})
+}
 
 
-async function oo() {
-	// const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0wNCAwMzowMDowMCJ9.Z6nepIuIczFPYnrKwo6rK7bNde8HD2jqHNZlwvz-Wnc'
-	// console.log("oo")
-	// try {
-	// 	const data = await fetch(
-	// 		'https://api.laval-test.algozzy.ovh/trips/today/'
-	// 		, {
-	// 			headers: {
-	// 				"Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0wNSAwMzowMDowMCJ9.fFqAmQuPaFMpD_BSKGaxvVmBlhB6w0HUhsXT7oQCeyU",
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 			method: 'GET',
-	// 		}
-	// 	)
-	// }
-	// catch (e) {
-	// 	console.log("log",e)
-	// 	console.error("error",e)
-	// }
+async function test1() {
+	const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0wNCAwMzowMDowMCJ9.Z6nepIuIczFPYnrKwo6rK7bNde8HD2jqHNZlwvz-Wnc'
+	console.log("oo")
+	try {
+		const data = await fetch(
+			'https://api.laval-test.algozzy.ovh/trips/today/'
+			, {
+				headers: {
+					"Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0wNSAwMzowMDowMCJ9.fFqAmQuPaFMpD_BSKGaxvVmBlhB6w0HUhsXT7oQCeyU",
+					"Content-Type": "application/json",
+				},
+				method: 'GET',
+			}
+		)
+	}
+	catch (e) {
+		console.log("log", e)
+		console.error("error", e)
+	}
 
 }
 

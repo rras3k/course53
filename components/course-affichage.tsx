@@ -41,7 +41,7 @@ export default function CourseAffichage({ filtreCourse}) {
 	if (!datas.retour) {
 		return ("Erreur retour <> TRUE");
 	}
-
+	let cpt:number = 0;
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
 	return (
