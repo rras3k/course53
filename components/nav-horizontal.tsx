@@ -1,6 +1,6 @@
 "use client"
 
-import { Filter, Menu, X } from 'lucide-react';
+import { Filter, Menu, X, RefreshCw } from 'lucide-react';
 import Image from "next/image";
 import imgHome from "@/public/icons/icon-48x48.png";
 import { Button } from "./ui/button";
@@ -11,10 +11,13 @@ import { identDeleteToken } from "@/lib/artaxi";
 import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import Version from "./version";
+import MenuApp from './menu-app';
 
 export function NavHor() {
 
 	const router = useRouter();
+
+	const [openMenu, setOpenMenu] = useState(false);
 
 	// navigation mobile
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
@@ -22,10 +25,16 @@ export function NavHor() {
 	const [isShowDeconnexion, setIsShowDeconnexion] = useState(false);
 	const [filtreCourseFillColor, setFiltreCourseFillColor] = useState('');
 	const [filtreCourseColor, setFiltreCourseColor] = useState('bg-green-400');
+	const [updateCourseColor, setUpdateCourseColor] = useState('bg-green-400');
+	const [afficheUpdate, setAfficheUpdate] = useState(true);
 
 	const goAndClose = (url: string) => {
 		setIsNavMobileOpen(false);
 		router.push(url);
+	}
+
+	const clickUpdate = () => {
+
 	}
 
 	// titre de la barre
@@ -56,18 +65,29 @@ export function NavHor() {
 	);
 	const pahtName = usePathname();
 	const isShowFiltre: boolean = (pahtName == "/" || pahtName == "");
+	console.log("openMenu", openMenu);
 	return (
 		<>
+			{
+				openMenu && <MenuApp openMenu={openMenu} setOpenMenu={setOpenMenu} pathName={pahtName} setIsShowDeconnexion={setIsShowDeconnexion} />
+			}
 			<nav className="h-12 fixed w-full bg-sky-700">
 
 				{/* Version mobile */}
-				<div className="md:hidden flex content-center">
+				{/* <div className="md:hidden flex content-center"> */}
+
+				<div className="flex content-center mx-auto md:w-[768px]">
 					<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
 					<div className="flex-auto flex items-center justify-center">
 						<div className=" text-lg content-center text-center font-bold text-white">
 							{title}
 						</div>
 					</div>
+					{afficheUpdate &&
+						<div onClick={() => router.push('/filtre=' + { filtre })} className={` ${updateCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
+							<RefreshCw strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
+						</div>
+					}
 					{isShowFiltre &&
 						<div onClick={() => router.push('/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
@@ -77,38 +97,34 @@ export function NavHor() {
 						<X strokeWidth={1} className="stroke-white mx-auto" size={36} />
 					</div>}
 
-					{!isNavMobileOpen && <div onClick={() => setIsNavMobileOpen(true)} className="mx-2 w-10 flex-none border-sky-100 border rounded-md h-10 content-center my-auto border-0" >
+					{/* {!isNavMobileOpen && <div onClick={() => setIsNavMobileOpen(true)} className="mx-2 w-10 flex-none border-sky-100 border rounded-md h-10 content-center my-auto border-0" >
 						<Menu strokeWidth={1} className="stroke-white mx-auto" size={36} />
-					</div>}
+					</div>} */}
+					<div onClick={() => setOpenMenu(true)} className="mx-2 w-10 flex-none border-sky-100 border rounded-md h-10 content-center my-auto border-0" >
+						<Menu strokeWidth={1} className="stroke-white mx-auto" size={36} />
+					</div>
 				</div>
 
 				{/* Version ecran large */}
-				<div className="hidden md:flex justify-between w-[768px] mx-auto h-full   justify-items-center  align-baseline ">
+				{/* <div className="hidden md:flex justify-between w-[768px] mx-auto h-full   justify-items-center  align-baseline ">
 					<div className="">
 						<Image className=" my-auto" src={imgHome} alt="Home" />
 						<Version />
 					</div>
-
 					<div onClick={() => goAndClose('/')} className=" my-auto" >
 						<Button className="bg-orange-500 w-32 flex  text-lg p-0 font-bold">
 							Courses
 						</Button>
-
 					</div>
 					{isShowFiltre &&
-						// <div onClick={() => goAndClose('/course-filtre')} className=" my-auto" >
-							<div onClick={() => router.push('/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
-
-							{/* <Filter strokeWidth={1} className={` ${filtreCourseFillColor} fill-sky-700 stroke-sky-700 mx-auto`} size={32} /> */}
+						<div onClick={() => router.push('/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
-
 						</div>
 					}
 					<div onClick={() => goAndClose('/messages')} className=" my-auto" >
 						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
 							Messages
 						</Button>
-
 					</div>
 					<div onClick={() => goAndClose('/aide')} className=" my-auto" >
 						<Button className="bg-orange-500 w-32 flex  text-lg  p-0 font-bold">
@@ -120,8 +136,9 @@ export function NavHor() {
 							Déconnexion
 						</Button>
 					</div>
-				</div>
+				</div> */}
 
+				{/* Menu */}
 				{isNavMobileOpen &&
 					<div className="fixed bg-white h-full top-13 inset-x-0 p-2 transition transform origin-top-right md:hidden">
 						<div className="flex flex-col h-full">
@@ -152,8 +169,9 @@ export function NavHor() {
 					</div>
 				}
 
+				{/* Deconnexion */}
 				{isShowDeconnexion &&
-					<div className="fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right ">
+					<div className="mx-auto md:w-[768px] fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right ">
 						<span className="text-2xl my-20">
 							Voulez vous vous déconnecter de l'application ?
 						</span>

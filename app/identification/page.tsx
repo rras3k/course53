@@ -92,11 +92,11 @@ export default function Identification() {
 					<div className="grid w-full items-center gap-4">
 						<div className="flex flex-col space-y-1.5">
 							<Label htmlFor="name">Login</Label>
-							<Input id="login" type="text" placeholder="Saisissez votre login" value="artaxi" />
+							<Input id="login" type="text" placeholder="Saisissez votre login" defaultValue="artaxi" />
 						</div>
 						<div className="flex flex-col space-y-1.5">
 							<Label htmlFor="mdp">Mot de passe</Label>
-							<Input id="mdp" placeholder="Saisissez votre mot de passe" value="6808" />
+							<Input id="mdp" placeholder="Saisissez votre mot de passe" defaultValue="6808" />
 						</div>
 					</div>
 				</form>

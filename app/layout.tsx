@@ -46,13 +46,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LayoutRedirect path="kkkkk">
-
             <NavHor />
             <div className="pt-14">
               <div className="mx-auto md:w-[768px]">
-                {/* <LayoutWorker> */}
+                <LayoutWorker>
                   {children}
-                {/* </LayoutWorker> */}
+                </LayoutWorker>
               </div>
             </div>
           </LayoutRedirect>

@@ -1,6 +1,6 @@
 "use client"
 
-import isAuth from "@/components/isAuth";
+// import isAuth from "@/components/isAuth";
 import Link from "next/link";
 
 
@@ -37,6 +37,6 @@ import Link from "next/link";
 	);
 }
 
-export default isAuth(CourseFiltre);
+export default CourseFiltre;
 
 

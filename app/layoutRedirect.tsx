@@ -3,35 +3,33 @@
 import React from "react";
 import "./globals.css";
 import { redirect, useRouter, usePathname } from "next/navigation";
-import { identIsAut } from "@/lib/artaxi";
+import { identIsAut, TOKEN } from "@/lib/artaxi";
+import { get } from "idb-keyval";
 
-
-export default function LayoutRedirect({ children, path}: { children: React.ReactNode, path:string }) {
-// export default function LayoutRedirect({ children, }: { children: React.ReactNode; }) {
+export default function LayoutRedirect({ children, path }: { children: React.ReactNode, path: string }) {
+	// export default function LayoutRedirect({ children, }: { children: React.ReactNode; }) {
 	const router = useRouter();
-	console.log("path", path)
+	// console.log("path", path)
 	const pahtName = usePathname();
+	// console.log("LayoutRedirect pahtName", pahtName)
 
 
 	React.useEffect(() => {
-		console.log("LayoutRedirect")
-
-		identIsAut
+		// console.log("LayoutRedirect")
+		get(TOKEN)
 			.then(value => {
-				console.log("LayoutRedirect",value)
-				if (value == true) {
-					console.log("middleware identification ok")
+				// console.log("value = ", value);
+				if (value == undefined) {
+					// console.log("middleware identification undefinied")
+					router.push("/identification")
 				}
 				else {
-					console.log("middleware identification PAS ok")
-					router.push("/identification")
-
+					// console.log("middleware identification  ok")
 				}
 			})
-			.catch((e) => {
-				console.error("LayoutRedirect",e)	
+			.catch(e => {
 			})
-	}, [router,pahtName]);
+	}, [router, pahtName]);
 	return (
 		<>
 			{children}

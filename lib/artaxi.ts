@@ -31,6 +31,7 @@ export const COURSE_STATUT_CLOTUREE = "2";
 import { listAll } from "@/data/example/list-all";
 import { isUndefined } from 'util';
 export const loadExampleListAll = () => {
+	// 
 	const data = listAll;
 	return data;
 }
@@ -84,18 +85,23 @@ export const identGetToken = new Promise<string | null>((resolve, reject) => {
 			else resolve(value);
 		})
 		.catch(e => {
-			reject(null)
+			// reject(null)
+			throw new Error('Pas de encore de token enregistré');
 		})
 })
 
 export const identIsAut = new Promise<boolean>((resolve, reject) => {
+	// console.log("identIsAut" )
+
 	get(TOKEN)
 		.then(value => {
+			// console.log("identIsAut then", TOKEN)
 			if (value == undefined) resolve(false)
 			if (value == null) resolve(false)
 			else resolve(true);
 		})
 		.catch(e => {
+			console.log("identIsAut catch", TOKEN)
 			reject(e)
 		})
 })

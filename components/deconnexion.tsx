@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/dialog"
 
 
-export default function CourseAction({open, setOpen}) {
-	// console.log("action")
+export default function CourseAction({ open, setOpen }) {
+	console.log("action")
 	return (
 		<>
 			<Dialog open={open} onOpenChange={setOpen}>
