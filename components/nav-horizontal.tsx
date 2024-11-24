@@ -72,7 +72,7 @@ export function NavHor() {
 				openMenu && <MenuApp openMenu={openMenu} setOpenMenu={setOpenMenu} pathName={pahtName} setIsShowDeconnexion={setIsShowDeconnexion} />
 			}
 			<nav className="h-12 fixed w-full bg-sky-700">
-
+				{/* <div className="bg-green-200 bg-red-200 bg-blue-200 bg-grey-200 bg-yellow-200"></div> */}
 				{/* Version mobile */}
 				{/* <div className="md:hidden flex content-center"> */}
 
@@ -139,7 +139,7 @@ export function NavHor() {
 				</div> */}
 
 				{/* Menu */}
-				{isNavMobileOpen &&
+				{  &&
 					<div className="fixed bg-white h-full top-13 inset-x-0 p-2 transition transform origin-top-right md:hidden">
 						<div className="flex flex-col h-full">
 							<div onClick={() => goAndClose('/')} className={"h-20 my-2 flex place-items-center justify-start text-center md:w-6/12 mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>

@@ -82,8 +82,14 @@ async function getListecourses2(token) {
 		const data = await response.json();
 		caches.open(CACHE_NAME).then((cache) => {
 			del('course_in_date');
-			cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
-			set('course_in_date', Date.now());
+			if (!dcIsIdent(data)) { // la requete échoue par mauvaise identification
+				del('token') // on supprime le token encours pour ne plus refaire de requete
+			}
+			else {
+				cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
+				set('course_in_date', Date.now());
+			}
+			// console.log("isIDent", isIdent);
 		});
 	}
 	catch (e) {
@@ -91,3 +97,14 @@ async function getListecourses2(token) {
 	}
 }
 getListecourses();
+
+/* 
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0yMCAwMzowMDowMCJ9.9Rwd_JiW85VciNoSpm-kQMJdlMuRXULnXQhCxl8RNn8
+*/
+
+
+const dcIsIdent = (data) => {
+	console.log(data)
+	if (data?.retour) return true;
+	return false;
+}

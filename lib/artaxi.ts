@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation';
 // import { cache } from "react";
 import { getAppVersion } from "./app";
 import { set, get, del } from 'idb-keyval';
-import util from 'node:util';
+// import util from 'node:util';
 
 
 
@@ -75,6 +75,7 @@ export const identDeleteToken = (): void => {
 
 export const identSetToken = (token: string): boolean => {
 	set(TOKEN, token);
+	// set(TOKEN, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0yMCAwMzowMDowMCJ9.9Rwd_JiW85VciNoSpm-kQMJdlMuRXULnXQhCxl8RNn8");
 	return true;
 }
 
@@ -119,3 +120,7 @@ export async function identAskServer(login: string, mdp: string) {
 	return await data.json();
 }
 
+
+export const dcIsEmpty= () => {
+
+}

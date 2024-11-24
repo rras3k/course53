@@ -1,0 +1,88 @@
+Ecris moi un cahier des charges pour la réalisation d'une application web. 
+L'applicattion se base exlusivement sur le réseau multiversX.
+L'application doit pouvoir se connecter à un portefeuille cryptomonnaie via un ledger.
+Une fois connectée. l'application affichera toutes les cryptomonnaies du portefeuille avec leur solde.
+Lorsque l'utilisateur clique sur une cryptomonnaie listée du portefeuille, l'application affichera tout l'historique des transactions de cette cryptomonnaie par page de 30 lignes.
+Cette application sera codée avec nextjs 14 avec typescript.
+Son design sera moderne,  avec tailwind et le style devra ressembler à celui de multiversX.
+
+
+
+
+Cahier des Charges : Application Web Basée sur MultiversX
+1. Présentation du Projet
+L’objectif est de développer une application web moderne et ergonomique qui permet aux utilisateurs de gérer leur portefeuille MultiversX. Cette application se connecte à un portefeuille via un Ledger, affiche les soldes des cryptomonnaies contenues, et fournit un historique détaillé des transactions par cryptomonnaie.
+
+L’application sera développée avec Next.js 14 et TypeScript, et le design s’appuiera sur Tailwind CSS en suivant le style visuel de MultiversX.
+
+2. Objectifs et Fonctionnalités
+2.1 Objectifs
+Offrir une interface utilisateur fluide, moderne et intuitive.
+Garantir la sécurité et la confidentialité des données utilisateur.
+Intégrer des interactions avec le réseau MultiversX et le hardware Ledger.
+2.2 Fonctionnalités
+Authentification et Connexion
+Connexion sécurisée à un portefeuille MultiversX via un Ledger.
+Gestion des erreurs lors de la connexion (échec de la synchronisation, absence du Ledger, etc.).
+Affichage du Portefeuille
+Liste des cryptomonnaies présentes dans le portefeuille connecté :
+Nom de la cryptomonnaie.
+Symbole.
+Solde disponible.
+Actualisation des données en temps réel après connexion.
+Détails des Transactions
+Historique des transactions par cryptomonnaie :
+Type de transaction (envoi, réception, etc.).
+Adresse du destinataire/expéditeur.
+Montant.
+Date et heure.
+Statut de la transaction.
+Pagination par tranche de 30 transactions.
+Design
+Interface inspirée du style visuel de MultiversX.
+Responsive design pour une utilisation sur desktop et mobile.
+Animation et transitions modernes pour une expérience utilisateur fluide.
+3. Contraintes Techniques
+3.1 Technologies
+Frontend : Next.js 14 avec TypeScript.
+Design : Tailwind CSS, avec une architecture basée sur des composants réutilisables. Utiliser les composants shadcn.
+Interopérabilité : Intégration des API et SDK MultiversX.
+Sécurité : Respect des meilleures pratiques de sécurité pour la gestion des clés cryptographiques et de l’accès au portefeuille.
+3.2 Performances
+Chargement rapide des soldes et des historiques.
+Optimisation des appels réseau pour limiter les latences.
+3.3 Compatibilité
+Navigateurs supportés : Chrome, Firefox, Edge, Safari.
+Dispositifs : desktop et mobile (responsive design).
+4. Architecture de l’Application
+4.1 Organisation des Composants
+Composants de Connexion :
+Interface de connexion au Ledger.
+Gestion des états d’erreur.
+Composants d’Affichage :
+Liste des cryptomonnaies.
+Solde par cryptomonnaie.
+Composants de Transaction :
+Détails des transactions.
+Système de pagination.
+4.2 API et Services
+Utilisation des SDK MultiversX pour :
+Récupérer les soldes du portefeuille.
+Récupérer l’historique des transactions.
+Communication avec le Ledger via des librairies compatibles.
+5. Design UI/UX
+5.1 Thèmes Visuels
+Palette de couleurs et typographie similaire à MultiversX.
+Utilisation d’icônes claires et d’animations pour guider l’utilisateur.
+5.2 Responsive Design
+Composants flexibles et adaptatifs.
+Expérience utilisateur optimale sur desktop et mobile.
+
+6. Conclusion
+Cette application permettra aux utilisateurs de gérer efficacement leurs portefeuilles MultiversX tout en garantissant une expérience utilisateur optimale et sécurisée. La modernité du design et l’utilisation de technologies robustes comme Next.js et Tailwind CSS assureront des performances et une évolutivité sur le long terme.
+
+Réponds moi toujours en français
+
+
+
+
