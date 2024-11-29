@@ -1,18 +1,20 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
+import { get } from "idb-keyval";
 
 
 function ask() {
 	let promise = Notification.requestPermission();
 }
 
-async function  unSubscribe() {
-	const registration = await navigator.serviceWorker.ready;
-	const subscription = await registration.pushManager.getSubscription();
-	await subscription.unsubscribe();
-}
 
+
+function getStateNotificationUser() {
+	get("stateNotificationUser").then(() => {
+		
+	});
+}
 
 
 const Parametrage = () => {
