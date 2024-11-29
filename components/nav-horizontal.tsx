@@ -12,12 +12,15 @@ import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import Version from "./version";
 import MenuApp from './menu-app';
+import { get} from 'idb-keyval';
+
 
 export function NavHor() {
 
 	const router = useRouter();
 
 	const [openMenu, setOpenMenu] = useState(false);
+	const [hasProposition, setHasProposition] = useState(false);
 
 	// navigation mobile
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
@@ -51,6 +54,14 @@ export function NavHor() {
 	useEffect(() => {
 		setFiltreCourseFillColor(myFiltreCourseFillColor);
 	}, [filtre]);
+	
+	useEffect(() => {
+		get('hasProposition').then((value) => {
+			if (value != null && value) {
+				setHasProposition(true);
+			}
+		});
+	}, [hasProposition])
 
 	const filtreColor = getFiltreCourseColor();
 	useEffect(() => {
@@ -60,7 +71,7 @@ export function NavHor() {
 	const iconHome_className = clsx(
 		'mx-3 flex-none',
 		{
-			'bg-yellow-200': false,
+			'bg-yellow-200': hasProposition,
 		}
 	);
 	const pahtName = usePathname();
@@ -139,7 +150,7 @@ export function NavHor() {
 				</div> */}
 
 				{/* Menu */}
-				{  &&
+				{isNavMobileOpen &&
 					<div className="fixed bg-white h-full top-13 inset-x-0 p-2 transition transform origin-top-right md:hidden">
 						<div className="flex flex-col h-full">
 							<div onClick={() => goAndClose('/')} className={"h-20 my-2 flex place-items-center justify-start text-center md:w-6/12 mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>

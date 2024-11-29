@@ -3,6 +3,9 @@
 import React from "react";
 import "./globals.css";
 
+// let serviceWorkerRegistration = null;
+
+
 export default function LayoutWorker({
 	children,
 }: {
@@ -12,8 +15,11 @@ export default function LayoutWorker({
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker
 				.register("/sw.js")
-				.then((registration) => {
-					console.log("Service Worker registered with scope:", registration.scope);
+				.then((serviceWorkerRegistration) => {
+					// serviceWorkerRegistration =  navigator.serviceWorker.getRegistration();
+					console.log("kkkk navigator.serviceWorker", navigator.serviceWorker.getRegistration())
+
+					console.log("Service Worker registered with scope:", serviceWorkerRegistration.scope);
 				})
 				.catch((error) => {
 					console.error("Service Worker registration failed:", error);

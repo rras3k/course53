@@ -25,7 +25,7 @@ export default function CourseAffichage({ filtreCourse }) {
 		get("course_in_date")
 			.then(value => {
 				setCourseInDate(value);
-				console.log("lecture cache avec course_in_date", value);
+				// console.log("lecture cache avec course_in_date", value);
 
 				if ((+(value) + 3600000) < Date.now()) {
 					console.info("problème de date ****");
@@ -36,7 +36,7 @@ export default function CourseAffichage({ filtreCourse }) {
 						cache.match('/getListeCourses.json')
 							.then((response) => {
 								response?.json().then((data => {
-									console.info("info ----", data);
+									// console.info("info ----", data);
 									setErreur(false);
 									setDatas(data);
 								}))
@@ -83,7 +83,7 @@ export default function CourseAffichage({ filtreCourse }) {
 									isCourseToDo = true;
 								break;
 							case COURSE_FILTRE_PROPOSITION:
-								if (course.course_status == "1" && course.taxi_name == "")
+								if (course.course_status == "1" && (course.taxi_name == "" || course.taxi_name == null))
 									isCourseToDo = true;
 								break;
 							case COURSE_FILTRE_ANNULEE:
@@ -108,7 +108,7 @@ export default function CourseAffichage({ filtreCourse }) {
 									'bg-green-200': course.course_status == COURSE_STATUT_A_FAIRE,
 									'bg-blue-200': course.course_status == COURSE_STATUT_CLOTUREE,
 									'bg-gray-200': course.course_status == COURSE_STATUT_ANNULEE,
-									'bg-yellow-200': course.course_status == COURSE_STATUT_A_FAIRE && course.taxi_name == "",
+									'bg-yellow-200': course.course_status == COURSE_STATUT_A_FAIRE && (course.taxi_name == "" || course.taxi_name == null),
 									'mt-4': rgp_course_id_before != course.rgp_course_id,
 									'border-t-0 border-black border-solid': rgp_course_id_before == course.rgp_course_id,
 								}

@@ -68,6 +68,12 @@ export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, p
 								Aide
 							</div>
 						</div>}
+						{(pathName != "/parametrage") &&  <div onClick={() => goAndClose('/parametrage')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+							<div className="flex-auto">
+								Parametrage
+							</div>
+						</div>}
+
 						{<div onClick={() => {
 							setOpenMenu(false);
 							setIsShowDeconnexion(true)

@@ -29,7 +29,7 @@ export const COURSE_STATUT_A_FAIRE = "1";
 export const COURSE_STATUT_CLOTUREE = "2";
 
 import { listAll } from "@/data/example/list-all";
-import { isUndefined } from 'util';
+// import { isUndefined } from 'util';
 export const loadExampleListAll = () => {
 	// 
 	const data = listAll;

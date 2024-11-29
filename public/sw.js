@@ -1,5 +1,5 @@
 const CACHE_NAME = "CACHE_V_1.00";
-const DELAI_API_GET_COURSE = 6000;
+const DELAI_API_GET_COURSE = 15000;
 const URL_API_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
 
 importScripts("/compat.js");
@@ -32,6 +32,8 @@ self.addEventListener('activate', (event) => {
 			);
 		})
 	);
+	// console.log("toto,",)
+	// toto();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -53,6 +55,11 @@ self.addEventListener('fetch', (event) => {
 	}
 });
 
+self.addEventListener('load', () => {
+
+});
+
+
 // Récupération toutes les 60 secondes d'un fichier JSON et mise en cache
 function getListecourses() {
 	// console.log("getListecourses")
@@ -62,7 +69,7 @@ function getListecourses() {
 			if (token != null) {
 				// console.log("Envoi de la demande des courses ", token);
 				getListecourses2(token)
-				
+
 			}
 		});
 	}, DELAI_API_GET_COURSE);
@@ -88,12 +95,16 @@ async function getListecourses2(token) {
 			else {
 				cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
 				set('course_in_date', Date.now());
+				if (dcHasProposition(data)) {
+
+					showNotification();
+				}
 			}
 			// console.log("isIDent", isIdent);
 		});
 	}
 	catch (e) {
-		console.error("SEB",e);
+		console.error("SEB", e);
 	}
 }
 getListecourses();
@@ -108,3 +119,67 @@ const dcIsIdent = (data) => {
 	if (data?.retour) return true;
 	return false;
 }
+
+const dcHasProposition = (datas) => {
+	let hasProposition = false;
+
+	datas.data.courses.map((course) => {
+		hasProposition = hasProposition || (course.course_status == "1" && (course.taxi_name == "" || course.taxi_name == null));
+	});
+	console.log("hasProposition", hasProposition);
+	set('hasProposition', hasProposition);
+	sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
+	return hasProposition;
+}
+
+
+const sendNotification = async (title, text) => {
+	if (Notification.permission === 'granted') {
+		showNotification(title, text);
+	}
+	else {
+		if (Notification.permission !== 'denied') {
+			const permission = await Notification.requestPermission();
+
+			if (permission === 'granted') {
+				showNotification(title, text);
+			}
+		}
+	}
+};
+const showNotification = async (title, text) => {
+	if (title && text) {
+		const payload = {
+			body: String(text),
+			icon: "/icons/icon-192x192.png",
+			requireInteraction: true
+
+		};
+		if ('showNotification' in registration) {
+			registration.showNotification(String(title), payload);
+		}
+		else {
+			new Notification(String(title), payload);
+		}
+	}
+};
+
+// const payload = {
+// 	body: text,
+// 	icon: "/icons/icon-192x192.png",
+// 	requireInteraction: true,
+// 	tag: "vibration-sample",
+// 	renotify: true
+// tag: 'renotify',
+// 	renotify: true
+// };
+
+
+// actions: [
+// 	{
+// 		action: 'coffee-action',
+// 		title: 'Coffee',
+// 		type: 'button',
+// 		icon: '/images/demos/action-1-128x128.png',
+// 	}
+// ]
