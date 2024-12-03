@@ -17,6 +17,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { ViewVerticalIcon } from "@radix-ui/react-icons"
+import { HamburgerMenuIcon } from "@radix-ui/react-icons"
+
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -278,11 +280,39 @@ const SidebarTrigger = React.forwardRef<
       {...props}
     >
       <ViewVerticalIcon />
+
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
 })
 SidebarTrigger.displayName = "SidebarTrigger"
+
+const SidebarMobTrigger = React.forwardRef<
+  React.ElementRef<typeof Button>,
+  React.ComponentProps<typeof Button>
+>(({ className, onClick, ...props }, ref) => {
+  const { toggleSidebar } = useSidebar()
+
+  return (
+    <Button
+      ref={ref}
+      data-sidebar="trigger"
+      variant="ghost"
+      size="icon"
+      className={cn("h-7 w-7", className)}
+      onClick={(event) => {
+        onClick?.(event)
+        toggleSidebar()
+      }}
+      {...props}
+    >
+      <HamburgerMenuIcon />
+
+      <span className="sr-only">Toggle Sidebar</span>
+    </Button>
+  )
+})
+SidebarMobTrigger.displayName = "SidebarMobTrigger" 
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
@@ -758,5 +788,6 @@ export {
   SidebarRail,
   SidebarSeparator,
   SidebarTrigger,
+  SidebarMobTrigger,
   useSidebar,
 }
