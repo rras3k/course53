@@ -1,37 +1,41 @@
 "use client"
 
 import * as React from "react"
+import imgHome from "@/public/icons/icon-48x48.png";
+import { twMerge } from "tailwind-merge";
+import { clsx } from 'clsx';
+import { useState, useEffect } from 'react';
+import { get } from 'idb-keyval';
+import Image from "next/image";
+
+
 import {
-	BookOpen,
-	Bot,
-	Command,
 	Frame,
-	LifeBuoy,
 	Map,
 	PieChart,
-	Send,
 	Settings2,
 	SquareTerminal,
-	CircleFadingArrowUp,
+	MessageSquareMore,
 	Car,
-	MessageSquareMore
-} from "lucide-react" 
+	CircleHelp,
+	Settings
+} from "lucide-react"
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
 	Sidebar,
+	SidebarMenu,
 	SidebarContent,
 	SidebarFooter,
 	SidebarHeader,
-	SidebarMenu,
-	SidebarMenuButton,
+	SidebarRail,
 	SidebarMenuItem,
+	SidebarMenuButton
 } from "@/components/ui/sidebar"
+import { getAppVersion } from "@/lib/rrasb2k/app";
 
-import { getAppVersion } from "@/lib/app"
-
+const version = getAppVersion();
 
 const data = {
 	user: {
@@ -39,27 +43,35 @@ const data = {
 		email: "m@example.com",
 		avatar: "/avatars/shadcn.jpg",
 	},
+	team:
+	{
+		name: "Course 53",
+		logo: imgHome,
+		comment: "Artaxi " + version,
+	},
+
+
 	navMain: [
 		{
 			title: "Courses",
 			url: "/",
 			icon: Car,
-			isActive: false,
+			isActive: true,
 			items: [
 				{
-					title: "Normales",
-					url: "/",
+					title: "A faire",
+					url: "#",
 				},
 				{
 					title: "Propositions",
-					url: "/course?filtre=",
-				},
-				{
-					title: "Clôturées",
 					url: "#",
 				},
 				{
 					title: "Annulées",
+					url: "#",
+				},
+				{
+					title: "Cloturées",
 					url: "#",
 				},
 				{
@@ -72,12 +84,11 @@ const data = {
 			title: "Messages",
 			url: "/messages",
 			icon: MessageSquareMore,
-			
 		},
 		{
 			title: "Documentation",
-			url: "#",
-			icon: BookOpen,
+			url: "/aide",
+			icon: CircleHelp,
 			items: [
 				{
 					title: "Introduction",
@@ -103,45 +114,72 @@ const data = {
 			icon: Settings2,
 			items: [
 				{
-					title: "Notifications",
-					url: "/parametres/#",
+					title: "General",
+					url: "#",
 				},
-				
+				{
+					title: "Team",
+					url: "#",
+				},
+				{
+					title: "Billing",
+					url: "#",
+				},
+				{
+					title: "Limits",
+					url: "#",
+				},
 			],
 		},
 	],
-	navSecondary: [
-		{
-			title: getAppVersion(),
-			url: "https://artaxi-laval.fr/chancelog",
-			icon: CircleFadingArrowUp,
-		},
-		
-	],
 	projects: [
 		{
-			name: "Test",
-			url: "/test",
+			name: "Design Engineering",
+			url: "#",
 			icon: Frame,
 		},
-		
+		{
+			name: "Sales & Marketing",
+			url: "#",
+			icon: PieChart,
+		},
+		{
+			name: "Travel",
+			url: "#",
+			icon: Map,
+		},
 	],
 }
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+	const [hasProposition, setHasProposition] = useState(false);
+
+	useEffect(() => {
+		get('hasProposition').then((value) => {
+			if (value != null && value) {
+				setHasProposition(true);
+			}
+		});
+	}, [hasProposition])
+	const iconHome_className = clsx(
+		'mx-3 flex-none',
+		{
+			'bg-yellow-200': hasProposition,
+		}
+	);
 	return (
-		<Sidebar variant="inset" {...props}>
+		<Sidebar collapsible="icon" {...props}>
 			<SidebarHeader>
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="lg" asChild>
 							<a href="#">
-								<div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-									<Command className="size-4" />
+								<div className="flex aspect-square size-8 items-center justify-center rounded-lg  text-sidebar-primary-foreground">
+									<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
+
 								</div>
-								<div className="grid flex-1 text-left text-sm leading-tight">
-									<span className="truncate font-semibold">Acme Inc</span>
-									<span className="truncate text-xs">Enterprise</span>
+								<div className="flex flex-col gap-0.5 leading-none">
+									<span className="font-semibold">{data.team.name}</span>
+									<span className="">{data.team.comment}</span>
 								</div>
 							</a>
 						</SidebarMenuButton>
@@ -150,12 +188,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 			</SidebarHeader>
 			<SidebarContent>
 				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
-				<NavSecondary items={data.navSecondary} className="mt-auto" />
+				{/* <NavProjects projects={data.projects} /> */}
 			</SidebarContent>
 			<SidebarFooter>
 				<NavUser user={data.user} />
 			</SidebarFooter>
+			<SidebarRail />
 		</Sidebar>
 	)
 }

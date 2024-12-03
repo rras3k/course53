@@ -1,7 +1,7 @@
 'use client'
 import { useSearchParams } from 'next/navigation';
 // import { cache } from "react";
-import { getAppVersion } from "./app";
+import { getAppVersion } from "./rrasb2k/app";
 import { set, get, del } from 'idb-keyval';
 // import util from 'node:util';
 
