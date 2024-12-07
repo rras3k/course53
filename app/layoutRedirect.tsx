@@ -13,7 +13,6 @@ export default function LayoutRedirect({ children, path }: { children: React.Rea
 
 	React.useEffect(() => {
 		if (!pathExcept.includes(pahtName)) {
-
 			get(TOKEN)
 				.then(value => {
 					if (value == undefined) {

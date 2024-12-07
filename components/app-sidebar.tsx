@@ -37,120 +37,120 @@ import { getAppVersion } from "@/lib/rrasb2k/app";
 
 const version = getAppVersion();
 
-const data = {
-	user: {
-		name: "shadcn",
-		email: "m@example.com",
-		avatar: "/avatars/shadcn.jpg",
-	},
-	team:
-	{
-		name: "Course 53",
-		logo: imgHome,
-		comment: "Artaxi " + version,
-	},
+// const data = {
+// 	user: {
+// 		name: "shadcn",
+// 		email: "m@example.com",
+// 		avatar: "/avatars/shadcn.jpg",
+// 	},
+// 	team:
+// 	{
+// 		name: "Course 53",
+// 		logo: imgHome,
+// 		comment: "Artaxi, " + version,
+// 	},
 
 
-	navMain: [
-		{
-			title: "Courses",
-			url: "/",
-			icon: Car,
-			isActive: true,
-			items: [
-				{
-					title: "A faire",
-					url: "#",
-				},
-				{
-					title: "Propositions",
-					url: "#",
-				},
-				{
-					title: "Annulées",
-					url: "#",
-				},
-				{
-					title: "Cloturées",
-					url: "#",
-				},
-				{
-					title: "Toutes",
-					url: "#",
-				},
-			],
-		},
-		{
-			title: "Messages",
-			url: "/messages",
-			icon: MessageSquareMore,
-		},
-		{
-			title: "Documentation",
-			url: "/aide",
-			icon: CircleHelp,
-			items: [
-				{
-					title: "Introduction",
-					url: "#",
-				},
-				{
-					title: "Get Started",
-					url: "#",
-				},
-				{
-					title: "Tutorials",
-					url: "#",
-				},
-				{
-					title: "Changelog",
-					url: "#",
-				},
-			],
-		},
-		{
-			title: "Paramètres",
-			url: "/parametres",
-			icon: Settings2,
-			items: [
-				{
-					title: "General",
-					url: "#",
-				},
-				{
-					title: "Team",
-					url: "#",
-				},
-				{
-					title: "Billing",
-					url: "#",
-				},
-				{
-					title: "Limits",
-					url: "#",
-				},
-			],
-		},
-	],
-	projects: [
-		{
-			name: "Design Engineering",
-			url: "#",
-			icon: Frame,
-		},
-		{
-			name: "Sales & Marketing",
-			url: "#",
-			icon: PieChart,
-		},
-		{
-			name: "Travel",
-			url: "#",
-			icon: Map,
-		},
-	],
-}
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+// 	navMain: [
+// 		{
+// 			title: "Courses",
+// 			url: "/",
+// 			icon: Car,
+// 			isActive: true,
+// 			items: [
+// 				{
+// 					title: "A faire",
+// 					url: "/",
+// 				},
+// 				{
+// 					title: "Propositions",
+// 					url: "/",
+// 				},
+// 				{
+// 					title: "Annulées",
+// 					url: "/",
+// 				},
+// 				{
+// 					title: "Cloturées",
+// 					url: "/",
+// 				},
+// 				{
+// 					title: "Toutes",
+// 					url: "/",
+// 				},
+// 			],
+// 		},
+// 		{
+// 			title: "Messages",
+// 			url: "/messages",
+// 			icon: MessageSquareMore,
+// 		},
+// 		{
+// 			title: "Documentation",
+// 			url: "/aide",
+// 			icon: CircleHelp,
+// 			items: [
+// 				{
+// 					title: "Introduction",
+// 					url: "/aide",
+// 				},
+// 				{
+// 					title: "Get Started",
+// 					url: "#",
+// 				},
+// 				{
+// 					title: "Tutorials",
+// 					url: "#",
+// 				},
+// 				{
+// 					title: "Changelog",
+// 					url: "#",
+// 				},
+// 			],
+// 		},
+// 		{
+// 			title: "Paramètres",
+// 			url: "/parametres",
+// 			icon: Settings2,
+// 			items: [
+// 				{
+// 					title: "General",
+// 					url: "#",
+// 				},
+// 				{
+// 					title: "Team",
+// 					url: "#",
+// 				},
+// 				{
+// 					title: "Billing",
+// 					url: "#",
+// 				},
+// 				{
+// 					title: "Limits",
+// 					url: "#",
+// 				},
+// 			],
+// 		},
+// 	],
+// 	projects: [
+// 		{
+// 			name: "Design Engineering",
+// 			url: "#",
+// 			icon: Frame,
+// 		},
+// 		{
+// 			name: "Sales & Marketing",
+// 			url: "#",
+// 			icon: PieChart,
+// 		},
+// 		{
+// 			name: "Travel",
+// 			url: "#",
+// 			icon: Map,
+// 		},
+// 	],
+// }
+export function AppSidebar({ data, ...props }: React.ComponentProps<typeof Sidebar>) {
 	const [hasProposition, setHasProposition] = useState(false);
 
 	useEffect(() => {
@@ -175,7 +175,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 							<a href="#">
 								<div className="flex aspect-square size-8 items-center justify-center rounded-lg  text-sidebar-primary-foreground">
 									<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
-
 								</div>
 								<div className="flex flex-col gap-0.5 leading-none">
 									<span className="font-semibold">{data.team.name}</span>
