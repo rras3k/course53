@@ -1,6 +1,10 @@
 "use client"
 
 import * as React from "react"
+import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+
+
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { useIsMobile } from "@/hooks/use-mobile"
@@ -287,6 +291,7 @@ const SidebarTrigger = React.forwardRef<
 })
 SidebarTrigger.displayName = "SidebarTrigger"
 
+
 const SidebarMobTrigger = React.forwardRef<
   React.ElementRef<typeof Button>,
   React.ComponentProps<typeof Button>
@@ -312,7 +317,88 @@ const SidebarMobTrigger = React.forwardRef<
     </Button>
   )
 })
-SidebarMobTrigger.displayName = "SidebarMobTrigger" 
+SidebarMobTrigger.displayName = "SidebarMobTrigger"
+
+
+// -------------------------------------------------------------------
+/*
+onst SidebarHeader = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, ...props }, ref) => {
+  return (
+    <div
+      ref={ref}
+      data-sidebar="header"
+      className={cn("flex flex-col gap-2 p-2", className)}
+      {...props}
+    />
+  )
+})
+SidebarHeader.displayName = "SidebarHeader"
+*/
+
+const SidebarLink = ({ className, href, ...props }) => {
+  const isMobile = useIsMobile()
+  const { toggleSidebar } = useSidebar()
+  const router = useRouter();
+  return (
+    <div
+      className={cn(sidebarMenuButtonVariants({  }), className)}
+      {...props}
+      onClick={(event) => {
+        if (isMobile) {
+          console.log("oui c'est mobile")
+          toggleSidebar()
+
+        }
+        router.push(href.toString());
+        console.log("Après redirection ", href.toString())
+
+      }}
+    >
+
+    </div>
+  )
+
+}
+
+
+
+
+
+
+// const SidebarLink = React.forwardRef<
+//   React.ElementRef<typeof Link>,
+//   React.ComponentProps<typeof Link>
+// >(({ className, href, children, ...props }) => {
+//   const isMobile = useIsMobile()
+//   const { toggleSidebar } = useSidebar()
+//   const router = useRouter();
+
+//   return (
+//     <Link
+//       className={cn("h-7 w-7", className)}
+//       href="#"
+//       onClick={(event) => {
+//         if (isMobile) {
+//           console.log("oui c'est mobile")
+//           toggleSidebar()
+
+//         }
+//         router.push(href.toString());
+//         console.log("Après redirection ", href.toString())
+
+//       }}
+//       {...props}
+//     >
+//       {children}
+//     </Link>
+//   )
+// })
+// SidebarLink.displayName = "SidebarLink"
+
+
 
 const SidebarRail = React.forwardRef<
   HTMLButtonElement,
@@ -643,7 +729,7 @@ const SidebarMenuAction = React.forwardRef<
         "peer-data-[size=lg]/menu-button:top-2.5",
         "group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
+        "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground md:opacity-0",
         className
       )}
       {...props}
@@ -790,4 +876,5 @@ export {
   SidebarTrigger,
   SidebarMobTrigger,
   useSidebar,
+  SidebarLink
 }
