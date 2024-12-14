@@ -1,0 +1,53 @@
+
+import { Cpu, MoonIcon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+import { set, get, del } from 'idb-keyval';
+import { useState, useEffect, useLayoutEffect } from 'react';
+
+import {
+	ToggleGroup,
+	ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+const modeDefault = "light"
+
+const ChoixLuminosite = () => {
+	const [modeLuminosite, setModeLuminosite] = useState(modeDefault);
+
+	const changeMode = (mode: string) => {
+		setTheme(mode)
+		set("mode-lum", mode)
+		setModeLuminosite(mode)
+	}
+	
+	useEffect(() => {
+		get("mode-lum")
+			.then((modeSvg) => {
+				setModeLuminosite(modeSvg)
+			})
+			.catch(e => {
+				set("mode-lum", modeDefault)
+				setModeLuminosite(modeDefault)
+			})
+	})
+
+	const { setTheme } = useTheme()
+
+	return (
+		<ToggleGroup type="single" value={modeLuminosite} onValueChange={(value) => {
+			if (value) setModeLuminosite(value);
+		}}  className="h-12 ">
+
+			<ToggleGroupItem onClick={() => changeMode("light")} value="light" aria-label="Toggle bold">
+				<Sun size="40" className="" />
+			</ToggleGroupItem>
+			<ToggleGroupItem onClick={() => changeMode("dark")} value="dark" aria-label="Toggle italic">
+				<MoonIcon className="h-4 w-4" />
+			</ToggleGroupItem>
+			<ToggleGroupItem onClick={() => changeMode("system")} value="system" aria-label="Toggle strikethrough">
+				<Cpu className="h-4 w-4" />
+			</ToggleGroupItem>
+		</ToggleGroup>
+	)
+}
+export default ChoixLuminosite

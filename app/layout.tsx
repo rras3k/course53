@@ -104,6 +104,7 @@ export default function RootLayout({
 
   return (
     <html lang="fr">
+      <head/>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
