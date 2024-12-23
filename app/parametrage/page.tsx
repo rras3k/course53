@@ -3,6 +3,8 @@
 import ChoixLuminosite from "@/components/choix-luminosite";
 import { Encart, EncartLabel, EncartContent } from "@/components/rrasb2k/encart";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 import { get } from "idb-keyval";
 
 function ask() {
@@ -17,6 +19,23 @@ function getStateNotificationUser() {
 	});
 }
 
+
+let deferredEvent;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  // prevent the browser from displaying the default install dialog
+  e.preventDefault();
+  
+  // Stash the event so it can be triggered later when the user clicks the button
+  deferredEvent = e;
+});
+
+installButton.addEventListener('click', () => {
+  // if the deferredEvent exists, call its prompt method to display the install dialog
+  if(deferredEvent) {
+    deferredEvent.prompt();
+  }
+});
 
 const Parametrage = () => {
 	return (
@@ -43,9 +62,15 @@ const Parametrage = () => {
 						</EncartLabel>
 						<EncartContent>
 							<ChoixLuminosite />
-
 						</EncartContent>
-
+					</Encart>
+					<Encart>
+						<EncartLabel>
+							Afficher des notfications
+						</EncartLabel>
+						<EncartContent>
+							<Switch id="notification" />
+						</EncartContent>
 					</Encart>
 
 				</div>

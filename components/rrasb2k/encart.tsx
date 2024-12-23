@@ -9,7 +9,7 @@ const Encart = React.forwardRef<
 	<div
 		ref={ref}
 		className={cn(
-			"flex rounded-xl items-center  shadow",
+			"flex w-max rounded-xl items-center py-4 my-2 shadow",
 			className
 		)}
 		{...props}
@@ -24,7 +24,7 @@ const EncartLabel = React.forwardRef<
 	<div
 		ref={ref}
 		className={cn(
-			"rounded-xl    mx-4",
+			"rounded-xl  w-80  mx-4",
 			className
 		)}
 		{...props}
@@ -40,7 +40,7 @@ const EncartContent = React.forwardRef<
 	<div
 		ref={ref}
 		className={cn(
-			"",
+			"flex justify-center",
 			className
 		)}
 		{...props}

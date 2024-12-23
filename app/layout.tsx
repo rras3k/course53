@@ -1,13 +1,13 @@
-"use client"
+// "use client"
 
-// import type { Metadata } from "next";
+import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-// import { NavHor } from "@/components/nav-horizontal";
+import { NavHor } from "@/components/nav-horizontal";
 import { ThemeProvider } from "@/components/theme-provider"
 import LayoutWorker from "./layoutWorker";
 import React from "react";
-// import LayoutRedirect from "./layoutRedirect";
+import LayoutRedirect from "./layoutRedirect";
 import { SidebarInset, SidebarProvider, SidebarTrigger, SidebarMobTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Separator } from "@radix-ui/react-separator";
@@ -35,8 +35,8 @@ import {
 
 import { useRouter, usePathname } from "next/navigation";
 
-import { get } from "idb-keyval";
-import { TOKEN } from "@/lib/artaxi";
+// import { get } from "idb-keyval";
+// import { TOKEN } from "@/lib/artaxi";
 import imgHome from "@/public/icons/icon-48x48.png";
 
 import { getAppVersion } from "@/lib/rrasb2k/app";
@@ -54,8 +54,15 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+export const metadata: Metadata = {
+  title: "Course 53",
+  description: "gestion des courses du service TULIB de LAVAL",
+  manifest: "/manifest.json"
+};
 
 import { menu } from "@/data/menu/menu_p1";
+import LayoutInstallation from "./layoutInstallation";
+import LayoutInit from "./layoutInit";
 
 const data = {
   navMain: menu,
@@ -78,33 +85,58 @@ export default function RootLayout({
 }>) {
 
 
+  // const [hasNav, setHasNav] = React.useState(true);
 
-  const [hasNav, setHasNav] = React.useState(true);
 
+  // const router = useRouter();
+  // const pahtName = usePathname();
+  // const pathExcept = [];
+  // // const pathExcept = ["/test", "/aide"];
 
-  const router = useRouter();
-  const pahtName = usePathname();
-  const pathExcept = [];
-  // const pathExcept = ["/test", "/aide"];
-
-  React.useEffect(() => {
-    if (!pathExcept.includes(pahtName)) {
-      get(TOKEN)
-        .then(value => {
-          if (value == undefined) {
-            router.push("/identification")
-            setHasNav(false);
-          }
-        })
-        .catch(e => {
-        })
-    }
-  },
-    [router, pahtName]);
+  // React.useEffect(() => {
+  //   if (!pathExcept.includes(pahtName)) {
+  //     get(TOKEN)
+  //       .then(value => {
+  //         if (value == undefined) {
+  //           router.push("/identification")
+  //           setHasNav(false);
+  //         }
+  //       })
+  //       .catch(e => {
+  //       })
+  //   }
+  // },[router, pahtName]);
 
   return (
     <html lang="fr">
-      <head/>
+      {/* <head/> */}
+      <body>
+        {/* <LayoutWorker> */}
+        {/* <LayoutWorker> */}
+        {/* <LayoutRedirect path="kkkkk">  */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <LayoutInit>
+
+            {/* <NavHor /> */}
+            <div className="pt-14">
+              <div className="mx-auto md:w-[768px]">
+                {children}
+              </div>
+            </div>
+          </LayoutInit>
+        </ThemeProvider>
+        {/* </LayoutRedirect> */}
+        {/* </LayoutInstallation> */}
+        {/* </LayoutWorker> */}
+
+      </body>
+      {/* 
+      
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -115,56 +147,59 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased   `}
         >
 
-          {/* <LayoutWorker> */}
-          {/* <LayoutRedirect path="kkkkk"> */}
+          <LayoutWorker>
+            <LayoutRedirect path="kkkkk">
 
-          {hasNav &&
-            <SidebarProvider>
-              <AppSidebar data={data} />
-              <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                  <div className="flex items-center gap-2 px-4 w-full">
-                    <div className="flex flex-1 items-center w-5/6">
-                      <SidebarTrigger className="-ml-1 hidden md:block" />
-                      <Separator orientation="vertical" className="mr-2 h-4" />
-                      <div className="flex items-center md:hidden ">
-                        <HomeLogo />
-                        <Separator orientation="vertical" className="mr-2 h-4" />
+              {hasNav &&
+          
+              
+                <SidebarProvider>
+                  { <AppSidebar data={data} /> }
+                  <SidebarInset>
+                    <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                      <div className="flex items-center gap-2 px-4 w-full">
+                        <div className="flex flex-1 items-center w-5/6">
+                          <SidebarTrigger className="-ml-1 hidden md:block" />
+                          <Separator orientation="vertical" className="mr-2 h-4" />
+                          <div className="flex items-center md:hidden ">
+                            <HomeLogo />
+                            <Separator orientation="vertical" className="mr-2 h-4" />
+                          </div>
+                          <Breadcrumb>
+                            <BreadcrumbList>
+                              <BreadcrumbItem className="hidden md:block">
+                                <BreadcrumbLink href="#">
+                                  Building Your Application
+                                </BreadcrumbLink>
+                              </BreadcrumbItem>
+                              <BreadcrumbSeparator className="hidden md:block" />
+                              <BreadcrumbItem>
+                                <BreadcrumbPage>Data Fetchinmmg</BreadcrumbPage>
+                              </BreadcrumbItem>
+                            </BreadcrumbList>
+                          </Breadcrumb>
+                        </div>
+                        <div className="flex-none items-center md:hidden">
+                          <SidebarMobTrigger className="-ml-1" />
+                        </div>
                       </div>
-                      <Breadcrumb>
-                        <BreadcrumbList>
-                          <BreadcrumbItem className="hidden md:block">
-                            <BreadcrumbLink href="#">
-                              Building Your Application
-                            </BreadcrumbLink>
-                          </BreadcrumbItem>
-                          <BreadcrumbSeparator className="hidden md:block" />
-                          <BreadcrumbItem>
-                            <BreadcrumbPage>Data Fetchinmmg</BreadcrumbPage>
-                          </BreadcrumbItem>
-                        </BreadcrumbList>
-                      </Breadcrumb>
-                    </div>
-                    <div className="flex-none items-center md:hidden">
-                      <SidebarMobTrigger className="-ml-1" />
-                    </div>
-                  </div>
-                </header>
-                {children}
-              </SidebarInset>
-            </SidebarProvider>
-          }
+                    </header>
+                    {children}
+                  </SidebarInset>
+                </SidebarProvider>
+              }
 
-          {!hasNav &&
-            <>
-              {children}
-            </>
-          }
-          {/* </LayoutRedirect> */}
-          {/* </LayoutWorker> */}
+              {!hasNav &&
+                <>
+                  {children}
+                </>
+              }
+          
+            </LayoutRedirect>
+          </LayoutWorker>
 
         </body>
-      </ThemeProvider>
+      </ThemeProvider> */}
 
     </html>
   );
