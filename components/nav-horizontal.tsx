@@ -16,6 +16,7 @@ import { get} from 'idb-keyval';
 
 
 export function NavHor() {
+	console.log("dans navHor")
 
 	const router = useRouter();
 

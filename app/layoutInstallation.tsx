@@ -15,7 +15,6 @@ export default function LayoutInstallation({ children }: { children: React.React
 	const router = useRouter();
 	const pahtName = usePathname();
 
-
 	useEffect(() => {
 		if (!isPwaInstalled() && pahtName!=="/installation") {
 			console.log("ooooo", isPwaInstalled(), getPWADisplayMode())

@@ -5,7 +5,10 @@ import { Encart, EncartLabel, EncartContent } from "@/components/rrasb2k/encart"
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { get } from "idb-keyval";
+import { set, get, del } from 'idb-keyval';
+import { useEffect, useState } from "react";
+
+
 
 function ask() {
 	let promise = Notification.requestPermission();
@@ -13,68 +16,67 @@ function ask() {
 
 
 
-function getStateNotificationUser() {
-	get("stateNotificationUser").then(() => {
-
-	});
-}
 
 
-let deferredEvent;
+// let deferredEvent;
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  // prevent the browser from displaying the default install dialog
-  e.preventDefault();
-  
-  // Stash the event so it can be triggered later when the user clicks the button
-  deferredEvent = e;
-});
-
-installButton.addEventListener('click', () => {
-  // if the deferredEvent exists, call its prompt method to display the install dialog
-  if(deferredEvent) {
-    deferredEvent.prompt();
-  }
-});
+// window.addEventListener('beforeinstallprompt', (e) => {
+//   e.preventDefault();
+//   deferredEvent = e;
+// });
 
 const Parametrage = () => {
+	const [canDisplayNotifications, setcanDisplayNotifications] = useState(false);
+	const [displayNotifications, setdisplayNotifications] = useState(false);
+
+	useEffect(() => {
+		if (("Notification" in window)) {
+			setcanDisplayNotifications(true)
+		}
+	})
+	useEffect(() => {
+		get("stateDisplayNotification")
+			.then((value) => {
+				setdisplayNotifications(value === true)
+			})
+			.catch((e) => {
+				setdisplayNotifications(false)
+			})
+	})
+
+	function SwitchDisplayNotification(state:boolean) {
+		setdisplayNotifications(state)
+		set("stateDisplayNotification", state)
+	}
+
 	return (
 		<>
-			<Button onClick={ask}>ask</Button>
-			{/* <Button onClick={unSubscribe}>unSubscribe</Button> */}
 			<div className="flex flex-1 flex-col gap-4 px-4 py-10 items-center ">
-				{/* <div className="mx-auto h-24 w-full max-w-3xl rounded-xl bg-muted/50">
-					Mode de luminosité
-					<ChoixLuminosite />
-				</div>
-				<div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50" >
-					<Encart className="bg-muted text-red-700">
-						Mode de luminosité
-						<ChoixLuminosite />
-
-					</Encart>
-				</div> */}
-				<div className="mx-auto h-full w-full max-w-3xl rounded-xl bg-muted/50" >
-
-					<Encart>
+				<div className="flex flex-col mx-auto w-full " >
+					<Encart className="">
 						<EncartLabel>
-							Mode de luminosité
+							Mode d'éclairage
 						</EncartLabel>
 						<EncartContent>
 							<ChoixLuminosite />
 						</EncartContent>
 					</Encart>
-					<Encart>
+					{!canDisplayNotifications && <Encart>
+						<EncartLabel>
+							Notification non supporté par votre navigateur
+						</EncartLabel>
+					</Encart>}
+					{canDisplayNotifications && <Encart className="">
 						<EncartLabel>
 							Afficher des notfications
 						</EncartLabel>
 						<EncartContent>
-							<Switch id="notification" />
+							<Switch id="notification" checked={displayNotifications}
+								onCheckedChange={SwitchDisplayNotification} />
 						</EncartContent>
-					</Encart>
-
+					</Encart>}
 				</div>
-			</div>
+			</div >
 		</>
 	)
 }

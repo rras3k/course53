@@ -34,17 +34,17 @@ const ChoixLuminosite = () => {
 	const { setTheme } = useTheme()
 
 	return (
-		<ToggleGroup type="single" value={modeLuminosite} onValueChange={(value) => {
+		<ToggleGroup type="single" size="lg" variant="outline" value={modeLuminosite} onValueChange={(value) => {
 			if (value) setModeLuminosite(value);
 		}}  className="h-12 ">
 
 			<ToggleGroupItem onClick={() => changeMode("light")} value="light" aria-label="Toggle bold">
 				<Sun size="40" className="" />
 			</ToggleGroupItem>
-			<ToggleGroupItem onClick={() => changeMode("dark")} value="dark" aria-label="Toggle italic">
+			<ToggleGroupItem onClick={() => changeMode("dark")} value="dark" aria-label="Toggle bold">
 				<MoonIcon className="h-4 w-4" />
 			</ToggleGroupItem>
-			<ToggleGroupItem onClick={() => changeMode("system")} value="system" aria-label="Toggle strikethrough">
+			<ToggleGroupItem onClick={() => changeMode("system")} value="system" aria-label="Toggle bold">
 				<Cpu className="h-4 w-4" />
 			</ToggleGroupItem>
 		</ToggleGroup>

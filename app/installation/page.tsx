@@ -2,10 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from "next/navigation";
 
-let deferredEvent:typeof event | undefined = undefined;
+
+let deferredEvent: typeof event | undefined = undefined;
 
 const Installation = () => {
+	const router = useRouter();
+	
+
+
+	const [installClick, setinstallClick] = useState(false);
 
 	const [allreadyInstall, setallreadyInstall] = useState(true);
 
@@ -13,13 +20,14 @@ const Installation = () => {
 		console.log("installAppClick deferredEvent", deferredEvent)
 		if (deferredEvent) {
 			deferredEvent.prompt();
+			setinstallClick(true)
 		}
 		else {
 			console.log(" deferredEvent undefined")
 		}
 	}
 
-	useEffect(()=> {
+	useEffect(() => {
 
 		window.addEventListener('beforeinstallprompt', (e) => {
 			// prevent the browser from displaying the default install dialog
@@ -32,7 +40,8 @@ const Installation = () => {
 	})
 	return (
 		<>
-			<Button onClick={installAppClick} className={allreadyInstall ? " hidden" : ""}>Installation de l'application Course 53 </Button>
+			{installClick && <Button onClick={() => { router.push("/identification") }}>Continuer...</Button>}
+			{!installClick && <Button onClick={installAppClick} className={allreadyInstall ? " hidden" : ""}>Installation de l'application Course 53 </Button>}
 			<div className={allreadyInstall ? " " : " hidden"}>Lancer Course 53 depuis la liste de vos applications</div>
 		</>
 	)

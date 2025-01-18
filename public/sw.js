@@ -4,6 +4,9 @@ const URL_API_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
 
 importScripts("/compat.js");
 
+// let a = process.env.NEXT_PUBLIC_APP_ONLY
+// console.log("aaa",a)
+
 const ASSETS_TO_CACHE = [
 	'/manifest.json'
 ];
@@ -96,7 +99,7 @@ async function getListecourses2(token) {
 				cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
 				set('course_in_date', Date.now());
 				if (dcHasProposition(data)) {
-
+					console.log("has notification !!!!")
 					showNotification();
 				}
 			}
@@ -109,9 +112,6 @@ async function getListecourses2(token) {
 }
 getListecourses();
 
-/* 
-eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0yMCAwMzowMDowMCJ9.9Rwd_JiW85VciNoSpm-kQMJdlMuRXULnXQhCxl8RNn8
-*/
 
 
 const dcIsIdent = (data) => {
@@ -134,18 +134,28 @@ const dcHasProposition = (datas) => {
 
 
 const sendNotification = async (title, text) => {
-	if (Notification.permission === 'granted') {
-		showNotification(title, text);
-	}
-	else {
-		if (Notification.permission !== 'denied') {
-			const permission = await Notification.requestPermission();
-
-			if (permission === 'granted') {
-				showNotification(title, text);
+	get("stateDisplayNotification")
+		.then((value) => {
+			console.log("stateDisplayNotification value = ", value)
+			if (value) {
+				if (Notification.permission === 'granted') {
+					showNotification(title, text);
+				}
+				else {
+					if (Notification.permission !== 'denied') {
+						Notification.requestPermission()
+							.then((permission)=>{
+							if (permission === 'granted') {
+								showNotification(title, text);
+							}
+						})
+					}
+				}
 			}
-		}
-	}
+		})
+		.catch((e) => {
+			console.log("error get(stateDisplayNotification)")
+		})
 };
 const showNotification = async (title, text) => {
 	if (title && text) {
@@ -164,22 +174,3 @@ const showNotification = async (title, text) => {
 	}
 };
 
-// const payload = {
-// 	body: text,
-// 	icon: "/icons/icon-192x192.png",
-// 	requireInteraction: true,
-// 	tag: "vibration-sample",
-// 	renotify: true
-// tag: 'renotify',
-// 	renotify: true
-// };
-
-
-// actions: [
-// 	{
-// 		action: 'coffee-action',
-// 		title: 'Coffee',
-// 		type: 'button',
-// 		icon: '/images/demos/action-1-128x128.png',
-// 	}
-// ]

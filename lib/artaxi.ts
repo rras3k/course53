@@ -71,6 +71,12 @@ export const TOKEN: string = "token";
 
 export const identDeleteToken = (): void => {
 	del(TOKEN);
+	del("hasProposition");
+	del("course_in_date");
+
+}
+export const hasPropositionDelete = (): void => {
+	del("hasProposition");
 }
 
 export const identSetToken = (token: string): boolean => {
@@ -121,6 +127,9 @@ export async function identAskServer(login: string, mdp: string) {
 }
 
 
-export const dcIsEmpty= () => {
+export const dcIsEmpty = () => {
 
 }
+
+
+

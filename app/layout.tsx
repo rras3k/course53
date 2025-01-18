@@ -12,6 +12,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger, SidebarMobTrigger } from
 import { AppSidebar } from "@/components/app-sidebar"
 import { Separator } from "@radix-ui/react-separator";
 import HomeLogo from "@/components/home-logo";
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -63,6 +64,7 @@ export const metadata: Metadata = {
 import { menu } from "@/data/menu/menu_p1";
 import LayoutInstallation from "./layoutInstallation";
 import LayoutInit from "./layoutInit";
+import ScreenWakeLock from "@/components/screen-wake-lock";
 
 const data = {
   navMain: menu,
@@ -107,32 +109,36 @@ export default function RootLayout({
   //   }
   // },[router, pahtName]);
 
+
+
+
+
   return (
     <html lang="fr">
       {/* <head/> */}
       <body>
-        {/* <LayoutWorker> */}
-        {/* <LayoutWorker> */}
-        {/* <LayoutRedirect path="kkkkk">  */}
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <LayoutInit>
-
-            {/* <NavHor /> */}
-            <div className="pt-14">
-              <div className="mx-auto md:w-[768px]">
-                {children}
+        <LayoutWorker>
+          {/* <LayoutWorker> */}
+          {/* <LayoutRedirect path="kkkkk">  */}
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <LayoutInit>
+              <ScreenWakeLock />
+              <NavHor />
+              <div className="pt-14">
+                <div className="mx-auto md:w-[768px]">
+                  {children}
+                </div>
               </div>
-            </div>
-          </LayoutInit>
-        </ThemeProvider>
-        {/* </LayoutRedirect> */}
-        {/* </LayoutInstallation> */}
-        {/* </LayoutWorker> */}
+            </LayoutInit>
+          </ThemeProvider>
+          {/* </LayoutRedirect> */}
+          {/* </LayoutInstallation> */}
+        </LayoutWorker>
 
       </body>
       {/* 
@@ -229,7 +235,12 @@ export default function RootLayout({
 
 
 
-/* 
+/*
 Tout est dans app-sidebarr
 
  */
+
+
+
+
+// requestWakeLock(true);
