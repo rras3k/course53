@@ -17,8 +17,13 @@ import { Label } from "@/components/ui/label"
 import { identification, identSetToken } from "@/lib/artaxi";
 import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation"
+import { set, get, del } from 'idb-keyval';
 
 
+const setUrlApiDb = () =>{
+	set("URL_API",process.env.NEXT_PUBLIC_API_URL)
+}
+setUrlApiDb()
 
 
 const getLoginValue = (): string | null => {

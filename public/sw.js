@@ -1,6 +1,9 @@
 const CACHE_NAME = "CACHE_V_1.00";
 const DELAI_API_GET_COURSE = 15000;
-const URL_API_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
+// const URL_API_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
+
+let URL_API = ""
+let token = ""
 
 importScripts("/compat.js");
 
@@ -67,20 +70,54 @@ self.addEventListener('load', () => {
 function getListecourses() {
 	// console.log("getListecourses")
 	setInterval(async () => {
-		get('token').then((token) => {
-			// console.log("Demande des courses ? ", token)
-			if (token != null) {
-				// console.log("Envoi de la demande des courses ", token);
-				getListecourses2(token)
+		console.log("getListecourses", token)
+		if (token === "") {
+			console.log("getListecourses === '' ")
+			get('token')
+				.then((tokenBD) => {
+					// console.log("Demande des courses ? ", token)
+					if (tokenBD != undefined) {
+						// console.log("Envoi de la demande des courses ", token);
+						token = tokenBD
+						getListecourses2()
 
-			}
-		});
+					}
+				})
+				.catch(e => {
+				})
+		}
+		else {
+			console.log("getListecourses2", token)
+			getListecourses2()
+		}
 	}, DELAI_API_GET_COURSE);
 }
-async function getListecourses2(token) {
+
+function getListecourses2() {
+	if (URL_API === "") {
+		get('URL_API')
+			.then((url) => {
+				// console.log("Demande des courses ? ", token)
+				if (url != undefined) {
+					URL_API = url
+					// console.log("Envoi de la demande des courses ", token);
+					getListecourses3()
+
+				}
+			})
+			.catch(e => {
+			})
+	}
+	else
+		getListecourses3()
+
+}
+
+
+async function getListecourses3() {
 	try {
 		const response = await fetch(
-			URL_API_GET_ALL,
+			URL_API + "/trips/today/",
 			{
 				headers: {
 					'Authorization': `Bearer ${token}`,
@@ -144,11 +181,11 @@ const sendNotification = async (title, text) => {
 				else {
 					if (Notification.permission !== 'denied') {
 						Notification.requestPermission()
-							.then((permission)=>{
-							if (permission === 'granted') {
-								showNotification(title, text);
-							}
-						})
+							.then((permission) => {
+								if (permission === 'granted') {
+									showNotification(title, text);
+								}
+							})
 					}
 				}
 			}
