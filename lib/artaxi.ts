@@ -93,7 +93,7 @@ export const identGetToken = new Promise<string | null>((resolve, reject) => {
 		})
 		.catch(e => {
 			// reject(null)
-			throw new Error('Pas de encore de token enregistré');
+			console.error('Pas de token encore enregistré');
 		})
 })
 

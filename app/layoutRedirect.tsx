@@ -2,11 +2,11 @@
 
 import React from "react";
 import "./globals.css";
-import { redirect, useRouter, usePathname } from "next/navigation";
-import { identIsAut, TOKEN } from "@/lib/artaxi";
+import { useRouter, usePathname } from "next/navigation";
+import {  TOKEN } from "@/lib/artaxi";
 import { get } from "idb-keyval";
 
-export default function LayoutRedirect({ children, path }: { children: React.ReactNode, path: string }) {
+export default function LayoutRedirect({ children}: { children: React.ReactNode }) {
 	const router = useRouter();
 	const pahtName = usePathname();
 	const pathExcept = ["/test", "/aide"];
@@ -20,10 +20,12 @@ export default function LayoutRedirect({ children, path }: { children: React.Rea
 					}
 				})
 				.catch(e => {
+					console.log(e)
 				})
 		}
 	},
-		[router, pahtName]);
+		);
+		// [router, pahtName]);
 	return (
 		<>
 			{children}

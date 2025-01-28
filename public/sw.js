@@ -49,12 +49,16 @@ self.addEventListener('fetch', (event) => {
 			caches.match(event.request).then((response) => {
 				return (
 					response ||
-					fetch(event.request).then((fetchResponse) => {
-						return caches.open(CACHE_NAME).then((cache) => {
-							cache.put(event.request, fetchResponse.clone());
-							return fetchResponse;
-						});
-					})
+					fetch(event.request)
+						.then((fetchResponse) => {
+							return caches.open(CACHE_NAME).then((cache) => {
+								cache.put(event.request, fetchResponse.clone());
+								return fetchResponse;
+							});
+						})
+						.catch(e => {
+							console.error("lecture cache errreur", e);
+						})
 				);
 			})
 		);
@@ -68,30 +72,28 @@ self.addEventListener('load', () => {
 
 // Récupération toutes les 60 secondes d'un fichier JSON et mise en cache
 function getListecourses() {
-	// console.log("getListecourses")
-	setInterval(async () => {
-		console.log("getListecourses", token)
+	const interval = setInterval(async () => {
 		if (token === "") {
-			console.log("getListecourses === '' ")
 			get('token')
 				.then((tokenBD) => {
-					// console.log("Demande des courses ? ", token)
 					if (tokenBD != undefined) {
-						// console.log("Envoi de la demande des courses ", token);
 						token = tokenBD
 						getListecourses2()
-
 					}
 				})
 				.catch(e => {
+					console.error("lecture cache errreur", e);
 				})
 		}
 		else {
-			console.log("getListecourses2", token)
 			getListecourses2()
 		}
 	}, DELAI_API_GET_COURSE);
+	return () => clearInterval(interval)
 }
+
+
+
 
 function getListecourses2() {
 	if (URL_API === "") {
@@ -131,12 +133,15 @@ async function getListecourses3() {
 			del('course_in_date');
 			if (!dcIsIdent(data)) { // la requete échoue par mauvaise identification
 				del('token') // on supprime le token encours pour ne plus refaire de requete
+				token = ""
+				del('hasProposition')
+				del('URL_API')
 			}
 			else {
 				cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
 				set('course_in_date', Date.now());
 				if (dcHasProposition(data)) {
-					console.log("has notification !!!!")
+					console.log('public/sw.js > has notification')	
 					showNotification();
 				}
 			}
@@ -152,7 +157,8 @@ getListecourses();
 
 
 const dcIsIdent = (data) => {
-	console.log(data)
+	console.log('public/sw.js > data', data);
+
 	if (data?.retour) return true;
 	return false;
 }
@@ -163,7 +169,8 @@ const dcHasProposition = (datas) => {
 	datas.data.courses.map((course) => {
 		hasProposition = hasProposition || (course.course_status == "1" && (course.taxi_name == "" || course.taxi_name == null));
 	});
-	console.log("hasProposition", hasProposition);
+	console.log('public/sw.js > hasProposition',hasProposition);
+	
 	set('hasProposition', hasProposition);
 	sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
 	return hasProposition;

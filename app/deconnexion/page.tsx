@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { identDeleteToken,hasPropositionDelete } from "@/lib/artaxi";
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -13,7 +13,7 @@ export default function Deconnexion() {
 		<>
 			<div className="mx-auto md:w-[768px] fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right ">
 				<span className="text-2xl my-20">
-					Voulez vous vous déconnecter de l'application ?
+					Voulez vous vous déconnecter de l&apos;application ?
 				</span>
 				<div className="flex justify-around text-lg">
 					<Button onClick={() => {

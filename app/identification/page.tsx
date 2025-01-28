@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { identification, identSetToken } from "@/lib/artaxi";
-import { useState, useEffect } from 'react';
+import {  identSetToken } from "@/lib/artaxi";
+import { useState } from 'react';
 import { useRouter } from "next/navigation"
-import { set, get, del } from 'idb-keyval';
+import { set } from 'idb-keyval';
 
 
 const setUrlApiDb = () =>{
@@ -37,7 +37,7 @@ export default function Identification() {
 
 	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
-	const [isRedirect, setIsRedirect] = useState(false);
+	// const [isRedirect, setIsRedirect] = useState(false);
 
 	// useEffect(() => {
 	// 	if (isRedirect) {
@@ -77,9 +77,10 @@ export default function Identification() {
 				// router.push('/');
 				return true;
 			}
-			else (
+			else {
 				console.log("identification pas ok")
-			)
+				setIsErrorMsg(true)
+			}
 		} catch (e) {
 			console.log("identification pas ok avec erreur", e)
 		}

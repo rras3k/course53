@@ -16,7 +16,7 @@ import { get} from 'idb-keyval';
 
 
 export function NavHor() {
-	console.log("dans navHor")
+	// console.log("dans navHor")
 
 	const router = useRouter();
 
@@ -77,7 +77,7 @@ export function NavHor() {
 	);
 	const pahtName = usePathname();
 	const isShowFiltre: boolean = (pahtName == "/" || pahtName == "");
-	console.log("openMenu", openMenu);
+	// console.log("openMenu", openMenu);
 	return (
 		<>
 			{
@@ -95,11 +95,11 @@ export function NavHor() {
 							{title}
 						</div>
 					</div>
-					{afficheUpdate &&
+					{/* {afficheUpdate &&
 						<div onClick={() => router.push('/filtre=' + { filtre })} className={` ${updateCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<RefreshCw strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
 						</div>
-					}
+					} */}
 					{isShowFiltre &&
 						<div onClick={() => router.push('/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
@@ -156,6 +156,11 @@ export function NavHor() {
 						<div className="flex flex-col h-full">
 							<div onClick={() => goAndClose('/')} className={"h-20 my-2 flex place-items-center justify-start text-center md:w-6/12 mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
 								<div className="flex-auto">
+									Mes courses
+								</div>
+							</div>
+							<div onClick={() => goAndClose('/all-courses')} className={"h-20 my-2 flex place-items-center justify-start text-center md:w-6/12 mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
+								<div className="flex-auto">
 									Courses
 								</div>
 							</div>
@@ -175,7 +180,7 @@ export function NavHor() {
 								</div>
 							</div>
 							<div className="text-center">
-								Version <Version />
+								Versionuu <Version />
 							</div>
 						</div>
 					</div>

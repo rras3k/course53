@@ -6,14 +6,14 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { getPWADisplayMode, isPwaInstalled } from "@/lib/rrasb2k/app";
 
-import { useState, useEffect, useMemo, useLayoutEffect } from 'react';
+import { useEffect } from 'react';
 
 
 import "./globals.css";
-import { identIsAut, TOKEN } from "@/lib/artaxi";
+import {  TOKEN } from "@/lib/artaxi";
 import { get } from "idb-keyval";
 
-process.env.NEXT_PUBLIC_APP_ONLY
+// process.env.NEXT_PUBLIC_APP_ONLY
 
 export default function LayoutInit({ children }: { children: React.ReactNode }) {
 	const router = useRouter();
@@ -37,11 +37,12 @@ export default function LayoutInit({ children }: { children: React.ReactNode }) 
 						}
 					})
 					.catch(e => {
-
+						console.log(e)
 					})
 			}
 		}
-	}, [pahtName]);
+	// }, [pahtName]);
+	});
 	return (
 		<>
 			{children}

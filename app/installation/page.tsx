@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from 'react';
-import { usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 
 
 let deferredEvent: typeof event | undefined = undefined;
@@ -41,7 +41,7 @@ const Installation = () => {
 	return (
 		<>
 			{installClick && <Button onClick={() => { router.push("/identification") }}>Continuer...</Button>}
-			{!installClick && <Button onClick={installAppClick} className={allreadyInstall ? " hidden" : ""}>Installation de l'application Course 53 </Button>}
+			{!installClick && <Button onClick={installAppClick} className={allreadyInstall ? " hidden" : ""}>Installation de l&apos;application Course 53 </Button>}
 			<div className={allreadyInstall ? " " : " hidden"}>Lancer Course 53 depuis la liste de vos applications</div>
 		</>
 	)

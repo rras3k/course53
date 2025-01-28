@@ -1,79 +1,38 @@
 "use client"
 
-import { loadExampleListAll } from "@/lib/artaxi";
+// import { loadExampleListAll } from "@/lib/artaxi";
 import { COURSE_STATUT_ANNULEE, COURSE_STATUT_CLOTUREE, COURSE_STATUT_A_FAIRE } from "@/lib/artaxi";
 import { COURSE_FILTRE_A_FAIRE, COURSE_FILTRE_PROPOSITION, COURSE_FILTRE_CLOTUREE, COURSE_FILTRE_ANNULEE, COURSE_FILTRE_TOUTE } from "@/lib/artaxi";
 import { clsx } from 'clsx';
 // import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import CourseAction from "./course-action";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Users } from 'lucide-react';
-import { set, get, del } from 'idb-keyval';
+// import { set, get, del } from 'idb-keyval';
+import React from 'react'
 
-
-export default function CourseAffichage({ filtreCourse }) {
-	// let datas = loadExampleListAll();
-	const [datas, setDatas] = useState(null);
+export default function CourseAffichage({ filtreCourse, datas }) {
 	const [open, setOpen] = useState(false);
-	const [erreur, setErreur] = useState(true);
-	const [courseInDate, setCourseInDate] = useState(null);
-
-	useEffect(() => {
-		const CACHE_NAME = "CACHE_V_1.00";
-		console.log("lecture cache =========")
-		get("course_in_date")
-			.then(value => {
-				setCourseInDate(value);
-				// console.log("lecture cache avec course_in_date", value);
-
-				if ((+(value) + 3600000) < Date.now()) {
-					console.info("problème de date ****");
-					setErreur(true);
-				}
-				else {
-					caches.open(CACHE_NAME).then((cache) => {
-						cache.match('/getListeCourses.json')
-							.then((response) => {
-								response?.json().then((data => {
-									// console.info("info ----", data);
-									setErreur(false);
-									setDatas(data);
-								}))
-							})
-							.catch((e) => {
-								setErreur(true);
-							})
-					})
-				}
-			})
-			.catch(e => {
-				console.error("lecture cache errreur", e);
-				setErreur(true);
-			})
-	}, [courseInDate])
-
-
-
-
+	console.log("course-affichage !!!!!")
 	const clickRegroupement = () => {
 		setOpen(true);
 	}
-
-	// if (!datas.retour) {
-	// 	return ("Erreur retour <> TRUE");
-	// }
-
 	let cpt: number = 0;
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
+	let trouve = false
+	const d = new Date();
+	const heureCourante = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+	// componentDidMount() {
+	// 	const ancre = document.getElementById("ancre");
+	// 	ancre?.scrollIntoView({ behavior: "instant", block: "end" });
+	//   }
+	console.log("Affichage des courses ")
 	return (
 		<>
 			{
-				erreur && <div className="">Courses pas encore chargées</div>
-			}
-			{
-				!erreur && <div className="flex flex-col text-xl">
+				<div className="flex flex-col text-xl">
 					{datas.data.courses.map((course) => {
 						isCourseToDo = false;
 						// console.log(filtreCourse);
@@ -116,8 +75,16 @@ export default function CourseAffichage({ filtreCourse }) {
 							rgp_course_id_before = course.rgp_course_id;
 							cpt++;
 
+							// positionnement du scroll en fonction de l'heure
+							let idTag = ""
+							let heureTakeOver = course.first_takeover_date.substr(11, 5);
+							if (heureCourante < heureTakeOver && !trouve) {
+								idTag = '"ancre"';
+								trouve = true;
+							}
+
 							return (
-								<div onClick={clickRegroupement} key={course.course_id} className={twMerge(divLevel1_className)} >
+								<div onClick={clickRegroupement} key={course.course_id} id={idTag} className={twMerge(divLevel1_className)} >
 									<div className="flex">
 										<div className="w-20 text-center font-bold">{course.first_takeover_date.substring(11, 16)}</div>
 										<div className="col-span-4">{course.first_takeover_arret_libelle}</div>
@@ -147,6 +114,3 @@ export default function CourseAffichage({ filtreCourse }) {
 		</>
 	)
 }
-
-
-

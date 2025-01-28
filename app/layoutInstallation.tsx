@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { getPWADisplayMode, isPwaInstalled } from "@/lib/rrasb2k/app";
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 
 
