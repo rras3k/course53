@@ -5,7 +5,7 @@ import {
 
 } from "@/components/ui/dialog"
 
-
+import { logWrite, LogLevel } from "@/lib/rrasb2k/log"
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -24,103 +24,139 @@ import { CircleX } from 'lucide-react';
 
 import Version from "./version"
 import { useRouter } from 'next/navigation';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { identGetProfilId } from "@/lib/artaxi";
+import { ProfilEnum } from "@/lib/affinis";
 
 
 export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, pathName }) {
 	const router = useRouter();
 	console.log("pathName", pathName);
+	const [profilId, setProfilId] = useState<string | null>("1");
+
 	const goAndClose = (url: string) => {
 		setOpenMenu(false);
 		router.push(url);
 	}
+
 	useEffect(() => {
-		if (pathName == "/identification") setOpenMenu(false);
+		if (pathName === "/identification") setOpenMenu(false);
 	}, [pathName])
+
+	useEffect(() => {
+		setProfilId(identGetProfilId())
+	},[])
 	return (
 		<>
-			<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
-				{/* <AlertDialogTrigger asChild>
-					<Button variant="outline">Show Dialog</Button>
-				</AlertDialogTrigger> */}
-				<AlertDialogContent>
-					{/* <AlertDialogHeader>
-						<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+			{(profilId === ProfilEnum.Admin) &&
+				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
+					<AlertDialogContent>
 						<AlertDialogDescription>
-							This action cannot be undone. This will permanently delete your
-							account and remove your data from our servers.
+							<CircleX onClick={() => { setOpenMenu(false) }} size={42} />
+							<div className="flex flex-col h-full">
+								{(pathName != "/admin/courses") && <div onClick={() => goAndClose('/artaxi/courses')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Courses
+									</div>
+								</div>}
+								{(pathName != "/admin/aide") && <div onClick={() => goAndClose('/artaxi/aide')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Aide
+									</div>
+								</div>}
+								{<div onClick={() => {
+									setOpenMenu(false);
+									setIsShowDeconnexion(true)
+								}} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Deconnexion
+									</div>
+								</div>}
+							</div>
 						</AlertDialogDescription>
-					</AlertDialogHeader> */}
-					<CircleX onClick={() => { setOpenMenu(false) }}  size={42} />
-					<div className="flex flex-col h-full">
-						{(pathName!="/" ) && <div onClick={() => goAndClose('/')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Mes courses
-							</div>
-						</div>}
-						{(pathName != "/courses-toutes")  && <div onClick={() => goAndClose('/courses-toutes')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Courses
-							</div>
-						</div>}
-						{(pathName != "/messages")  && <div onClick={() => goAndClose('/messages')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Messages
-							</div>
-						</div>}
-						{(pathName != "/aide") &&  <div onClick={() => goAndClose('/aide')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Aide
-							</div>
-						</div>}
-						{(pathName != "/parametrage") &&  <div onClick={() => goAndClose('/parametrage')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Parametrage
-							</div>
-						</div>}
-
-						{<div onClick={() => {
-							setOpenMenu(false);
-							setIsShowDeconnexion(true)
-						}} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Deconnexion
-							</div>
-						</div>}
-						<div className="text-center">
+						<AlertDialogFooter>
 							Version <Version />
-						</div>
-					</div>
-					{/* <AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
-						<AlertDialogAction>Continue</AlertDialogAction>
-					</AlertDialogFooter> */}
-					{/* <Button onClick={() => { setOpenMenu(false) }}>Fermer</Button> */}
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			}
+			{(profilId === ProfilEnum.Artaxi) &&
+				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
+					<AlertDialogContent>
+						<AlertDialogDescription>
+							<CircleX onClick={() => { setOpenMenu(false) }} size={42} />
+							<div className="flex flex-col h-full">
+								{(pathName != "/artaxi/courses") && <div onClick={() => goAndClose('/artaxi/courses')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Courses
+									</div>
+								</div>}
+								{(pathName != "/artaxi/aide") && <div onClick={() => goAndClose('/artaxi/aide')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Aide
+									</div>
+								</div>}
+								{<div onClick={() => {
+									setOpenMenu(false);
+									setIsShowDeconnexion(true)
+								}} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Deconnexion
+									</div>
+								</div>}
+							</div>
+						</AlertDialogDescription>
+						<AlertDialogFooter>
+							Version <Version />
+						</AlertDialogFooter>
+					</AlertDialogContent>
+				</AlertDialog>
+			}
 
-				</AlertDialogContent>
-			</AlertDialog>
-			{/* <Dialog open={open} onOpenChange={setOpenMenu}>
-				<DialogContent className="sm:max-w-[425px]">
-					<div className="flex flex-col h-full">
-						<div onClick={() => goAndClose('/')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Courses
-							</div>
-						</div>
-						<div onClick={() => goAndClose('/messages')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Messages
-							</div>
-						</div>
-						<div onClick={() => goAndClose('/aide')} className={"h-20 my-2 flex place-items-center justify-start text-center mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
-							<div className="flex-auto">
-								Aide
-							</div>
-						</div>
+			{(profilId === ProfilEnum.Taxi) &&
+				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
+					<AlertDialogContent>
+						<AlertDialogDescription>
+							<CircleX onClick={() => { setOpenMenu(false) }} size={42} />
+							<div className="flex flex-col h-full">
+								{(pathName != "/taxi/courses") && <div onClick={() => goAndClose('/taxi/courses')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5   border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Courses
+									</div>
+								</div>}
+								{(pathName != "/taxi/messages") && <div onClick={() => goAndClose('/taxi/messages')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400    text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Messages
+									</div>
+								</div>}
+								{(pathName != "/taxi/aide") && <div onClick={() => goAndClose('/taxi/aide')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Aide
+									</div>
+								</div>}
+								{(pathName != "/parametrage") && <div onClick={() => goAndClose('/parametrage')} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Parametrage
+									</div>
+								</div>}
 
-					</div>
-				</DialogContent>
-			</Dialog> */}
+								{<div onClick={() => {
+									setOpenMenu(false);
+									setIsShowDeconnexion(true)
+								}} className={"h-20 my-2 flex place-items-center justify-start text-center  mx-5  h-30 border rounded-xl bg-blue-300 hover:bg-blue-400   text-2xl text-sky-950 "}>
+									<div className="flex-auto">
+										Deconnexion
+									</div>
+								</div>}
+
+							</div>
+						</AlertDialogDescription>
+						<AlertDialogFooter>
+							Version <Version />
+						</AlertDialogFooter>
+
+					</AlertDialogContent>
+				</AlertDialog>}
 		</>
 	)
 }

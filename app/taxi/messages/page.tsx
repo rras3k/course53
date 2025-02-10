@@ -1,8 +1,7 @@
 "use client"
 
 // import isAuth from "@/components/isAuth";
-
- function Messages() {
+function Messages() {
 	return (
 		<>
 			messages

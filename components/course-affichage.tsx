@@ -1,8 +1,9 @@
 "use client"
 
 // import { loadExampleListAll } from "@/lib/artaxi";
-import { COURSE_STATUT_ANNULEE, COURSE_STATUT_CLOTUREE, COURSE_STATUT_A_FAIRE } from "@/lib/artaxi";
-import { COURSE_FILTRE_A_FAIRE, COURSE_FILTRE_PROPOSITION, COURSE_FILTRE_CLOTUREE, COURSE_FILTRE_ANNULEE, COURSE_FILTRE_TOUTE } from "@/lib/artaxi";
+import { Filtre_course_url_query, Course_statut } from "@/lib/affinis";
+// import { COURSE_STATUT_ANNULEE, COURSE_STATUT_CLOTUREE, COURSE_STATUT_A_FAIRE } from "@/lib/artaxi";
+// import { COURSE_FILTRE_A_FAIRE, COURSE_FILTRE_PROPOSITION, COURSE_FILTRE_CLOTUREE, COURSE_FILTRE_ANNULEE, COURSE_FILTRE_TOUTE } from "@/lib/artaxi";
 import { clsx } from 'clsx';
 // import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
@@ -18,7 +19,7 @@ export default function CourseAffichage({ filtreCourse, datas }) {
 	const clickRegroupement = () => {
 		setOpen(true);
 	}
-	let cpt: number = 0;
+	// let cpt: number = 0;
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
 	let trouve = false
@@ -28,7 +29,7 @@ export default function CourseAffichage({ filtreCourse, datas }) {
 	// 	const ancre = document.getElementById("ancre");
 	// 	ancre?.scrollIntoView({ behavior: "instant", block: "end" });
 	//   }
-	console.log("Affichage des courses ")
+	console.log("Affichage des courses ",filtreCourse)
 	return (
 		<>
 			{
@@ -37,23 +38,23 @@ export default function CourseAffichage({ filtreCourse, datas }) {
 						isCourseToDo = false;
 						// console.log(filtreCourse);
 						switch (filtreCourse) {
-							case COURSE_FILTRE_A_FAIRE:
+							case Filtre_course_url_query.A_faire:
 								if (course.course_status == "1")
 									isCourseToDo = true;
 								break;
-							case COURSE_FILTRE_PROPOSITION:
+							case Filtre_course_url_query.Proposition:
 								if (course.course_status == "1" && (course.taxi_name == "" || course.taxi_name == null))
 									isCourseToDo = true;
 								break;
-							case COURSE_FILTRE_ANNULEE:
+							case Filtre_course_url_query.Annulee:
 								if (course.course_status == "0")
 									isCourseToDo = true;
 								break;
-							case COURSE_FILTRE_CLOTUREE:
+							case Filtre_course_url_query.Cloturee:
 								if (course.course_status == "2")
 									isCourseToDo = true;
 								break;
-							case COURSE_FILTRE_TOUTE:
+							case Filtre_course_url_query.Toute:
 								isCourseToDo = true;
 								break;
 							default:
@@ -64,20 +65,20 @@ export default function CourseAffichage({ filtreCourse, datas }) {
 							const divLevel1_className = clsx(
 								'border-t border-b border-black border-solid py-1',
 								{
-									'bg-green-200': course.course_status == COURSE_STATUT_A_FAIRE,
-									'bg-blue-200': course.course_status == COURSE_STATUT_CLOTUREE,
-									'bg-gray-200': course.course_status == COURSE_STATUT_ANNULEE,
-									'bg-yellow-200': course.course_status == COURSE_STATUT_A_FAIRE && (course.taxi_name == "" || course.taxi_name == null),
+									'bg-green-200': course.course_status == Course_statut.A_faire,
+									'bg-blue-200': course.course_status == Course_statut.Cloturee,
+									'bg-gray-200': course.course_status == Course_statut.Annule,
+									'bg-yellow-200': course.course_status == Course_statut.A_faire && (course.taxi_name == "" || course.taxi_name == null),
 									'mt-4': rgp_course_id_before != course.rgp_course_id,
 									'border-t-0 border-black border-solid': rgp_course_id_before == course.rgp_course_id,
 								}
 							);
 							rgp_course_id_before = course.rgp_course_id;
-							cpt++;
+							// cpt++;
 
 							// positionnement du scroll en fonction de l'heure
 							let idTag = ""
-							let heureTakeOver = course.first_takeover_date.substr(11, 5);
+							const heureTakeOver = course.first_takeover_date.substr(11, 5);
 							if (heureCourante < heureTakeOver && !trouve) {
 								idTag = '"ancre"';
 								trouve = true;

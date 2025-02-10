@@ -6,11 +6,7 @@ import "./globals.css";
 // let serviceWorkerRegistration = null;
 
 
-export default function LayoutWorker({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function LayoutWorker({children,}: {children: React.ReactNode;}) {
 	React.useEffect(() => {
 		if ("serviceWorker" in navigator) {
 			navigator.serviceWorker

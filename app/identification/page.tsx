@@ -14,54 +14,48 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {  identSetToken } from "@/lib/artaxi";
+import { identSet, identClear } from "@/lib/artaxi";
 import { useState } from 'react';
 import { useRouter } from "next/navigation"
 import { set } from 'idb-keyval';
+import { getInputStringValue } from "@/lib/rrasb2k/domUtils"
 
-
-const setUrlApiDb = () =>{
-	set("URL_API",process.env.NEXT_PUBLIC_API_URL)
-}
-setUrlApiDb()
-
-
-const getLoginValue = (): string | null => {
-	return (document.querySelector("#login") == null ? null : document.querySelector("#login")?.value);
-}
-const getMdpValue = (): string | null => {
-	return (document.querySelector("#mdp") == null ? null : document.querySelector("#mdp")?.value);
+const setUrlApiDb = () => {
+	set("URL_API", process.env.NEXT_PUBLIC_API_URL)
 }
 
 export default function Identification() {
+	console.log('> =============================================== ~/projets/course53/app/identification =============================================== ')
+	
+	identClear() // suprime toutes données dans les caches et indexDb de l'identification
+	setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
+
 
 	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
-	// const [isRedirect, setIsRedirect] = useState(false);
-
-	// useEffect(() => {
-	// 	if (isRedirect) {
-	// 		//router.push('/');
-	// 	}
-	// }, [isRedirect, router]);
+	
 
 	const submit = () => {
-		askIdent(getLoginValue(), getMdpValue()).then((reponse) => {
-			if (reponse === true) {
-				// setIsRedirect(true);
-				router.push('/');
-
-			}
-			console.log("reponse", reponse);
-		})
+		const login = getInputStringValue("login")
+		const mdp = getInputStringValue("mdp")
+		if (login && mdp) {
+			askIdent(login, mdp)
+				.then((reponse) => {
+					if (reponse === true) {
+						console.log("identification ok, on va vers /")
+						router.push('/')
+					}
+					console.log("reponse", reponse)
+				})
+		}
+		else {
+			setIsErrorMsg(true)
+		}
 	}
-
 
 	async function askIdent(login: string, mdp: string): Promise<boolean> {
 		try {
-			console.log("askIdent")
-
-
+			console.log("askIdent ",login,mdp)
 			const data = await fetch(
 				process.env.NEXT_PUBLIC_API_URL + '/identification'
 				, {
@@ -72,9 +66,8 @@ export default function Identification() {
 			const dj = await data.json();
 			if (dj?.retour) {
 				console.log("identification ok")
-				// stocke le token
-				identSetToken(dj.data.jwt);
-				// router.push('/');
+				// stocke les data de ident
+				identSet({ token: dj.data.jwt, profilId: dj.data.profil, nom: dj.data.nom, prenom: dj.data.prenom })
 				return true;
 			}
 			else {
@@ -108,7 +101,6 @@ export default function Identification() {
 						</div>
 					</form>
 					{isErrorMsg &&
-
 						<div className="text-red-700 font-bold my-3">
 							Saisie incorrect, veuillez recommencer
 						</div>
