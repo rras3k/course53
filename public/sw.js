@@ -1,9 +1,10 @@
-// const CACHE_NAME = "CACHE_V_1.00";
-// const DELAI_API_GET_COURSE = 15000;
-// const URL_API_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
+// const cacheName = "CACHE_V_1.00";
+// const delaiApiGetCourse = 15000;
+// const urlApi_GET_ALL = "https://api.laval-test.algozzy.ovh/trips/today/"
 
-
-importScripts("/artaxisw.js");
+importScripts("/sw-affinis.js");
+importScripts("/compat.js");
+importScripts("/sw-artaxi.js");
 // importScripts("/compat.js");
 
 // let a = process.env.NEXT_PUBLIC_APP_ONLY
@@ -18,7 +19,6 @@ https://tk14.info6.lnkml.com/r/?id=h554970bb,cc766bf,187167&p1=www.disonsdemain.
 // -------------------------------------------------  GESTION SERVICE WORKER ---------------------------------------------------------------------
 
 
-let URL_API = ""
 
 const ASSETS_TO_CACHE = [
 	'/manifest.json'
@@ -28,7 +28,7 @@ const ASSETS_TO_CACHE = [
 self.addEventListener('install', (event) => {
 	console.log('========================================== service worker ========= INSTALL');
 	event.waitUntil(
-		caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+		caches.open(cacheName).then((cache) => cache.addAll(ASSETS_TO_CACHE))
 	);
 });
 
@@ -39,7 +39,7 @@ self.addEventListener('activate', (event) => {
 		caches.keys().then((cacheNames) => {
 			return Promise.all(
 				cacheNames
-					.filter((cacheName) => cacheName !== CACHE_NAME)
+					.filter((cacheName) => cacheName !== cacheName)
 					.map((cacheName) => caches.delete(cacheName))
 			);
 		})
@@ -54,7 +54,7 @@ self.addEventListener('fetch', (event) => {
 					response ||
 					fetch(event.request)
 						.then((fetchResponse) => {
-							return caches.open(CACHE_NAME).then((cache) => {
+							return caches.open(cacheName).then((cache) => {
 								cache.put(event.request, fetchResponse.clone());
 								return fetchResponse;
 							});
@@ -67,6 +67,7 @@ self.addEventListener('fetch', (event) => {
 		);
 	}
 });
+
 self.addEventListener('load', () => {
 });
 

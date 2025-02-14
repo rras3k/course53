@@ -4,7 +4,7 @@ import { Filter, Menu, X } from 'lucide-react';
 import Image from "next/image";
 import imgHome from "@/public/icons/icon-48x48.png";
 import { Button } from "./ui/button";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { getFiltreCourseColor, getFiltreCourseFillColor, getTitle } from "@/lib/affinis";
 
@@ -14,6 +14,8 @@ import { twMerge } from "tailwind-merge";
 import MenuApp from './menu-app';
 import { get } from 'idb-keyval';
 import { isPathCourseFiltre } from '@/lib/affinis';
+import { useCourseTaxiContext } from './course-taxi-provider';
+
 
 
 export function NavHor() {
@@ -21,18 +23,23 @@ export function NavHor() {
 	const router = useRouter();
 
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
-	const [hasProposition, setHasProposition] = useState(false);
+	// const [hasProposition, setHasProposition] = useState(false);
+		const {hasProposition, setHasProposition} = useCourseTaxiContext()
+	
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
 	const [isShowDeconnexion, setIsShowDeconnexion] = useState(false);
 	const [filtreCourseFillColor, setFiltreCourseFillColor] = useState('');
 	const [filtreCourseColor, setFiltreCourseColor] = useState('bg-green-400');
 	const [showFiltre, setShowFiltre] = useState<boolean>(false)
 	const [title, setTitle] = useState("");
+	const dejaFait = useRef<boolean>(false)
 
 	// titre de la barre
 	const path = usePathname();
 	const searchParams = useSearchParams();
 	const filtre = searchParams.get('filtre');
+
+
 
 	useEffect(() => {
 		setShowFiltre(isPathCourseFiltre(path))
@@ -44,13 +51,13 @@ export function NavHor() {
 		setFiltreCourseColor(getFiltreCourseColor(filtre));
 	}, [filtre]);
 
-	useEffect(() => {
-		get('hasProposition').then((value) => {
-			if (value != null && value) {
-				setHasProposition(true);
-			}
-		});
-	}, [hasProposition])
+	// useEffect(() => {
+	// 	get('hasProposition').then((value) => {
+	// 		if (value != null && value) {
+	// 			setHasProposition(true);
+	// 		}
+	// 	});
+	// }, [hasProposition])
 
 	const iconHome_className = clsx(
 		'mx-3 flex-none',
@@ -59,8 +66,17 @@ export function NavHor() {
 		}
 	);
 
-	const menuClick = (bool:boolean) =>{
+	const menuClick = (bool: boolean) => {
 		setOpenMenu(bool)
+	}
+
+	if (!dejaFait.current){
+		dejaFait.current=true
+		const channelHasNotification = new BroadcastChannel('sw-hasNotification');
+		channelHasNotification.addEventListener('message', event => {
+			console.log('Received sw-hasNotification', event.data);
+			setHasProposition(true);
+		});
 	}
 
 	return (
@@ -81,7 +97,7 @@ export function NavHor() {
 							{title}
 						</div>
 					</div>
-				
+
 					{showFiltre &&
 						<div onClick={() => router.push('/taxi/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />

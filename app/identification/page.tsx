@@ -21,19 +21,32 @@ import { set } from 'idb-keyval';
 import { getInputStringValue } from "@/lib/rrasb2k/domUtils"
 
 const setUrlApiDb = () => {
-	set("URL_API", process.env.NEXT_PUBLIC_API_URL)
+	set("urlApi", process.env.NEXT_PUBLIC_API_URL)
 }
 
 export default function Identification() {
 	console.log('> =============================================== ~/projets/course53/app/identification =============================================== ')
-	
+
 	identClear() // suprime toutes données dans les caches et indexDb de l'identification
 	setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
 
 
 	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
-	
+	const [label, setLabel] = useState(1);
+
+	function sendinitVarWorker(dj) {
+		const channelInitVar = new BroadcastChannel('sw-initvar')
+		channelInitVar.postMessage({
+			cacheName: process.env.NEXT_PUBLIC_CAHE_NAME,
+			delaiApiGetCourse: process.env.NEXT_PUBLIC_DELAI_API_GET_COURSE,
+			token: dj.data.jwt,
+			profilId: dj.data.profil,
+			urlApi: process.env.NEXT_PUBLIC_API_URL,
+		})
+		channelInitVar.close()
+	}
+
 
 	const submit = () => {
 		const login = getInputStringValue("login")
@@ -55,7 +68,7 @@ export default function Identification() {
 
 	async function askIdent(login: string, mdp: string): Promise<boolean> {
 		try {
-			console.log("askIdent ",login,mdp)
+			console.log("askIdent ", login, mdp)
 			const data = await fetch(
 				process.env.NEXT_PUBLIC_API_URL + '/identification'
 				, {
@@ -68,6 +81,8 @@ export default function Identification() {
 				console.log("identification ok")
 				// stocke les data de ident
 				identSet({ token: dj.data.jwt, profilId: dj.data.profil, nom: dj.data.nom, prenom: dj.data.prenom })
+				sendinitVarWorker(dj)
+
 				return true;
 			}
 			else {
@@ -79,6 +94,11 @@ export default function Identification() {
 		}
 		return false;
 	}
+
+
+	React.useEffect(() => {
+
+	},)
 
 	return (
 		<>

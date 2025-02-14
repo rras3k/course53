@@ -2,7 +2,7 @@
 
 
 import { useState, useRef, useEffect } from "react";
-import { url_api_today_all, interval } from "@/lib/affinis";
+import { urlApi_today_all, interval } from "@/lib/affinis";
 
 
 
@@ -40,7 +40,7 @@ function CoursesToutes() {
 
 	useEffect(() => {
 		console.log("UseEffect ----------------------------------------------------")
-		fetch(process.env.NEXT_PUBLIC_API_URL + url_api_today_all, { method: 'GET' })
+		fetch(process.env.NEXT_PUBLIC_API_URL + urlApi_today_all, { method: 'GET' })
 			.then((data) => {
 				data.json()
 					.then((value) => {

@@ -1,6 +1,9 @@
-export const url_api_today_all: string = "/trips/today-all"
+export const token: string = "token";
 export const interval: number = 15000
-export const TOKEN: string = "token";
+
+// -------------- API /trips/today-all
+
+export const urlApi_today_all: string = "/trips/today-all"
 
 // api : "/trips/today-all"
 export type todayAllDataType = {
@@ -28,7 +31,15 @@ export type todayAllType = {
     data?: todayAllDataType[]
 }
 
+// -------------- API  /trips/today/
+export const urlApi_today: string = "/trips/today"
 
+// export type todayDataType = {}
+export type MessageBroadCastToday = {
+    hasProposition:boolean
+    date: number
+    data:Array<JSON>
+}
 
 export enum ProfilEnum {
     Taxi = "1",
@@ -115,8 +126,10 @@ route['/'] = {titre:'',profilId:null}
 
 route['/aide'] = {titre:'aide',profilId:null}
 route['/identification'] = {titre:'aide',profilId:null}
+route['/parametrage'] = {titre:'parametrage',profilId:null}
 
 route['/taxi/courses'] = {titre:'courses',profilId:[ProfilEnum.Taxi]}
+route['/taxi/coursesbis'] = {titre:'courses-bis',profilId:[ProfilEnum.Taxi]}
 route['/taxi/course-filtre'] = {titre:'filtre',profilId:[ProfilEnum.Taxi]}
 route['/taxi/messages'] = {titre:'messages',profilId:[ProfilEnum.Taxi]}
 

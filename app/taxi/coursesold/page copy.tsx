@@ -72,8 +72,8 @@ function Home() {
                   console.log('erreur');
                }
                else {
-                  const CACHE_NAME = "CACHE_V_1.00";
-                  caches.open(CACHE_NAME)
+                  const cacheName = "CACHE_V_1.00";
+                  caches.open(cacheName)
                      .then((cache) => {
                         cache.match('/getListeCourses.json')
                            .then((response) => {
@@ -134,8 +134,8 @@ function Home() {
    //                   console.log('erreur');
    //                }
    //                else {
-   //                   const CACHE_NAME = "CACHE_V_1.00";
-   //                   caches.open(CACHE_NAME)
+   //                   const cacheName = "CACHE_V_1.00";
+   //                   caches.open(cacheName)
    //                      .then((cache) => {
    //                         cache.match('/getListeCourses.json')
    //                            .then((response) => {
@@ -191,8 +191,8 @@ function Home() {
    //                console.log('erreur');
    //             }
    //             else {
-   //                const CACHE_NAME = "CACHE_V_1.00";
-   //                caches.open(CACHE_NAME).then((cache) => {
+   //                const cacheName = "CACHE_V_1.00";
+   //                caches.open(cacheName).then((cache) => {
    //                   cache.match('/getListeCourses.json')
    //                      .then((response) => {
    //                         response?.json().then((data => {
@@ -242,8 +242,8 @@ function Home() {
    //             console.log('erreur');
    //           }
    //           else {
-   //             const CACHE_NAME = "CACHE_V_1.00";
-   //             caches.open(CACHE_NAME).then((cache) => {
+   //             const cacheName = "CACHE_V_1.00";
+   //             caches.open(cacheName).then((cache) => {
    //               cache.match('/getListeCourses.json')
    //                 .then((response) => {
    //                   response?.json().then((data => {

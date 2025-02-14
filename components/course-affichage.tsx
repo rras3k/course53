@@ -19,17 +19,13 @@ export default function CourseAffichage({ filtreCourse, datas }) {
 	const clickRegroupement = () => {
 		setOpen(true);
 	}
-	// let cpt: number = 0;
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
 	let trouve = false
 	const d = new Date();
 	const heureCourante = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-	// componentDidMount() {
-	// 	const ancre = document.getElementById("ancre");
-	// 	ancre?.scrollIntoView({ behavior: "instant", block: "end" });
-	//   }
-	console.log("Affichage des courses ",filtreCourse)
+	console.log("Affichage des courses ",filtreCourse,datas)
+	if (datas===null) return (<></>)
 	return (
 		<>
 			{

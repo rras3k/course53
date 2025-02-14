@@ -1,19 +1,14 @@
 
 
-importScripts("/compat.js");
 
-const CACHE_NAME = "CACHE_V_1.00"
-const DELAI_API_GET_COURSE = 15000
-let token = ""
-let profilId = ""
-const PROFIL_TAXI = "1"
+
 
 
 // function resetData() {
 //     // Suppression du cache: Appels API serveur
-//     caches.delete(CACHE_NAME).then(() => {
+//     caches.delete(cacheName).then(() => {
 //         // le cache est maintenant supprimé
-//         console.log('app/identification/page.tsx > CACHE_NAME est supprimé', CACHE_NAME);
+//         console.log('app/identification/page.tsx > cacheName est supprimé', cacheName);
 //     });
 //     // Suppression IndexedDB 
 //     clear()
@@ -26,9 +21,9 @@ function identClear() {
 	token = ""
 
 	// Suppression du cache: Appels API serveur
-	caches.delete(CACHE_NAME).then(() => {
+	caches.delete(cacheName).then(() => {
 		// le cache est maintenant supprimé
-		console.log('app/identification/page.tsx > CACHE_NAME est supprimé', CACHE_NAME);
+		console.log('app/identification/page.tsx > cacheName est supprimé', cacheName);
 	});
 	// Suppression IndexedDB 
 	clear()
@@ -41,20 +36,24 @@ function identClear() {
 // -------------------------------------------------  COURSES POUR UN TAXI ---------------------------------------------------------------------
 
 const affConsoleSW = false;
-function logSW(message, value){
-	if(affConsoleSW)  console.log("SW  ----- "+message, value)
+function logSW(message, value) {
+	if (affConsoleSW) console.log("SW  ----- " + message, value)
 }
 
 // Récupération toutes les 60 secondes d'un fichier JSON et mise en cache
+const channelHasNotification = new BroadcastChannel('sw-hasNotification');
+const channelCourseData= new BroadcastChannel('sw-courses-data');
+
 
 function getListecourses() {
 	logSW("SW getListecourses")
 	const interval = setInterval(async () => {
 		logSW("SW token 1", token)
 		if (token === "") {
+			console.log("==================================== GET token ===========================================")
 			get('token')
 				.then((tokenBD) => {
-					logSW("SW token 2",tokenBD)
+					logSW("SW token 2", tokenBD)
 
 					if (tokenBD != undefined) {
 						logSW("SW récupération du token")
@@ -70,23 +69,23 @@ function getListecourses() {
 		else {
 			getListecourses2()
 		}
-	}, DELAI_API_GET_COURSE);
+	}, delaiApiGetCourse);
 	return () => clearInterval(interval)
 }
 
 function getListecourses2() {
 	logSW("SW getListecourses2")
 
-	if (URL_API === "") {
-		get('URL_API')
+	if (urlApi === "") {
+		get('urlApi')
 			.then((url) => {
 				if (url != undefined) {
-					URL_API = url
+					urlApi = url
 					getListecourses3()
 				}
 			})
 			.catch(e => {
-				console.error("lecture URL_API cache errreur", e);
+				console.error("lecture urlApi cache errreur", e);
 				identClear() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
 			})
 	}
@@ -118,10 +117,10 @@ function getListecourses3() {
 async function getListecourses4() {
 	logSW("SW getListecourses4")
 
-	if (profilId === PROFIL_TAXI) {
+	if (profilId === profilTaxi) {
 		try {
 			const response = await fetch(
-				URL_API + "/trips/today/",
+				urlApi + "/trips/today/",
 				{
 					headers: {
 						'Authorization': `Bearer ${token}`,
@@ -131,7 +130,7 @@ async function getListecourses4() {
 				}
 			);
 			const data = await response.json();
-			caches.open(CACHE_NAME).then((cache) => {
+			caches.open(cacheName).then((cache) => {
 				del('course_in_date');
 				if (!data?.retour) { // la requete échoue par mauvaise identification
 					identClear() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
@@ -139,13 +138,17 @@ async function getListecourses4() {
 				}
 				else {
 					logSW("SW data ok")
+					constdateNow = Date.now()
+					channelCourseData.postMessage({ datas: data,date:constdateNow })
+					console.log('public/artaxisw.js ------------------- > data',constdateNow)
 
 					cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
 					set('course_in_date', Date.now());
 					if (dcHasProposition(data)) {
-						console.log('public/sw.js > has notification')
-						showNotification();
 					}
+					channelHasNotification.postMessage({ hasProposition: true,date:constdateNow })
+					console.log('public/artaxisw.js ------------------- > has notification',constdateNow)
+					showNotification();
 				}
 				// console.log("isIDent", isIdent);
 			});
@@ -177,7 +180,7 @@ const dcHasProposition = (datas) => {
 	});
 	console.log('public/sw.js > hasProposition', hasProposition);
 
-	set('hasProposition', hasProposition);
+	// set('hasProposition', hasProposition);
 	sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
 	return hasProposition;
 }
@@ -206,7 +209,7 @@ const sendNotification = async (title, text) => {
 			}
 		})
 		.catch((e) => {
-			console.log("error get(stateDisplayNotification)")
+			console.log("error get(stateDisplayNotification)",e)
 		})
 };
 const showNotification = async (title, text) => {

@@ -1,12 +1,17 @@
 "use client"
 
 // import isAuth from "@/components/isAuth";
-function Messages() {
+import { useCourseTaxiContext } from "@/components/course-taxi-provider"
+import { Button } from "@/components/ui/button";
+
+export default function Messages() {
+	const {hasProposition, setHasProposition} = useCourseTaxiContext()
+
 	return (
 		<>
 			messages
+			---{hasProposition && "ooooo"}----
+			<Button onClick={()=>{setHasProposition(!hasProposition)}}>Inverse</Button>
 		</>
 	)
 }
-export default Messages;
-// export default isAuth(Messages);

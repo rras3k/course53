@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-import { identDeleteToken,hasPropositionDelete } from "@/lib/artaxi";
+import { identDeletetoken,hasPropositionDelete } from "@/lib/artaxi";
 import { useRouter } from 'next/navigation';
 
 
@@ -20,7 +20,7 @@ export default function Deconnexion() {
 						router.back();
 					}} className="h-14 w-36 text-lg bg-secondary">Non</Button>
 					<Button onClick={() => {
-						identDeleteToken();
+						identDeletetoken();
 						hasPropositionDelete();
 						router.push("/identification")
 					}
