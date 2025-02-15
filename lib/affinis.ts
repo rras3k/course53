@@ -1,8 +1,11 @@
-export const token: string = "token";
-export const interval: number = 15000
+
+export const tokenName:string = "token"
+
+import { getAppVersion } from "./rrasb2k/app";
+export const cacheName = "cache_" + getAppVersion()
+
 
 // -------------- API /trips/today-all
-
 export const urlApi_today_all: string = "/trips/today-all"
 
 // api : "/trips/today-all"

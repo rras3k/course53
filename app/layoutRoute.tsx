@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation"
 import { useEffect } from 'react'
-import { token } from "@/lib/affinis"
+import { tokenName } from "@/lib/affinis"
 
 export default function LayoutRoute({ children }: { children: React.ReactNode }) {
 	const router = useRouter()
@@ -11,7 +11,7 @@ export default function LayoutRoute({ children }: { children: React.ReactNode })
 
 	useEffect(() => {
 		if (!pathExcept.includes(pahtName)) {
-			const token: string | null = localStorage.getItem(token)
+			const token: string | null = localStorage.getItem(tokenName)
 			if (token === null && pahtName !== "/identification") {
 				console.log("Vers identification, car aucun token")
 				return router.push("/identification")

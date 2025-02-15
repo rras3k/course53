@@ -1,13 +1,6 @@
 'use client'
 
-import { getAppVersion } from "./rrasb2k/app";
-// import { set, del, clear } from 'idb-keyval';
-import { token, Ident} from "./affinis";
-
-// ==================================================================== URL
-export const cacheName = "cache_" + getAppVersion()
-
-// ==================================================================== IDENTIFICATION
+import { tokenName, cacheName, Ident } from "./affinis";
 
 export function identSet(identData: Ident): boolean {
 
@@ -18,19 +11,39 @@ export function identSet(identData: Ident): boolean {
 	// set("prenom", identData.prenom);
 
 	// Local storage pour le reste de l'application
-	localStorage.setItem(token, identData.token);
+	localStorage.setItem(tokenName, identData.token);
 	localStorage.setItem("profilId", identData.profilId);
 	localStorage.setItem("lastname", identData.nom);
 	localStorage.setItem("firstname", identData.prenom);
-
-
-	// set(token, "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwiZGF0ZUNyZWF0aW9uIjoiMjAyNC0xMS0yMCAwMzowMDowMCJ9.9Rwd_JiW85VciNoSpm-kQMJdlMuRXULnXQhCxl8RNn8");
+	identSendinitVarWorker(identData.token, identData.profilId)
 	return true;
 }
 
+function identSendinitVarWorker(token: string, profilId: string) {
+	const channelInitVar = new BroadcastChannel('sw-initvar')
+	channelInitVar.postMessage({
+		cacheName: process.env.NEXT_PUBLIC_CAHE_NAME,
+		delaiApiGetCourse: process.env.NEXT_PUBLIC_DELAI_API_GET_COURSE,
+		token: token,
+		profilId: profilId,
+		urlApi: process.env.NEXT_PUBLIC_API_URL,
+	})
+	channelInitVar.close()
+}
+
 export async function identClear() {
+	// reset var
 	// Suppression du cache: Appels API serveur
-	caches.delete(cacheName) 
+	if (cacheName){
+
+		caches.delete(cacheName)
+		.then((value)=>{
+			console.log(" suprresion cache dans identClear ok: ",value)
+		})
+		.catch((e)=>{
+			console.log("erreur suprresion cache dans identClear",e)
+		})
+	}
 
 	// Suppression dans IndexedDB 
 	//clear()

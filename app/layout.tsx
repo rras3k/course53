@@ -9,7 +9,9 @@ import LayoutRoute from "./layoutRoute";
 import ScreenWakeLock from "@/components/screen-wake-lock";
 import "./globals.css";
 import LayoutInstall from "./layoutInstall";
-import CourseTaxiProvider from "@/components/course-taxi-provider";
+import HasPorpositionProvider from "@/providers/has-proposition-provider";
+import CourseTaxiProvider from "@/providers/course-taxi-provider";
+
 // import { usePathname, useRouter } from "next/navigation"
 // import {  get } from 'idb-keyval';
 // import type { Metadata } from "next";
@@ -37,8 +39,10 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             <LayoutInstall>
               <LayoutRoute>
                 <ScreenWakeLock />
-                <CourseTaxiProvider>
+                <HasPorpositionProvider>
                   <NavHor />
+                </HasPorpositionProvider>
+                <CourseTaxiProvider>
                   <div className="pt-14 bg-black-800">
                     <div className="mx-auto md:w-[768px]">
                       {children}

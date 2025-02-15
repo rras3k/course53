@@ -13,7 +13,7 @@ export default function LayoutWorker({children,}: {children: React.ReactNode;}) 
 				.register("/sw.js")
 				.then((serviceWorkerRegistration) => {
 					// serviceWorkerRegistration =  navigator.serviceWorker.getRegistration();
-					console.log("kkkk navigator.serviceWorker", navigator.serviceWorker.getRegistration())
+					console.log("navigator.serviceWorker", navigator.serviceWorker.getRegistration())
 
 					console.log("Service Worker registered with scope:", serviceWorkerRegistration.scope);
 				})

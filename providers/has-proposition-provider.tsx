@@ -9,10 +9,10 @@ type ContextType = {
 };
 
 // Création du contexte
-export const CourseTaxiContext = createContext<ContextType>({ hasProposition: false, setHasProposition: () => { } })
+export const HasPropositionContext = createContext<ContextType>({ hasProposition: false, setHasProposition: () => { } })
 
 // Installation du contexte
-export default function CourseTaxiProvider({ children }: { children: React.ReactNode }) {
+export default function HasPropositionProvider({ children }: { children: React.ReactNode }) {
     const dejaFait = useRef(false)
     const [hasProposition, setHasProposition] = useState<boolean>(false)
     const valueHasProposition = {
@@ -30,8 +30,8 @@ export default function CourseTaxiProvider({ children }: { children: React.React
     }
 
 
-    return <CourseTaxiContext.Provider value={valueHasProposition}> {children} </CourseTaxiContext.Provider>
+    return <HasPropositionContext.Provider value={valueHasProposition}> {children} </HasPropositionContext.Provider>
 }
 
 // Consommation du contexte
-export const useCourseTaxiContext = () => useContext(CourseTaxiContext)
+export const useHasPropositionContext = () => useContext(HasPropositionContext)

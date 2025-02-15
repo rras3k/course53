@@ -12,9 +12,9 @@ import { clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 // import Version from "./version";
 import MenuApp from './menu-app';
-import { get } from 'idb-keyval';
+// import { get } from 'idb-keyval'
 import { isPathCourseFiltre } from '@/lib/affinis';
-import { useCourseTaxiContext } from './course-taxi-provider';
+import { useHasPropositionContext } from '@/providers/has-proposition-provider';
 
 
 
@@ -23,9 +23,8 @@ export function NavHor() {
 	const router = useRouter();
 
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
-	// const [hasProposition, setHasProposition] = useState(false);
-		const {hasProposition, setHasProposition} = useCourseTaxiContext()
-	
+	const { hasProposition, setHasProposition } = useHasPropositionContext()
+
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
 	const [isShowDeconnexion, setIsShowDeconnexion] = useState(false);
 	const [filtreCourseFillColor, setFiltreCourseFillColor] = useState('');
@@ -70,12 +69,12 @@ export function NavHor() {
 		setOpenMenu(bool)
 	}
 
-	if (!dejaFait.current){
-		dejaFait.current=true
+	if (!dejaFait.current) {
+		dejaFait.current = true
 		const channelHasNotification = new BroadcastChannel('sw-hasNotification');
 		channelHasNotification.addEventListener('message', event => {
-			console.log('Received sw-hasNotification', event.data);
-			setHasProposition(true);
+			console.log('Received sw-hasNotification !!!!', event.data);
+			setHasProposition(event.data.hasProposition);
 		});
 	}
 
