@@ -69,14 +69,14 @@ export function NavHor() {
 		setOpenMenu(bool)
 	}
 
-	if (!dejaFait.current) {
-		dejaFait.current = true
-		const channelHasNotification = new BroadcastChannel('sw-hasNotification');
-		channelHasNotification.addEventListener('message', event => {
-			console.log('Received sw-hasNotification !!!!', event.data);
-			setHasProposition(event.data.hasProposition);
-		});
-	}
+	// if (!dejaFait.current) {
+	// 	dejaFait.current = true
+	// 	const channelHasNotification = new BroadcastChannel('sw-hasNotification');
+	// 	channelHasNotification.addEventListener('message', event => {
+	// 		console.log('Received sw-hasNotification !!!!', event.data);
+	// 		setHasProposition(event.data.hasProposition);
+	// 	});
+	// }
 
 	return (
 		<>

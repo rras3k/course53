@@ -15,13 +15,13 @@ function identClear() {
 	logSW(" ============== RESET ===============")
 	profilId = ""
 	token = ""
-	cacheName = ""
-
+	
 	// Suppression du cache: Appels API serveur
 	caches.delete(cacheName).then(() => {
 		// le cache est maintenant supprimé
 		console.log('app/identification/page.tsx > cacheName est supprimé', cacheName);
 	});
+	cacheName = ""
 	// Suppression IndexedDB 
 	// clear()
 	// Suppression local.storage
@@ -36,6 +36,7 @@ function logSW(message, value) {
 // Récupération toutes les 60 secondes d'un fichier JSON et mise en cache
 const channelHasNotification = new BroadcastChannel('sw-hasNotification');
 const channelCourseData = new BroadcastChannel('sw-courses-data');
+const channelToDeconnect = new BroadcastChannel('sw-to-deconnect');
 
 
 function getListecourses() {
@@ -60,6 +61,7 @@ function getListecourses() {
 				);
 				const data = await response.json();
 				if (!data?.retour) { // la requete échoue par mauvaise identification
+					channelToDeconnect.postMessage({deconnect:true})
 					identClear() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
 					token = ""
 				}

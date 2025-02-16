@@ -1,7 +1,7 @@
 "use client"
 
 
-import {useEffect}  from "react"
+import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { identSet, identClear } from "@/lib/artaxi";
-import { useState } from 'react';
+import { useState,useRef } from 'react';
 import { useRouter } from "next/navigation"
 import { set } from 'idb-keyval';
 import { getInputStringValue } from "@/lib/rrasb2k/domUtils"
@@ -29,13 +29,22 @@ export default function Identification() {
 	identClear() // suprime toutes données dans les caches et indexDb de l'identification
 	setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
 
+	const dejaFait = useRef(false)
 
 	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
 	// const [label, setLabel] = useState(1);
 
+	if (!dejaFait.current) {
+		dejaFait.current = true
 
-	
+		const channeConnect = new BroadcastChannel('sw-to-deconnect');
+		channeConnect.addEventListener('message', event => {
+			console.info('Received PROVIDER sw-courses-data', event.data);
+			if (event?.data?.connect) router.push('/identification')
+		});
+	}
+
 
 	const submit = () => {
 		const login = getInputStringValue("login")

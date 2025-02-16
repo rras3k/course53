@@ -12,7 +12,7 @@ export default function Courses() {
    const [wait, setWait] = useState(true)
    // const [fetchDataTrigger, setFetchDataTrigger] = useState(0)
    // let dataCourses = null
-   const dejaFait = useRef<boolean>(false)
+   // const dejaFait = useRef<boolean>(false)
    const { courses, setCourses } = useCourseTaxiContext()
 
 
@@ -36,6 +36,7 @@ export default function Courses() {
          setWait(false)
       }
    }, [courses])
+
    return (
       <>
          {wait}
