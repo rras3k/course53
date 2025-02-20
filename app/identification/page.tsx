@@ -27,23 +27,23 @@ const setUrlApiDb = () => {
 export default function Identification() {
 
 	identClear() // suprime toutes données dans les caches et indexDb de l'identification
-	setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
+	//setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
 
-	const dejaFait = useRef(false)
+	// const dejaFait = useRef(false)
 
 	const router = useRouter();
 	const [isErrorMsg, setIsErrorMsg] = useState(false);
 	// const [label, setLabel] = useState(1);
 
-	if (!dejaFait.current) {
-		dejaFait.current = true
+	// if (!dejaFait.current) {
+	// 	dejaFait.current = true
 
-		const channeConnect = new BroadcastChannel('sw-to-deconnect');
-		channeConnect.addEventListener('message', event => {
-			console.info('Received PROVIDER sw-courses-data', event.data);
-			if (event?.data?.connect) router.push('/identification')
-		});
-	}
+	// 	const channeConnect = new BroadcastChannel('sw-to-deconnect');
+	// 	channeConnect.addEventListener('message', event => {
+	// 		console.info('Received PROVIDER sw-to-deconnect', event.data);
+	// 		if (event?.data?.connect) router.push('/identification')
+	// 	});
+	// }
 
 
 	const submit = () => {

@@ -2,120 +2,161 @@
 importScripts("/sw-affinis.js");
 importScripts("/compat.js");
 
-// Mis en place du lecteur de message pour l'initialisation des variables pour le worker
-const channelInitVar = new BroadcastChannel('sw-initvar')
+let interval = null
+
+// Listener pour l'initialisation des variables pour le worker
+const channelInitVar = new BroadcastChannel('initvar')
+
+// Post d'un boolean indiquant si detection de proposition lors de la derniere reception de courses pour un taxi
+const channelHasNotification = new BroadcastChannel('sw-hasNotification');
+
+// Post d'un tableau JSON contenant la derniere reception de courses pour un taxi
+const channelCourseData = new BroadcastChannel('sw-courses-data');
+
+// Post d'un tableau JSON contenant la derniere reception de courses de tous les taxis
+const channelAllCourseData = new BroadcastChannel('sw-all-courses-data');
+
+// Post d'un boolean indiquant qu'il faut supprimer toutes traces de la derniere session en dehors du web worker
+const channelToDeconnect = new BroadcastChannel('sw-to-deconnect');
+
+// Listener d'un boolean indiquant si il faut supprimer toute trace de la derniere session dans le web worker
+const channelToDeconnectToSW = new BroadcastChannel('deconnect');
+
+
 channelInitVar.addEventListener('message', event => {
-	console.log('Received sw-initvar', event.data)
+	console.log('Received initvar', event.data)
 	initVar(event.data)
 	console.log("ca marche token = ", token)
+	backProcess();
+});
+
+channelToDeconnectToSW.addEventListener('message', event => {
+	console.log('Received channelToDeconnectToSW', event.data)
+	identClear()
+	channelHasNotification.postMessage({ hasProposition: false, date: Date.now() })
 });
 
 
+function identClearAndPost() {
+	console.log(" ============== RESET AND POST===============")
+	identClear()
+	console.log("envoi message Deconnect")
+	channelToDeconnect.postMessage({ deconnect: true })
+}
+
 function identClear() {
-	logSW(" ============== RESET ===============")
+	console.log(" ============== RESET ===============")
 	profilId = ""
 	token = ""
-	
+
 	// Suppression du cache: Appels API serveur
 	caches.delete(cacheName).then(() => {
 		// le cache est maintenant supprimé
 		console.log('app/identification/page.tsx > cacheName est supprimé', cacheName);
 	});
 	cacheName = ""
+
+
 	// Suppression IndexedDB 
 	// clear()
 	// Suppression local.storage
 	//localStorage.clear();
+	clearInterval(interval)
 }
 
-const affConsoleSW = false;
-function logSW(message, value) {
-	if (affConsoleSW) console.log("SW  ----- " + message, value)
-}
-
-// Récupération toutes les 60 secondes d'un fichier JSON et mise en cache
-const channelHasNotification = new BroadcastChannel('sw-hasNotification');
-const channelCourseData = new BroadcastChannel('sw-courses-data');
-const channelToDeconnect = new BroadcastChannel('sw-to-deconnect');
-
-
-function getListecourses() {
-	logSW("SW getListecourses")
-	const interval = setInterval(async () => {
-		logSW("SW token 1", token)
-		if (token === "" || profilId !== profilTaxi || urlApi === "") {
-			// On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
-			identClear()
-		}
-		else {
-			try {
-				const response = await fetch(
-					urlApi + "/trips/today/",
-					{
-						headers: {
-							'Authorization': `Bearer ${token}`,
-							"Content-Type": "application/json",
-						},
-						method: 'GET'
-					}
-				);
-				const data = await response.json();
-				if (!data?.retour) { // la requete échoue par mauvaise identification
-					channelToDeconnect.postMessage({deconnect:true})
-					identClear() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
-					token = ""
-				}
-				else {
-					logSW("SW data ok")
-					constdateNow = Date.now()
-					console.log('public/artaxisw.js ------------------- > data', constdateNow)
-					channelCourseData.postMessage({ datas: data, date: constdateNow })
-
-					// cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
-					lastCoursesDatasReceive = Date.now()
-					// set('course_in_date', Date.now());
-					if (dcHasProposition(data)) {
-						console.log('public/artaxisw.js ------------------- > has notification', constdateNow)
-						sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
-						channelHasNotification.postMessage({ hasProposition: true, date: constdateNow })
-						// showNotification();
-					}
-				}
-
-
-
-				// caches.open(cacheName).then((cache) => {
-				// 	// del('course_in_date');
-				// 	if (!data?.retour) { // la requete échoue par mauvaise identification
-				// 		identClear() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
-				// 		token = ""
-				// 	}
-				// 	else {
-				// 		logSW("SW data ok")
-				// 		constdateNow = Date.now()
-				// 		channelCourseData.postMessage({ datas: data, date: constdateNow })
-				// 		console.log('public/artaxisw.js ------------------- > data', constdateNow)
-
-				// 		// cache.put('/getListeCourses.json', new Response(JSON.stringify(data)));
-				// 		lastCoursesDatasReceive = Date.now()
-				// 		// set('course_in_date', Date.now());
-				// 		if (dcHasProposition(data)) {
-				// 			console.log('public/artaxisw.js ------------------- > has notification', hasProposition, constdateNow)
-				// 			sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
-				// 			channelHasNotification.postMessage({ hasProposition: true, date: constdateNow })
-				// 			showNotification();
-				// 		}
-				// 	}
-				// });
-			}
-			catch (e) {
-				console.error("ERREUR /trips/today/", e);
-			}
-		}
+function backProcess() {
+	backProcessAction()
+	interval = setInterval(async () => {
+		console.log("interval",interval, token)
+		backProcessAction()
 	}, delaiApiGetCourse);
 	return () => clearInterval(interval)
 }
-getListecourses();
+
+function backProcessAction(){
+	if (token === "" || urlApi === "") {
+		// On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
+		console.log("identClearAndPost backProcess 1")
+		identClearAndPost()
+	}
+	else {
+		// chargement API des courses d'un taxi
+		if (isProfilTaxi()) getCoursesTaxi()
+		else if (isProfilAdmin()) getCoursesAllTaxis()
+		else {
+			console.log("identClearAndPost backProcess 2", profilId)
+			identClearAndPost()
+		}
+	}
+}
+
+async function getCoursesTaxi() {
+	console.log("getCoursesTaxi",token)
+	try {
+		const response = await fetch(
+			urlApi + "/trips/today/",
+			{
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				method: 'GET'
+			}
+		);
+		const data = await response.json();
+		constdateNow = Date.now()
+		console.log('getCoursesTaxi ------------------- > data',data,constdateNow)
+
+		if (!data?.retour) { // la requete échoue par mauvaise identification
+			channelToDeconnect.postMessage({ deconnect: true })
+			console.log("identClearAndPost getCoursesTaxi")
+			identClearAndPost() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
+			token = ""
+		}
+		else {
+			channelCourseData.postMessage({ datas: data, date: constdateNow })
+			lastCoursesDatasReceive = Date.now()
+			if (dcHasProposition(data)) {
+				console.log('public/artaxisw.js ------------------- > has notification', constdateNow)
+				sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
+				channelHasNotification.postMessage({ hasProposition: true, date: constdateNow })
+			}
+		}
+	}
+	catch (e) {
+		console.error("ERREUR /trips/today/", e);
+	}
+}
+
+async function getCoursesAllTaxis() {
+	console.log(" ======================== ADMN =============================")
+	try {
+		const response = await fetch(
+			urlApi + "/trips/today-all",
+			{
+				headers: {
+					'Authorization': `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+				method: 'GET'
+			}
+		);
+		const data = await response.json();
+		constdateNow = Date.now()
+		console.log('getCoursesAllTaxis ------------------- > data',data,constdateNow)
+		if (data?.message) { // la requete échoue par mauvaise identification
+			channelToDeconnect.postMessage({ deconnect: true })
+			identClearAndPost() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification
+			token = ""
+		}
+		else {
+			channelAllCourseData.postMessage({ datas: data, date: constdateNow })
+		}
+	}
+	catch (e) {
+		console.error("ERREUR /trips/today-all", e);
+	}
+}
 
 const dcHasProposition = (datas) => {
 	let hasProposition = false;
@@ -147,7 +188,7 @@ const sendNotification = async (title, text) => {
 		})
 		.catch((e) => {
 			console.log("error get(stateDisplayNotification)", e)
-			set("stateDisplayNotification",true)
+			set("stateDisplayNotification", true)
 
 		})
 };

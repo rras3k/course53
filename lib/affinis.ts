@@ -112,8 +112,11 @@ export function getFiltreCourse(queryFiltre: string | null): string {
 	}
 }
 
-export function isPathCourseFiltre(path:string):boolean{
+export function isPathCourseFiltreTaxi(path:string):boolean{
 	return (path === "/taxi/courses")
+}
+export function isPathCourseFiltreAllTaxi(path:string):boolean{
+	return (path === "/admin/courses")
 }
 
 //  ROUTE

@@ -1,5 +1,3 @@
-"use client"
-
 import { ReactNode } from "react";
 // import CourseTaxiProvider from "@/providers/has-proposition-provider";
 

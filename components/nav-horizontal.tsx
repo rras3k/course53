@@ -13,7 +13,7 @@ import { twMerge } from "tailwind-merge";
 // import Version from "./version";
 import MenuApp from './menu-app';
 // import { get } from 'idb-keyval'
-import { isPathCourseFiltre } from '@/lib/affinis';
+import { isPathCourseFiltreTaxi,isPathCourseFiltreAllTaxi } from '@/lib/affinis';
 import { useHasPropositionContext } from '@/providers/has-proposition-provider';
 
 
@@ -29,7 +29,8 @@ export function NavHor() {
 	const [isShowDeconnexion, setIsShowDeconnexion] = useState(false);
 	const [filtreCourseFillColor, setFiltreCourseFillColor] = useState('');
 	const [filtreCourseColor, setFiltreCourseColor] = useState('bg-green-400');
-	const [showFiltre, setShowFiltre] = useState<boolean>(false)
+	const [showFiltreTaxi, setShowFiltreTaxi] = useState<boolean>(false)
+	const [showFiltreAllTaxi, setShowFiltreAllTaxi] = useState<boolean>(false)
 	const [title, setTitle] = useState("");
 	const dejaFait = useRef<boolean>(false)
 
@@ -41,7 +42,8 @@ export function NavHor() {
 
 
 	useEffect(() => {
-		setShowFiltre(isPathCourseFiltre(path))
+		setShowFiltreTaxi(isPathCourseFiltreTaxi(path))
+		setShowFiltreAllTaxi(isPathCourseFiltreAllTaxi(path))
 		setTitle(getTitle(path));
 	}, [path]);
 
@@ -49,14 +51,6 @@ export function NavHor() {
 		setFiltreCourseFillColor(getFiltreCourseFillColor(filtre));
 		setFiltreCourseColor(getFiltreCourseColor(filtre));
 	}, [filtre]);
-
-	// useEffect(() => {
-	// 	get('hasProposition').then((value) => {
-	// 		if (value != null && value) {
-	// 			setHasProposition(true);
-	// 		}
-	// 	});
-	// }, [hasProposition])
 
 	const iconHome_className = clsx(
 		'mx-3 flex-none',
@@ -96,8 +90,13 @@ export function NavHor() {
 							{title}
 						</div>
 					</div>
-
-					{showFiltre &&
+					
+					{showFiltreTaxi &&
+						<div onClick={() => router.push('/taxi/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
+							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
+						</div>
+					}
+					{showFiltreAllTaxi &&
 						<div onClick={() => router.push('/taxi/course-filtre')} className={` ${filtreCourseColor}  mx-2 w-10 flex-none  border rounded-md h-10 content-center my-auto  border-0`} >
 							<Filter strokeWidth={1} className={` ${filtreCourseFillColor} stroke-sky-700 mx-auto`} size={32} />
 						</div>

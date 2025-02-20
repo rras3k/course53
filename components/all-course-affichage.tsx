@@ -1,40 +1,23 @@
 "use client"
 
+// import { loadExampleListAll } from "@/lib/artaxi";
 import { Filtre_course_url_query, Course_statut } from "@/lib/affinis";
+// import { COURSE_STATUT_ANNULEE, COURSE_STATUT_CLOTUREE, COURSE_STATUT_A_FAIRE } from "@/lib/artaxi";
+// import { COURSE_FILTRE_A_FAIRE, COURSE_FILTRE_PROPOSITION, COURSE_FILTRE_CLOTUREE, COURSE_FILTRE_ANNULEE, COURSE_FILTRE_TOUTE } from "@/lib/artaxi";
 import { clsx } from 'clsx';
+// import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from "tailwind-merge";
 import CourseAction from "./course-action";
 import { useState } from 'react';
 import { Users } from 'lucide-react';
+// import { set, get, del } from 'idb-keyval';
 import React from 'react'
 
-
-
-function getCoursesForRgpId(datas: [], rgpId: string): [] {
-	let dataRet: [] = []
-	datas?.map((course) => {
-		if (course.rgp_course_id === rgpId) {
-			dataRet.push(course)
-		}
-	})
-	console.log("courses pour dialog", dataRet)
-	return dataRet
-}
-
-export default function CourseAffichage({ filtreCourse, datas, clickable }) {
-	console.log("------------------------------------------------------- CourseAffichage ------------------------------")
-
+export default function AllCourseAffichage({ filtreCourse, datas }) {
 	const [open, setOpen] = useState(false);
-	const [dataToDialog, setDataToDialog] = useState<[]>();
 	console.log("course-affichage !!!!!")
-	let dataRgp = null
-
-	const clickRegroupement = (rgpId: string) => {
-		if (clickable) {
-			const dateSel: [] = getCoursesForRgpId(datas, rgpId)
-			setDataToDialog(dateSel)
-			setOpen(true);
-		}
+	const clickRegroupement = () => {
+		setOpen(true);
 	}
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
@@ -43,13 +26,11 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 	const heureCourante = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
 	console.log("Affichage des courses ", filtreCourse, datas)
 	if (datas === null) return (<></>)
-
 	return (
 		<>
 			{
 				<div className="flex flex-col text-xl">
-					{/* {datas.data.courses.map((course) => { */}
-					{datas.map((course) => {
+					{datas.data.courses.map((course) => {
 						isCourseToDo = false;
 						// console.log(filtreCourse);
 						switch (filtreCourse) {
@@ -75,10 +56,11 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 							default:
 								break;
 						}
+						isCourseToDo = true;
 
 						if (isCourseToDo) {
 							const divLevel1_className = clsx(
-								'border-t border-b border-black border-solid py-1',
+								'border-t border-b border-black border-solid py-1 ',
 								{
 									'bg-green-200': course.course_status == Course_statut.A_faire,
 									'bg-blue-200': course.course_status == Course_statut.Cloturee,
@@ -100,7 +82,59 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 							}
 
 							return (
-								<div onClick={() => { clickRegroupement(course.rgp_course_id) }} key={course.course_id} id={idTag} className={twMerge(divLevel1_className)} >
+								<div onClick={clickRegroupement} key={course.course_id} id={idTag} className={twMerge(divLevel1_className)} >
+									<div className="flex">
+										<div className="w-20 text-center font-bold">{course.first_takeover_date.substring(11, 16)}</div>
+										<div className="col-span-4">{course.first_takeover_arret_libelle}</div>
+									</div>
+									<div className="flex">
+										<div className="w-20 text-center text-gray-700">{course.last_dropoff_date.substring(11, 16)}</div>
+										<div className="text-gray-700">{course.last_dropoff_arret_libelle}</div>
+									</div>
+									<div className="flex flex-row-reverse text-base h-5 text-gray-500">
+										<div className="w-40 text-center font-bold">{course.course_id}</div>
+										<div className="w-40 text-center font-bold">{course.rgp_course_id}</div>
+										<div className="w-20 text-center font-bold">{course.taxi_name}</div>
+										<div className="w-20 text-center">
+											<Users strokeWidth={1} className="mr-2 inline mx-auto" size={17} />
+											{course.client_nb}
+										</div>
+										<div className="">
+											{course.client_nom}
+										</div>
+									</div>
+
+									{/* 									
+									<div className="">
+										{course.course_id}
+									</div>
+									<div className=" border border-solid border-black">
+										{course.rgp_course_id}
+									</div>
+									<div className="">
+										{course.first_takeover_date.substring(11, 16)}
+									</div>
+									<div className="">
+										{course.first_takeover_arret_libelle}
+									</div>
+									<div className="">
+										{course.last_dropoff_date.substring(11, 16)}
+									</div>
+									<div className="">
+										{course.last_dropoff_arret_libelle}
+									</div>
+									<div className="">
+										{course.client_nom}
+									</div>
+									<div className="">
+										{course.client_nb}
+									</div>
+									<div className="">
+										{course.taxi_name}
+									</div>
+ */}
+
+									{/* 
 									<div className="flex">
 										<div className="w-20 text-center font-bold">{course.first_takeover_date.substring(11, 16)}</div>
 										<div className="col-span-4">{course.first_takeover_arret_libelle}</div>
@@ -117,7 +151,7 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 										<div className="">
 											{course.client_nom}
 										</div>
-									</div>
+									</div> */}
 								</div>
 							);
 						}
@@ -125,7 +159,7 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 				</div>
 			}
 			{
-				open && <CourseAction open={open} setOpen={setOpen} datas={dataToDialog} filtre={filtreCourse} />
+				open && <CourseAction open={open} setOpen={setOpen} />
 			}
 		</>
 	)

@@ -2,7 +2,6 @@
 
 import { createContext, Dispatch, SetStateAction, useContext, useRef, useState } from "react"
 
-
 type ContextTypeCourses = {
     courses: object[] | undefined
     setCourses: Dispatch<SetStateAction<object[] | undefined>>,
@@ -23,14 +22,13 @@ export default function CourseTaxiProvider({ children }: { children: React.React
 
     if (!dejaFait.current) {
         dejaFait.current = true
+
         const channeCourses = new BroadcastChannel('sw-courses-data');
         channeCourses.addEventListener('message', event => {
             console.info('Received PROVIDER sw-courses-data', event.data);
             setCourses(event.data);
         });
     }
-
-
     return <CourseTaxiContext.Provider value={valueCourses}> {children} </CourseTaxiContext.Provider>
 }
 

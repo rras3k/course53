@@ -20,9 +20,9 @@ export function identSet(identData: Ident): boolean {
 }
 
 function identSendinitVarWorker(token: string, profilId: string) {
-	const channelInitVar = new BroadcastChannel('sw-initvar')
+	const channelInitVar = new BroadcastChannel('initvar')
 	channelInitVar.postMessage({
-		cacheName: process.env.NEXT_PUBLIC_CAHE_NAME,
+		cacheName: process.env.NEXT_PUBLIC_CACHE_NAME,
 		delaiApiGetCourse: process.env.NEXT_PUBLIC_DELAI_API_GET_COURSE,
 		token: token,
 		profilId: profilId,
@@ -50,6 +50,12 @@ export async function identClear() {
 
 	// Suppression local.storage
 	localStorage.clear();
+
+	// Post d'un boolean indiquant si il faut supprimer toute trace de la derniere session dans le web worker
+	const channelToDeconnectToSW = new BroadcastChannel('deconnect');
+	channelToDeconnectToSW.postMessage({ deconnect: true })
+	channelToDeconnectToSW.close()
+
 }
 
 // export function hasPropositionDelete(): void {
