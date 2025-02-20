@@ -2,7 +2,7 @@
 
 import { tokenName, cacheName, Ident } from "./affinis";
 
-export function identSet(identData: Ident): boolean {
+export function identSet(identData: Ident): boolean { 
 
 	//indexDB pour le service worker
 	// set(token, identData.token);
