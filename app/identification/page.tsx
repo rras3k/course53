@@ -1,7 +1,7 @@
 "use client"
 
 
-import { useEffect } from "react"
+// import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -15,14 +15,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { identSet, identClear } from "@/lib/artaxi";
-import { useState,useRef } from 'react';
+import { useState } from 'react';
 import { useRouter } from "next/navigation"
-import { set } from 'idb-keyval';
+// import { set } from 'idb-keyval';
 import { getInputStringValue } from "@/lib/rrasb2k/domUtils"
 
-const setUrlApiDb = () => {
-	set("urlApi", process.env.NEXT_PUBLIC_API_URL)
-}
+// const setUrlApiDb = () => {
+// 	set("urlApi", process.env.NEXT_PUBLIC_API_URL)
+// }
 
 export default function Identification() {
 
@@ -66,7 +66,8 @@ export default function Identification() {
 
 	async function askIdent(login: string, mdp: string): Promise<boolean> {
 		try {
-			console.log("askIdent ", login, mdp)
+			console.log("askIdent ", login, mdp,process.env.NEXT_PUBLIC_API_URL)
+			console.log("process.env ",process.env.NEXT_PUBLIC_DELAI_API_COURSE)
 			const data = await fetch(
 				process.env.NEXT_PUBLIC_API_URL + '/identification'
 				, {
@@ -76,7 +77,7 @@ export default function Identification() {
 			)
 			const dj = await data.json();
 			if (dj?.retour) {
-				console.log("identification ok")
+				console.log("identification ok askident")
 				// stocke les data de ident
 				identSet({ token: dj.data.jwt, profilId: dj.data.profil, nom: dj.data.nom, prenom: dj.data.prenom })
 				return true;
@@ -92,9 +93,9 @@ export default function Identification() {
 	}
 
 
-	useEffect(() => {
+	// useEffect(() => {
 
-	},)
+	// },)
 
 	return (
 		<>

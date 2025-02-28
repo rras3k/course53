@@ -4,7 +4,7 @@ import { Filter, Menu, X } from 'lucide-react';
 import Image from "next/image";
 import imgHome from "@/public/icons/icon-48x48.png";
 import { Button } from "./ui/button";
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { getFiltreCourseColor, getFiltreCourseFillColor, getTitle } from "@/lib/affinis";
 
@@ -23,7 +23,7 @@ export function NavHor() {
 	const router = useRouter();
 
 	const [openMenu, setOpenMenu] = useState<boolean>(false);
-	const { hasProposition, setHasProposition } = useHasPropositionContext()
+	const { hasProposition} = useHasPropositionContext()
 
 	const [isNavMobileOpen, setIsNavMobileOpen] = useState(false);
 	const [isShowDeconnexion, setIsShowDeconnexion] = useState(false);
@@ -32,7 +32,7 @@ export function NavHor() {
 	const [showFiltreTaxi, setShowFiltreTaxi] = useState<boolean>(false)
 	const [showFiltreAllTaxi, setShowFiltreAllTaxi] = useState<boolean>(false)
 	const [title, setTitle] = useState("");
-	const dejaFait = useRef<boolean>(false)
+	// const dejaFait = useRef<boolean>(false)
 
 	// titre de la barre
 	const path = usePathname();
@@ -114,7 +114,7 @@ export function NavHor() {
 				{isShowDeconnexion &&
 					<div className="mx-auto md:w-[768px] fixed bg-white  h-full top-13 inset-x-0 p-2 transition transform origin-top-right ">
 						<span className="text-2xl my-20">
-							Voulez vous vous déconnecter de l'application ?
+							Voulez vous vous déconnecter de l&aposapplication ?
 						</span>
 						<div className="flex justify-around text-lg">
 							<Button onClick={() => {

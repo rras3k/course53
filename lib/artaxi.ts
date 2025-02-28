@@ -2,7 +2,7 @@
 
 import { tokenName, cacheName, Ident } from "./affinis";
 
-export function identSet(identData: Ident): boolean { 
+export function identSet(identData: Ident): boolean {
 
 	//indexDB pour le service worker
 	// set(token, identData.token);
@@ -20,10 +20,11 @@ export function identSet(identData: Ident): boolean {
 }
 
 function identSendinitVarWorker(token: string, profilId: string) {
+	console.log("identSendinitVarWorker")
 	const channelInitVar = new BroadcastChannel('initvar')
 	channelInitVar.postMessage({
 		cacheName: process.env.NEXT_PUBLIC_CACHE_NAME,
-		delaiApiGetCourse: process.env.NEXT_PUBLIC_DELAI_API_GET_COURSE,
+		delaiApiGetCourse: process.env.NEXT_PUBLIC_DELAI_API_COURSE,
 		token: token,
 		profilId: profilId,
 		urlApi: process.env.NEXT_PUBLIC_API_URL,
@@ -34,15 +35,14 @@ function identSendinitVarWorker(token: string, profilId: string) {
 export async function identClear() {
 	// reset var
 	// Suppression du cache: Appels API serveur
-	if (cacheName){
-
-		caches.delete(cacheName)
-		.then((value)=>{
-			console.log(" suprresion cache dans identClear ok: ",value)
-		})
-		.catch((e)=>{
-			console.log("erreur suprresion cache dans identClear",e)
-		})
+	if (cacheName) {
+		window.caches.open(cacheName).then((cache) => {
+			cache.keys().then((keys) => {
+				keys.forEach((request) => {
+					cache.delete(request);
+				});
+			});
+		});
 	}
 
 	// Suppression dans IndexedDB 

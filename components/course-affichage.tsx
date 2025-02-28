@@ -8,48 +8,69 @@ import { useState } from 'react';
 import { Users } from 'lucide-react';
 import React from 'react'
 
-
-
-function getCoursesForRgpId(datas: [], rgpId: string): [] {
-	let dataRet: [] = []
-	datas?.map((course) => {
+function getCoursesForRgpId(courses: [], rgpId: string): [] {
+	console.log("getCoursesForRgpId", rgpId)
+	const dataRet: [] = []
+	courses?.map((course) => {
 		if (course.rgp_course_id === rgpId) {
 			dataRet.push(course)
 		}
 	})
-	console.log("courses pour dialog", dataRet)
+	return dataRet
+}
+function getCoursesForTripId(courses: [], tripId: string): [] {
+	console.log("getCoursesForTripId", tripId)
+
+	const dataRet: [] = []
+	courses?.map((course) => {
+		if (course.course_id === tripId) {
+			dataRet.push(course)
+		}
+	})
 	return dataRet
 }
 
-export default function CourseAffichage({ filtreCourse, datas, clickable }) {
-	console.log("------------------------------------------------------- CourseAffichage ------------------------------")
+export default function CourseAffichage({ filtreCourse, clickable, courses }) {
 
 	const [open, setOpen] = useState(false);
-	const [dataToDialog, setDataToDialog] = useState<[]>();
-	console.log("course-affichage !!!!!")
-	let dataRgp = null
+	const [coursesToDialog, setCoursesToDialog] = useState<[]>();
+	const [rgpId, setRgpId] = useState<string>("");
+	const [tripId, setTripId] = useState<string>("");
 
-	const clickRegroupement = (rgpId: string) => {
+	const clickRegroupement = (rgpCourseId: string, tripId: string, status:string, taxi_name:string) => {
 		if (clickable) {
-			const dateSel: [] = getCoursesForRgpId(datas, rgpId)
-			setDataToDialog(dateSel)
-			setOpen(true);
+			if (status == "1" && (taxi_name == "" || taxi_name == null)) {
+				// proposition, donc on envoie le regroupement
+				const dateSel: [] = getCoursesForRgpId(courses, rgpCourseId)
+				setCoursesToDialog(dateSel)
+				setRgpId(rgpCourseId)
+				// setTripId(tripId)
+				setOpen(true);
+			}
+			else if(status == "1"){
+				// demande de cloture
+				const dateSel: [] = getCoursesForTripId(courses, tripId)
+				setCoursesToDialog(dateSel)
+				// setRgpId(rgpCourseId)
+				setTripId(tripId)
+				setOpen(true);
+			}
 		}
 	}
+
 	let rgp_course_id_before: string = "";
 	let isCourseToDo: boolean;
 	let trouve = false
 	const d = new Date();
 	const heureCourante = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-	console.log("Affichage des courses ", filtreCourse, datas)
-	if (datas === null) return (<></>)
+	// console.log("Affichage des courses ", filtreCourse, datas)
+	if (courses === null || courses === undefined) return (<></>)
 
 	return (
 		<>
 			{
 				<div className="flex flex-col text-xl">
-					{/* {datas.data.courses.map((course) => { */}
-					{datas.map((course) => {
+					{courses.map((course) => {
 						isCourseToDo = false;
 						// console.log(filtreCourse);
 						switch (filtreCourse) {
@@ -100,7 +121,7 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 							}
 
 							return (
-								<div onClick={() => { clickRegroupement(course.rgp_course_id) }} key={course.course_id} id={idTag} className={twMerge(divLevel1_className)} >
+								<div onClick={() => { clickRegroupement(course.rgp_course_id, course.course_id,course.course_status,course.taxi_name) }} key={course.course_id} id={idTag} className={twMerge(divLevel1_className)} >
 									<div className="flex">
 										<div className="w-20 text-center font-bold">{course.first_takeover_date.substring(11, 16)}</div>
 										<div className="col-span-4">{course.first_takeover_arret_libelle}</div>
@@ -117,6 +138,12 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 										<div className="">
 											{course.client_nom}
 										</div>
+										<div className="">
+											 : {course.rgp_course_id}
+										</div>
+										<div className="">
+											 : {course.course_id}
+										</div>
 									</div>
 								</div>
 							);
@@ -125,7 +152,7 @@ export default function CourseAffichage({ filtreCourse, datas, clickable }) {
 				</div>
 			}
 			{
-				open && <CourseAction open={open} setOpen={setOpen} datas={dataToDialog} filtre={filtreCourse} />
+				open && <CourseAction open={open} setOpen={setOpen} coursesSel={coursesToDialog} rgpId={rgpId} tripId={tripId} filtre={filtreCourse} />
 			}
 		</>
 	)

@@ -6,6 +6,8 @@ let wakeLock = null;
 
 export default function ScreenWakeLock() {
     const requestWakeLock = async (onVisibilityChange = false) => {
+    // const requestWakeLock = async (onVisibilityChange = false) => {
+    console.log(onVisibilityChange)
         try {
             wakeLock = await navigator.wakeLock.request('screen');
             wakeLock.addEventListener('release', () => {
@@ -24,6 +26,6 @@ export default function ScreenWakeLock() {
 
     useEffect(() => {
         document.addEventListener('visibilitychange', handleVisibilityChange);
-    }, [])
+    })
     return <></>
 }

@@ -13,6 +13,9 @@ const channelHasNotification = new BroadcastChannel('sw-hasNotification');
 // Post d'un tableau JSON contenant la derniere reception de courses pour un taxi
 const channelCourseData = new BroadcastChannel('sw-courses-data');
 
+// Post d'un tableau JSON contenant la derniere reception des messages pour un taxi
+const channelMessages = new BroadcastChannel('sw-messages-data');
+
 // Post d'un tableau JSON contenant la derniere reception de courses de tous les taxis
 const channelAllCourseData = new BroadcastChannel('sw-all-courses-data');
 
@@ -91,7 +94,7 @@ function backProcessAction(){
 }
 
 async function getCoursesTaxi() {
-	console.log("getCoursesTaxi",token)
+	console.log(">getCoursesTaxi",token)
 	try {
 		const response = await fetch(
 			urlApi + "/trips/today/",
@@ -105,8 +108,7 @@ async function getCoursesTaxi() {
 		);
 		const data = await response.json();
 		constdateNow = Date.now()
-		console.log('getCoursesTaxi ------------------- > data',data,constdateNow)
-
+		
 		if (!data?.retour) { // la requete échoue par mauvaise identification
 			channelToDeconnect.postMessage({ deconnect: true })
 			console.log("identClearAndPost getCoursesTaxi")
@@ -114,12 +116,15 @@ async function getCoursesTaxi() {
 			token = ""
 		}
 		else {
-			channelCourseData.postMessage({ datas: data, date: constdateNow })
+			channelCourseData.postMessage({ courses: data.data.courses, date: constdateNow })
+			channelMessages.postMessage({ messages: data.data.messages, date: constdateNow })
 			lastCoursesDatasReceive = Date.now()
 			if (dcHasProposition(data)) {
-				console.log('public/artaxisw.js ------------------- > has notification', constdateNow)
 				sendNotification("Nouvelles proposition", "Affichez les courses jaunes");
 				channelHasNotification.postMessage({ hasProposition: true, date: constdateNow })
+			}
+			else{
+				channelHasNotification.postMessage({ hasProposition: false, date: constdateNow })
 			}
 		}
 	}
@@ -143,7 +148,6 @@ async function getCoursesAllTaxis() {
 		);
 		const data = await response.json();
 		constdateNow = Date.now()
-		console.log('getCoursesAllTaxis ------------------- > data',data,constdateNow)
 		if (data?.message) { // la requete échoue par mauvaise identification
 			channelToDeconnect.postMessage({ deconnect: true })
 			identClearAndPost() // On supprime tout dans indexDB et cache pour être rediriger par un middleware vers identification

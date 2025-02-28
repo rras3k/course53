@@ -8,15 +8,15 @@ import { useCourseTaxiContext } from '@/providers/course-taxi-provider'
 
 export default function Courses() {
 
-   const [datas, setDatas] = useState(null)
+   // const [datas, setDa`tas] = useState(null)
    const [wait, setWait] = useState(true)
-   const { courses, setCourses } = useCourseTaxiContext()
+   const { courses } = useCourseTaxiContext()
    const searchParams = useSearchParams();
    const filtre = getFiltreCourse(searchParams.get('filtre'))
 
    useEffect(() => {
-      if (courses?.datas) {
-         setDatas(courses.datas)
+      if (courses!== undefined) {
+         // setDatas(courses.datas)
          setWait(false)
       }
    }, [courses])
@@ -24,7 +24,8 @@ export default function Courses() {
    return (
       <>
          {wait}
-         {!wait && <CourseAffichage filtreCourse={filtre} datas={datas.data.courses} clickable={true}/>}
+         {/* {!wait && <CourseAffichage filtreCourse={filtre}  clickable={true}/>} */}
+         {!wait && <CourseAffichage filtreCourse={filtre} courses={courses.courses} clickable={true}/>}
          {/* {!wait && <CourseAffichage filtreCourse={filtre} datas={datas} clickable={true}/>} */}
          {wait && <div>Récupération des courses</div>}
       </>

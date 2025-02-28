@@ -1,8 +1,8 @@
 
 import { Cpu, MoonIcon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-import { set, get, del } from 'idb-keyval';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { set, get } from 'idb-keyval';
+import { useState, useEffect} from 'react';
 
 import {
 	ToggleGroup,
@@ -28,6 +28,7 @@ const ChoixLuminosite = () => {
 			.catch(e => {
 				set("mode-lum", modeDefault)
 				setModeLuminosite(modeDefault)
+				console.log(e)
 			})
 	})
 

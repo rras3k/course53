@@ -2,17 +2,17 @@
 
 import ChoixLuminosite from "@/components/choix-luminosite";
 import { Encart, EncartLabel, EncartContent } from "@/components/rrasb2k/encart";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label"
+// import { Button } from "@/components/ui/button";
+// import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { set, get, del } from 'idb-keyval';
+import { set, get } from 'idb-keyval';
 import { useEffect, useState } from "react";
 
 
 
-function ask() {
-	let promise = Notification.requestPermission();
-}
+// function ask() {
+// 	let promise = Notification.requestPermission();
+// }
 
 
 
@@ -33,7 +33,7 @@ const Parametrage = () => {
 		if (("Notification" in window)) {
 			setcanDisplayNotifications(true)
 		}
-	})
+	},[])
 	useEffect(() => {
 		get("stateDisplayNotification")
 			.then((value) => {
@@ -41,8 +41,9 @@ const Parametrage = () => {
 			})
 			.catch((e) => {
 				setdisplayNotifications(false)
+				console.log(e)
 			})
-	})
+	},[])
 
 	function SwitchDisplayNotification(state:boolean) {
 		setdisplayNotifications(state)
@@ -55,7 +56,7 @@ const Parametrage = () => {
 				<div className="flex flex-col mx-auto w-full " >
 					<Encart className="">
 						<EncartLabel>
-							Mode d'éclairage
+							Mode d&aposéclairage
 						</EncartLabel>
 						<EncartContent>
 							<ChoixLuminosite />

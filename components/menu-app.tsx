@@ -1,21 +1,17 @@
-import { Button } from "@/components/ui/button"
-import {
-	Dialog,
-	DialogContent
+// import { Button } from "@/components/ui/button"
+// import { Dialog, DialogContent } from "@/components/ui/dialog"
 
-} from "@/components/ui/dialog"
-
-import { logWrite, LogLevel } from "@/lib/rrasb2k/log"
+// import { logWrite, LogLevel } from "@/lib/rrasb2k/log"
 import {
 	AlertDialog,
-	AlertDialogAction,
-	AlertDialogCancel,
+	// AlertDialogAction,
+	// AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
 	AlertDialogFooter,
-	AlertDialogHeader,
-	AlertDialogTitle,
-	AlertDialogTrigger,
+	// AlertDialogHeader,
+	// AlertDialogTitle,
+	// AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
 import { CircleX } from 'lucide-react';
@@ -24,31 +20,31 @@ import { CircleX } from 'lucide-react';
 
 import Version from "./version"
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from "react";
-import { identGetProfilId } from "@/lib/artaxi";
-import { ProfilEnum } from "@/lib/affinis";
+// import {  useState } from "react";
+// import { identGetProfilId } from "@/lib/artaxi";
+// import { ProfilEnum } from "@/lib/affinis";
 
 
 export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, pathName }) {
 	const router = useRouter();
 	console.log("pathName", pathName);
-	const [profilId, setProfilId] = useState<string | null>("1");
+	// const [profilId, setProfilId] = useState<string | null>("1");
 
 	const goAndClose = (url: string) => {
 		setOpenMenu(false);
 		router.push(url);
 	}
 
-	useEffect(() => {
-		if (pathName === "/identification") setOpenMenu(false);
-	}, [pathName])
+	// useEffect(() => {
+	// 	if (pathName === "/identification") setOpenMenu(false);
+	// }, [pathName])
 
-	useEffect(() => {
-		setProfilId(identGetProfilId())
-	},[])
+	// useEffect(() => {
+	// 	setProfilId(identGetProfilId())
+	// })
 	return (
 		<>
-			{(profilId === ProfilEnum.Admin) &&
+			{/* {(profilId === ProfilEnum.Admin) &&
 				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
 					<AlertDialogContent>
 						<AlertDialogDescription>
@@ -79,8 +75,8 @@ export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, p
 						</AlertDialogFooter>
 					</AlertDialogContent>
 				</AlertDialog>
-			}
-			{(profilId === ProfilEnum.Artaxi) &&
+			} */}
+			{/* {(profilId === ProfilEnum.Artaxi) &&
 				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
 					<AlertDialogContent>
 						<AlertDialogDescription>
@@ -111,9 +107,9 @@ export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, p
 						</AlertDialogFooter>
 					</AlertDialogContent>
 				</AlertDialog>
-			}
+			} */}
 
-			{(profilId === ProfilEnum.Taxi) &&
+			{/* {(profilId === ProfilEnum.Taxi) && */}
 				<AlertDialog open={openMenu} onOpenChange={setOpenMenu}>
 					<AlertDialogContent>
 						<AlertDialogDescription>
@@ -156,7 +152,8 @@ export default function MenuApp({ openMenu, setOpenMenu, setIsShowDeconnexion, p
 						</AlertDialogFooter>
 
 					</AlertDialogContent>
-				</AlertDialog>}
+				</AlertDialog>
+				{/* } */}
 		</>
 	)
 }
