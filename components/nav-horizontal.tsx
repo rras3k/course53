@@ -84,7 +84,7 @@ export function NavHor() {
 				{/* <div className="md:hidden flex content-center"> */}
 
 				<div className="flex content-center mx-auto md:w-[768px]">
-					<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
+					<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" unoptimized />
 					<div className="flex-auto flex items-center justify-center">
 						<div className=" text-lg content-center text-center font-bold text-white uppercase">
 							{title}

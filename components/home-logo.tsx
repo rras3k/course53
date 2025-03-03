@@ -15,7 +15,7 @@ export default function HomeLogo() {
 	);
 	return (
 		<div className="flex aspect-square size-8 items-center justify-center rounded-lg  text-sidebar-primary-foreground">
-			<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" />
+			<Image className={twMerge(iconHome_className)} src={imgHome} alt="Home" unoptimized />
 
 		</div>
 	)
