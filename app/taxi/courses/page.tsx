@@ -25,7 +25,7 @@ export default function Courses() {
       <>
          {wait}
          {/* {!wait && <CourseAffichage filtreCourse={filtre}  clickable={true}/>} */}
-         {!wait && <CourseAffichage filtreCourse={filtre} courses={courses.courses} clickable={true}/>}
+         {!wait && <CourseAffichage filtreCourse={filtre} courses={courses?.courses} clickable={true}/>}
          {/* {!wait && <CourseAffichage filtreCourse={filtre} datas={datas} clickable={true}/>} */}
          {wait && <div>Récupération des courses</div>}
       </>

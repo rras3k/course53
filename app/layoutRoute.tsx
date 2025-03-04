@@ -27,7 +27,7 @@ export default function LayoutRoute({ children }: { children: React.ReactNode })
 	useEffect(() => {
 		if (!pathExcept.includes(pahtName)) {
 			const token: string | null = localStorage.getItem(tokenName)
-			if (token === null && pahtName !== "/identification") {
+			if (token === null && pahtName !== "/identification" && pahtName !== "/installation") {
 				console.log("Vers identification, car aucun token")
 				return router.push("/identification")
 			}

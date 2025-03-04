@@ -2,13 +2,19 @@
 
 import { createContext, Dispatch, SetStateAction, useContext, useRef, useState } from "react"
 
+type CourseData = {
+    courses:[],
+}
 type ContextTypeCourses = {
-    courses: object[] | undefined
+    courses: CourseData | undefined
+    // courses: object[] 
+    // courses: object[] | undefined
     setCourses: Dispatch<SetStateAction<object[] | undefined>>,
 };
 
 // Création du contexte
 export const CourseTaxiContext = createContext<ContextTypeCourses>({ courses: [], setCourses: () => { } })
+// export const CourseTaxiContext = createContext<ContextTypeCourses>({ courses: [], setCourses: () => { } })
 
 // Installation du contexte
 export default function CourseTaxiProvider({ children }: { children: React.ReactNode }) {

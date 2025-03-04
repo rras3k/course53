@@ -132,6 +132,7 @@ route['/'] = {titre:'',profilId:null}
 
 route['/aide'] = {titre:'aide',profilId:null}
 route['/identification'] = {titre:'aide',profilId:null}
+route['/installation'] = {titre:'installation',profilId:null}
 route['/parametrage'] = {titre:'parametrage',profilId:null}
 
 route['/taxi/courses'] = {titre:'courses',profilId:[ProfilEnum.Taxi]}

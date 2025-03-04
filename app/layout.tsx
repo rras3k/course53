@@ -7,11 +7,11 @@ import LayoutWorker from "./layoutWorker";
 import React from "react";
 import LayoutRoute from "./layoutRoute";
 import ScreenWakeLock from "@/components/screen-wake-lock";
-import LayoutInstall from "./layoutInstall";
 import HasPorpositionProvider from "@/providers/has-proposition-provider";
 import CourseTaxiProvider from "@/providers/course-taxi-provider";
 import CourseAllTaxiProvider from "@/providers/course-all-taxi-provider";
 import MessageTaxiProvider from "@/providers/message-taxi-provider";
+import PwaInstall from "@/components/pwa-install"
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -20,7 +20,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
       <body>
         <LayoutWorker>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-            <LayoutInstall>
+            <PwaInstall>
               <LayoutRoute>
                 <ScreenWakeLock />
                 <HasPorpositionProvider>
@@ -38,7 +38,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                   </MessageTaxiProvider>
                 </CourseTaxiProvider>
               </LayoutRoute>
-            </LayoutInstall>
+            </PwaInstall>
           </ThemeProvider>
         </LayoutWorker>
       </body>
