@@ -5,7 +5,8 @@ importScripts("/sw-artaxi.js");
 
 // Liste des fichiers à mettre en cache lors de la création du worker
 const ASSETS_TO_CACHE = [
-	'/manifest.json'
+	'/manifest.json',
+	'/icons'
 ];
 
 // Install the service worker and cache assets

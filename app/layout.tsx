@@ -12,6 +12,8 @@ import CourseTaxiProvider from "@/providers/course-taxi-provider";
 import CourseAllTaxiProvider from "@/providers/course-all-taxi-provider";
 import MessageTaxiProvider from "@/providers/message-taxi-provider";
 import PwaInstall from "@/components/pwa-install"
+import { Suspense } from 'react'
+
 
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
 
@@ -24,14 +26,19 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
               <LayoutRoute>
                 <ScreenWakeLock />
                 <HasPorpositionProvider>
-                  <NavHor />
+                  <Suspense>
+                    <NavHor />
+                  </Suspense>
                 </HasPorpositionProvider>
                 <CourseTaxiProvider>
                   <MessageTaxiProvider>
                     <CourseAllTaxiProvider>
                       <div className="pt-14 bg-black-800">
                         <div className="mx-auto md:w-[768px]">
-                          {children}
+                          <Suspense>
+                            {children}
+                          </Suspense>
+
                         </div>
                       </div>
                     </CourseAllTaxiProvider>

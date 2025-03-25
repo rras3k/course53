@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: "Course 53 pour TULIB",
+        name: "Course 53 pour TULIB à LAVAL",
         short_name: "course 53",
         description: "Application pour le Service de transport du service TULIB à LAVAL par les taxis",
         start_url: "/",

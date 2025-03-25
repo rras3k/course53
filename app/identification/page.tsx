@@ -20,13 +20,15 @@ import { useRouter } from "next/navigation"
 // import { set } from 'idb-keyval';
 import { getInputStringValue } from "@/lib/rrasb2k/domUtils"
 
+
 // const setUrlApiDb = () => {
 // 	set("urlApi", process.env.NEXT_PUBLIC_API_URL)
 // }
 
 export default function Identification() {
 
-	identClear() // suprime toutes données dans les caches et indexDb de l'identification
+	// identClear() // suprime toutes données dans les caches et indexDb de l'identification
+	
 	//setUrlApiDb() // Positionne l'url des appels API dans indexDb pour le webworker
 
 	// const dejaFait = useRef(false)
